@@ -22,7 +22,7 @@
 
 ## Java
 
-[github.com/HelperInCa/]([https://github.com/HelperInCa/notes/blob/master/older/Java%20basic.md](https://github.com/HelperInCa/notes/blob/master/older/Java basic.md))
+[github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/Java%20basic.md)
 
 ## Python3
 
@@ -41,7 +41,7 @@
 
 ## Golang
 
-[github.com/HelperInCa/]([https://github.com/HelperInCa/notes/blob/master/older/Golang%20basics.md](https://github.com/HelperInCa/notes/blob/master/older/Golang basics.md))
+[github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/Golang%20basics.md)
 
 ## Database
 
