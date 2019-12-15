@@ -42,9 +42,18 @@
 
 - `Command + shift + 5` 截屏
 
-- `proxy `  terminal走代理
+- alias 
 
-  `unproxy`  关闭 
+  - ~/.bash_profile
+
+    - `jpnb` = `jupyter notebook`
+    - `pip` = `pip3`
+
+  - ~/.zshrc
+
+    - `proxy `  terminal走代理
+
+      `unproxy`  关闭 
 
 # eclipse
 
@@ -254,30 +263,9 @@
 
 # alfred workflow
 
-## ~~youdao~~
-
-- 使用方法 `d {query}`
-- 支持屏幕取词功能, 需要先在Alfred Workflow中设置热键
-- 使用`Shift+Enter`在有道词典网页中打开
-- 使用`Cmd+Enter`发音
-- 按`Enter`键复制翻译结果
-- 支持设置源语言和目标语言，支持中文、日语、英语等相互翻译。语法是`yd zh=>ja 我爱你`
-
-支持相互翻译的语言列表如下:
-
-- `zh` - 中文
-- `ja` - 日文
-- `en` - 英文
-- `ko` - 韩文
-- `fr` - 法文
-- `ru` - 俄文
-- `pt` - 葡萄牙文
-- `es` - 西班牙文
-- `auto` - 自动
 
 
-
-## 新有道
+## 有道
 
 [GitHub](https://github.com/wensonsmith/YoudaoTranslate)
 

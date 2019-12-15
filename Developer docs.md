@@ -17,6 +17,8 @@
   * [git remote](#git-remote)
     + [rename](#rename)
     + [remove](#remove)
+  * [git rm](#git rm)
+    - [remove pushed files/folders from repo](#remove pushed files/folders from repo)
 
 # Basics
 
@@ -102,4 +104,18 @@ $ git remote rename origin destination
 ### remove
 
 Use the `git remote rm` command to remove a remote URL from your repository.
+
+## git rm
+
+- remove commited files/folders from repo
+
+  ```shell
+  $ git rm -r --cashed FOLDER/
+  $ git commit -m'delete FOLDER'
+  $ git push orgin master
+  ```
+
+  update `.gitignore`
+
+  
 
