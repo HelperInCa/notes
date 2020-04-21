@@ -13,8 +13,7 @@
   * [十、General（通用）](#--general----)
   * [十一、Other（一些官方文档上没有体现的快捷键）](#---other-----------------)
 - [alfred workflow](#alfred-workflow)
-  * [~~youdao~~](#--youdao--)
-  * [新有道](#---)
+  * [有道](#---)
   * [Stack Overflow](#stack-overflow)
   * [github](#github)
     + [Key Combinations](#key-combinations)
@@ -23,8 +22,11 @@
     + [User commands](#user-commands)
     + ["My" commands](#-my--commands)
     + [Commands](#commands)
+- [Terminal](#Terminal)
 
 # Mac
+
+[Resource](https://support.apple.com/zh-cn/HT201236)
 
 - `⌦` 向前删除键（Fn+Delete）
 
@@ -319,4 +321,10 @@
 ### Commands
 
 To search through your GitHub Enterprise instance replace `gh` by `ghe`.
+
+
+
+# Terminal
+
+[Cheatsheet](https://github.com/0nn0/terminal-mac-cheatsheet)
 
