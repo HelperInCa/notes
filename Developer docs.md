@@ -198,7 +198,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 - remove commited files/folders from repo
 
   ```shell
-  $ git rm -r --cashed FOLDER/
+  $ git rm -r --cached FOLDER/
   $ git commit -m'delete FOLDER'
   $ git push orgin master
   ```
