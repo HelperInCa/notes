@@ -1,4 +1,4 @@
-
+  
 
 Table of Contents
 =================
@@ -41,7 +41,7 @@ Table of Contents
 
 
 
-#  JAVA基础
+#  Java基础
 
 
 
@@ -213,7 +213,7 @@ class Overload{
 
 创建的类的对象是匿名的
 
-- 只需要一次调用类的对象
+- 只需要**一次**调用类的对象
 
 ```java
 p.printAreas(new Circle(), 6);
@@ -222,11 +222,12 @@ p.printAreas(new Circle(), 6);
 
 
 
-## 可变个数的形参的方法
+## 可变个数的形参的方法(数据类型要一样)
 
-- 以下仍为overload
+- 调用时, 个数从0开始
 
 ```java
+// 以下三个sayHello()仍为overload
 public void sayHello(String str1){
     System.out.println("hello" + str1);
 }
@@ -235,6 +236,7 @@ public void sayHello(){
         System.out.println(args[i]);
     }
 }
+// 可变个数形参
 public void sayHello(String... args){
     for(int i = 0; i < args.length; i++){
         System.out.println(args[i]);
@@ -258,9 +260,9 @@ public void sayHello(int i, String... args){
 
 ## *方法参数传递*
 
-pass by value:
+pass by value 值传递:
 
-- argument是primitive: 将parament的值传递给argument的基本数据类型变量
+- argument是primitive: 将parameter的值传递给argument的基本数据类型变量
 - argument是reference: 将reference的值(对应堆空间的对象实体的首地址值) 传递给argument的引用数据类型变量
 
 
@@ -337,19 +339,15 @@ class Animal{
   2. 给创建的对象的属性赋值
 
 
-
-
+- 如何声明: 权限修饰符 类名 (形参) { }
 - 设计类时, 若不显式声明类的构造器, 程序会默认提供一个空参的构造器
 - 有显式的定义类的构造器, 不在提供默认的构造器
-- 如何声明: 权限修饰符 *类名* (形参){ }
 - 类的多个构造器之间构成重载
-
-
 
 ```java
 public class TestPerson{
     public static void main(String[] args){
-        //Person p1 = new Person();默认的空参
+        //Person p1 = new Person(); 默认的空参
         Person p2 = new Person("Jack", 23);
         System.out.println(p2.getName);
         System.out.println(p2.getAge);// Jack  0
@@ -357,12 +355,13 @@ public class TestPerson{
         System.out.println(p3.getName + "\t" + p3.getAge); //Rose	22 
     }
 }
-//属性
+
 class Person{
+  	// 属性
     private String name;
     private int age;
     
-    //构造器 
+    // 构造器 
     public Person(String n){
         name = n;
     }
@@ -373,7 +372,7 @@ class Person{
         name = n;
         age = m;
     }
-    //方法
+    // 方法
     public void setName(String n){
         name = n;
     }
@@ -390,18 +389,18 @@ class Person{
 }
 ```
 
-
+> 类对象的属性赋值先后: 1. 默认初始化 2. 显式 3. 构造器 4. "对象.方法()"
 
 ## this 
 
-- 可修饰 属性, 方法, 构造器
+- this.当前对象或当前正在创建的对象
 
-- this: 当前对象或当前正在创建的对象
+- 可修饰 属性, 方法, 构造器
 
 - 在构造器中, "this(argument)": 调用当前类重载的指定构造器
 
   > - 在构造器内部必须是首行!
-  > - 若一个类中有n个构造器, 那么最多有 n - 1 个构造器中使用this(argument)
+  > - 若一个类中有n个构造器, 那么最多有 n - 1 个构造器中使用this(argument), 否则会出现环路
 
 ```java
 class Person{
@@ -436,7 +435,7 @@ class Person{
 
 
 
-   ## package
+## package
 
 - 声明源文件所在的包, 写在程序的第一行
 
@@ -454,34 +453,26 @@ class Person{
 
 - 显式导入指定包下的类或接口
 
-- 若导入java.lang包下的,如: System, String, Math, etc, 就不用声明
+- 若导入java.lang包下的,如: System, String, Math, etc, 不用显示声明
 
-- **".*"**, 如 java.util.*;
+- ".*"
 
-  >
+  ```java
+  import java.util.*
+  ```
 
-- 如何处理同名类的导入, 如: 在util包和sql包下同时存在Date类
+- 同名类的导入, 如: 在util包和sql包下同时存在Date类
 
-- import static 表示导入指定类的static的**属性或方法**
+  ```java
+  import java.util.*
+    ...
+    Date d = new Date();
+  	java.sql.Date d1 = new java.sql.Date(23423428L);
+  ```
 
-- import java.lang.* 只能导入lang包下的所有类或接口, 不能导入lang的子包下的类或接口
+- import static 表示导入指定类的static的*属性/方法*
 
-```java
-import java.util.*
-import static java.lang.System.out//不能只导入包.这是错的:import static java.lang.System
-public class TestImport{
-	public static void main(String[] args){
-		Scanner s = new Scanner(System.in);
-		s.next;
-		
-		Date d = new Date();
-		List list = new ArrayList();
-		
-		java.sql.Date d1 = new java.sql.Date(212434L);
-		out.println("Hello world!")// System.out.println("Hello world!")
-	}
-}
-```
+- 只能导入包下的所有类/接口, **不能**导入*子包*下的类或接口
 
 
 
@@ -501,12 +492,12 @@ public class Worker extends Person{
 }
 ```
 
-- 当父类中有private class或method,子类获取的到,但由于封装性,使得子类不能直接调用
-- 子类只能extends一个父类(**单继承**), 一个父类可以有多个子类 
-
-
+- 当父类中有private class或method,子类获取的到,但由于封装性,使得子类不能*直接*调用
+- 单继承: 子类只能extends一个父类, 一个父类可以有多个子类 
 
 ### override重写
+
+对父类重名的类进行重写. 修饰符 返回值类型 方法名 (参数列表) { }
 
 ```java
 public class Worker extends Person{
@@ -516,18 +507,15 @@ public class Worker extends Person{
 }
 ```
 
-> 对父类重名的类进行重写. 修饰符 返回值类型 方法名 (参数列表) { }
-
 - 原因: 子类继承父类后, 若父类的方法对子类不适用, 那么子类可以对父类的方法覆盖
 
 - 规则:
 
   1. 子类方法的" 返回值类型 方法名 (参数列表) { }" 与父类方法一样
-  2. 子类方法的修饰符不能小于父类方法
-  3. 若父类方法抛异常, 子类方法抛的异常不能大于父类
-  4. 字符类的方法必须同为static或同为非static
+  2. 子类方法的修饰符 **>=** 父类方法
+  3. 子类方法抛的异常 **<=** 父类
+  4. 子父类的方法必须同为static或同为非static
 
-  > 使用override时 复制 减少出错
 
 ### super
 
@@ -752,11 +740,7 @@ public boolean equals(Object obj){
   }
   ```
 
-##  
-
-
-
-### 关键字static
+## static
 
 static修饰field, method, *代码块, *内部类
 
@@ -1142,7 +1126,7 @@ interface JJ extends AA, MM {
 
 # 集合
 
-![Collection接口继承树](/Users/qing/Desktop/note/pic/Collection接口继承树.jpg)
+![Collection接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-181351.jpg)
 
 ![Map接口继承树](/Users/qing/Desktop/note/pic/Map接口继承树.jpg)
 

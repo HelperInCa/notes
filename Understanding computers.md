@@ -31,6 +31,13 @@
          * [早期交付](#早期交付)
          * [降低风险](#降低风险)
       * [如何进行每一次迭代 (How to agile develop)](#如何进行每一次迭代-how-to-agile-develop)
+* [Linux](#Linux)
+     - [What's Linux](#What's-Linux)
+     - [Mind Map](#Mind-Map)
+     - [Basic](#Basic)
+     - [Unix vs. Linux](#Unix-vs.-Linux)
+     - [相关](#相关)
+* [Data Structure & Algorithm](#Data-Structure-&-Algorithm)
 
 # Computer network
 
@@ -292,21 +299,34 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 
 
 
-# Unix/Linux
-
-## inode
-
-[Source](https://www.ruanyifeng.com/blog/2011/12/inode.html)
+# Linux
 
 ## What's Linux
 
-- Multi-user, multitasking operating system
+- Multi-user, multitasking operating system. 
+- Free, Open-source, stable. 
 - It can be used as the master control program in workstations and servers.
 - Hundreds of commercial applications are available
 
-## Linux vs. Unix
+## Mind Map
 
-## Difference between Unix and Linux
+[details](https://www.processon.com/view/link/5eb114dfe0b34d0712434e5d)
+
+![](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-03-Linux.png)
+
+## Basic
+
+- 目录结构
+
+  > 一切皆文件
+
+  ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-074702.jpg)
+
+- 开机/重启前 应先执行`sync`, 把内存数据写入磁盘
+
+- 
+
+## Unix vs. Linux
 
 | **Basis of Difference** | **Linux**                                                    | **Unix**                                                     |
 | :---------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
@@ -325,10 +345,63 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 | **Portability**         | Linux is portable and is booted from a USB Stick             | Unix is not portable                                         |
 | **Source Code**         | The source is available to the general public                | The source code is not available to anyone.                  |
 
-# Algorithm
+## 相关
+
+### inode
+
+[Source](https://www.ruanyifeng.com/blog/2011/12/inode.html)
+
+# Data Structure & Algorithm
 
 ## 队列
 
-- 实现方式: 数组, 链表
+- 实现: 数组, 链表
+
 - FIFO
 
+- 数组模拟环形队列
+
+  - ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-04-27-055719.png)
+
+  - 思路:
+
+    - front: 指向队列的第一个元素
+
+    - rear: 指向队列的最后一个元素的后一个位置. 空出一个空间
+
+    - 队列满: 
+
+      ```java
+      (rear + 1) % maxSize == front
+      ```
+
+    - 队列有效容量:
+
+      ```java
+      (rear + maxSize - front) % maxSize
+      ```
+
+
+
+## 链表
+
+- ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-04-28-184635.png)
+  - 链式存储
+  - 每个节点包含 data 域， next 域:指向下一个节点.
+  - 链表的各个节点不一定是连续存储.
+  - 链表分带头节点的和没有头节点的
+- 双向链表
+- 环形单向链表(Josephus problem)
+
+## 栈
+
+- FILO
+
+- 实现: 数组, 链表
+
+  ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-014414.png)
+
+  - 思路:
+    1. 定义top表示栈顶,初始化-1;
+    2. 入栈: top++; stack[top] = data;
+    3. 出栈: int value = stack[top]; top--, return value;

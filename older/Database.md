@@ -173,17 +173,17 @@ cross join tblDepartment d
 
 tblEmployee:
 
-![img](/Users/qing/Desktop/note/pic/Employee+Table.png)
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194755.jpg)
 
 tblDepartment:
 
-![img](/Users/qing/Desktop/note/pic/Departments+Table.png)
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194759.jpg)
 
 output:
 
-![img](/Users/qing/Desktop/note/pic/Inner+Join.png)
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194743.jpg)
 
-![img](/Users/qing/Desktop/note/pic/Joins+in+picture.png)
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194909.jpg)
 
 ```mssql
 -- left self JOIN (see pic.2)
@@ -197,11 +197,11 @@ on e.ManagerId = m.EmployeeId
 
   tblEmployee:
 
-![img](/Users/qing/Desktop/note/pic/tblEmployee.png)
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194809.jpg)
 
 ​	output:
 
-![img](/Users/qing/Desktop/note/pic/Self+Join.png)
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194753.jpg)
 
 ```mssql
 --3 ways to replace NULL 
@@ -280,7 +280,7 @@ select ID, Name, Email from tblUSCustomers
 order by Name
 ```
 
-![image-20190224172714090](/Users/qing/Desktop/note/pic/image-20190224172714090.png)
+![image-20190224172714090](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194812.jpg)
 
 - UNION & JOINS
 
@@ -446,13 +446,13 @@ end
 
     error: convert the nvchar 'Sam' to int
 
-![image-20190224214224153](/Users/qing/Desktop/note/pic/return value & output parameters.png)
+![image-20190224214224153](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194911.jpg)
 
 
 
 ### advantages of using sq
 
-![image-20190224215557725](/Users/qing/Desktop/note/pic/pros of sp.png)
+![image-20190224215557725](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194746.jpg)
 
 
 
@@ -460,11 +460,11 @@ end
 
 ### datatime
 
-![image-20190224221302367](/Users/qing/Desktop/note/pic/DateTime.png)
+![image-20190224221302367](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194914.jpg)
 
- ![image-20190224223441495](/Users/qing/Desktop/note/pic/DateTimeFunction.png)
+ ![image-20190224223441495](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194910.jpg)
 
-![image-20190224223839287](/Users/qing/Desktop/note/pic/DateTimeFunctionQuery.png)
+![image-20190224223839287](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194757.jpg)
 
 
 
@@ -474,33 +474,33 @@ end
 
   >  for datetime2 values, isdate returns 0
 
-  ![image-20190224225522333](/Users/qing/Desktop/note/pic/isdate.png)
+  ![image-20190224225522333](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194805.jpg)
 
 
 
 ### Day, Month, Year
 
-![image-20190224225927697](/Users/qing/Library/Application Support/typora-user-images/image-20190224225927697.png)
+![image-20190224225927697](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194752.jpg)
 
 
 
 ### DateName
 
-![image-20190224230728633](/Users/qing/Desktop/note/pic/DateName.png)
+![image-20190224230728633](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194913.jpg)
 
-![image-20190224230825558](/Users/qing/Desktop/note/pic/DateName_abbr.png)
+![image-20190224230825558](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194742.jpg)
 
 
 
 ### DatePart, DateAdd, DateDiff
 
-![image-20190224231941720](/Users/qing/Desktop/note/pic/datepart dateadd datediff.png)
+![image-20190224231941720](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194748.jpg)
 
 
 
 ### caculate age
 
-![image-20190224234412373](/Users/qing/Desktop/note/pic/caculatingAge.png)
+![image-20190224234412373](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194745.jpg)
 
 ```mssql
 SELECT Id, Name, DateofBirth, dbo.fnCalculateAge(DateofBirth) as Age FROM tblEmployees
@@ -663,7 +663,7 @@ Select SampleDB.dbo.Age('10/08/1982')
 
 1. SP cannot use stored procedures in a **select or where clause**
 
-###alter, drop
+### alter, drop
 
 To alter a function we use ALTER FUNCTION FuncationName statement and to delete it, we use DROP FUNCTION FuncationName.
 
@@ -687,13 +687,13 @@ RETURN (Select Id, Name, DateOfBirth, Gender, DepartmentId
 
 ### views
 
-![image-20190419151743853](/Users/qing/Desktop/note/pic/views1.png)
+![image-20190419151743853](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194749.jpg)
 
 
 
 ### Temp tables
 
-![image-20190419151938341](/Users/qing/Desktop/note/pic/temp table.png)
+![image-20190419151938341](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194801.jpg)
 
 ```mssql
 select deptname, departmentID, count(*) as totalemployees
@@ -714,7 +714,7 @@ DROP TABLE #tempemployeecount
 
 ### table variable
 
-![image-20190419201343648](/Users/qing/Desktop/note/pic/table variable.png)
+![image-20190419201343648](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194810.jpg)
 
 ```mssql
 DECLARE @tblemployeecount TABLE (deptName nvchar(20), departmentID int, totalemployees int)
@@ -736,7 +736,7 @@ GO
 
 ### derived table
 
-![image-20190419202722183](/Users/qing/Desktop/note/pic/Derived table.png)
+![image-20190419202722183](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194804.jpg)
 
 ```mssql
 SELECT deptname, totalemployees
@@ -757,7 +757,7 @@ GO
 
 ### CTE
 
-![image-20190419204425478](/Users/qing/Desktop/note/pic/CTE.png)
+![image-20190419204425478](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194743.jpg)
 
 ```mssql
 WITH employeecount (deptname, deptmentid, totalemployees)
@@ -783,7 +783,7 @@ WHERE totalemployees >= 2
 
 - 
 
-![image-20190419205202005](/Users/qing/Desktop/note/pic/cte1.png)
+![image-20190419205202005](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194758.jpg)
 
 - A CTE can **only ** be referenced by a SELECT, INSERT, UPDATE, DELETE statement, that **immediately** follows the CTE.
 
@@ -791,7 +791,7 @@ WHERE totalemployees >= 2
 
 - Creating **multiple** CTE using a single WITH 
 
-  ![image-20190419211805698](/Users/qing/Desktop/note/pic/multiple CTE.png)
+  ![image-20190419211805698](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194754.jpg)
 
  
 
@@ -799,7 +799,7 @@ WHERE totalemployees >= 2
 
 #### 1. CTE on 1 base table
 
-![image-20190419212947688](/Users/qing/Desktop/note/pic/cte on base table.png)
+![image-20190419212947688](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194912.jpg)
 
 — if a CTE is based on a single base table, then UPDATE works as expected
 
@@ -807,17 +807,17 @@ WHERE totalemployees >= 2
 
 - 
 
-![image-20190419213154436](/Users/qing/Desktop/note/pic/CTE on 2 base tables.png)
+![image-20190419213154436](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194807.jpg)
 
  
 
-- ![image-20190419214447585](/Users/qing/Desktop/note/pic/cte on 2base tables.png)
+- ![image-20190419214447585](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194803.jpg)
 
    — if a CTE is based on more than 1 base table, and UPDATE affects only 1 base table, UPDATE succeeds **but not always as expected**
 
 - 
 
-![image-20190419213547222](/Users/qing/Desktop/note/pic/cte on 2 base table.png)
+![image-20190419213547222](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194915.jpg)
 
 — if a CTE is based on more than 1 base table, and the UPDATE affects multiple base tables, UPDATE is not allowed.
 
@@ -825,17 +825,17 @@ WHERE totalemployees >= 2
 
 ### Recursive CTE
 
-![image-20190419221933433](/Users/qing/Desktop/note/pic/recursive cte1.png)
+![image-20190419221933433](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194750.jpg)
 
-![image-20190419221826334](/Users/qing/Desktop/note/pic/recursive CTE.png)
+![image-20190419221826334](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194806.jpg)
 
 
 
 ## Normalization
 
-![image-20190419222509183](/Users/qing/Desktop/note/pic/normalization1.png)
+![image-20190419222509183](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194800.jpg)
 
-- ![image-20190419222853213](/Users/qing/Desktop/note/pic/normalization2.png)
+- ![image-20190419222853213](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-05-194802.jpg)
 
 
 
