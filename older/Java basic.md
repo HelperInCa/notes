@@ -519,7 +519,7 @@ public class Worker extends Person{
 
 ### super
 
-- 修饰属性, 方法, 构造器
+- 父类 属性, 方法, 构造器
 1. 当子类与父类有同名的属性时, 可以通过"super.属性" 显式的调用*父类*中同名的属性; "this.属性"调用*子类*中同名的属性
 
 2. 当子类重写父类的方法后, "super.方法"在子类中显式调用父类中被重写的方法
@@ -608,8 +608,12 @@ System.out.println(p1 == p2);//false
 ```java
 String str1 = new String("AA");
 String str2 = new String("AA");
+String str3 = "AA";
+String str4 = "AA";
 System.out.println(str1 == str2);//false
 System.out.println(str1.equals(str2));//true
+System.out.println(str3 == str4);// true "AA"在常量池
+System.out.println(str1.equals(str3));// true
 ```
 
   		4. 自定义一个类, 希望比较两个对象的属性值都相同的情况下返回true, 就需要重写equals(Object obj)方法
@@ -638,7 +642,7 @@ public boolean equals(Object obj){
 
 ### toString方法
 
-- java.lang.Object    toString:
+- java.lang.Object.toString:
 
   ```java
   public String toString() {
@@ -800,7 +804,7 @@ class Account{
 }
 ```
 
-![static变量的内存结构图](/Users/qing/Desktop/note/pic/static变量的内存结构图.JPG)
+![static变量的内存结构图](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-082024.jpg)
 
 
 
@@ -1128,7 +1132,7 @@ interface JJ extends AA, MM {
 
 ![Collection接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-181351.jpg)
 
-![Map接口继承树](/Users/qing/Desktop/note/pic/Map接口继承树.jpg)
+![Map接口继承树](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-082020.jpg)
 
 ```java
 public class TestCollection {

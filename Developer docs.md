@@ -22,6 +22,7 @@
   - [import Markdown to Medium](#import-Markdown-to-Medium)
   - [Zsh](#Zsh)
   - [Plugins](#Plugins)
+- [Docker](#Docker)
 
 # Basics
 
@@ -54,7 +55,8 @@
 
 # Hotkeys
 
-[github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/hotkey.md)
+- [github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/hotkey.md)
+- [cheetsheets including languages, tools, libraries](https://github.com/skywind3000/awesome-cheatsheets)
 
 
 
@@ -63,7 +65,7 @@
 > Sources:
 >
 > - [GItHub help](https://help.github.com/en/github)
-> - [思维导图](https://www.processon.com/view/link/5e9ce3fa5653bb6efc5b3b1b) Kc91
+> - [脑图](http://naotu.baidu.com/file/8f3e66d234023d218379fc8ef7790fe0?token=652534011488cbfa) 
 
 ![](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-04-19-233217.jpg)
 
@@ -287,9 +289,21 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   - [syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
-
 ## Plugins
 
 - [trash](https://github.com/ali-rantakari/trash)
 
   allow `rm` to move files to .Trash/ and have the "put back" feature
+
+# Docker
+
+## 脑图
+
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-09-071113.png)
+
+> [脑图网盘](https://pan.baidu.com/s/1DF_ms43e5Qvvrfr2mdcfAg) 提取码: 9e7f
+>
+> [中文文档](https://yeasy.gitbook.io/docker_practice/)
+
+- Docker 容器后台运行时, 必须要有一个前台进程, 否则会自动停止
+

@@ -1,5 +1,3 @@
-
-
 # Notes
 
 ## Understanding computers
@@ -76,3 +74,7 @@
   - [Zsh](#Zsh)
 
   - [Plugins](#Plugins)
+
+- [Docker](#Docker)
+
+  

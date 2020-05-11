@@ -51,7 +51,7 @@
 
 ## HTTP
 
-![image-20181106021059323](/Users/qing/Desktop/note/pic/image-20181106021059323.png)
+![image-20181106021059323](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081401.jpg)
 
 #### 三次握手
 
@@ -93,7 +93,7 @@
 
 ## spring 生命周期
 
-![image-20190803092851803](/Users/qing/Desktop/note/pic/image-20190803092851803.png)
+![image-20190803092851803](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-11-080800.jpg)
 
 - 首先容器启动后，对bean进行初始化
 - 按照bean的定义，注入属性
@@ -110,7 +110,7 @@
 
 ## TCP 三次握手四次挥手
 
-![image-20190803095051188](/Users/qing/Desktop/note/pic/image-20190803095051188.png)
+![image-20190803095051188](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081408.jpg)
 
 #### 三次握手：
 
@@ -129,7 +129,7 @@
 
 线程池：一种线程使用模式。线程过多会带来调度开销，进而影响缓存局部性和整体性能。而线程池维护着多个线程，等待着监督管理者分配可并发执行的任务，这避免了在处理短时间任务时创建与销毁线程的代价。线程池执行流程是每个开发必备的。
 
-![image-20190803095209464](/Users/qing/Desktop/note/pic/image-20190803095209464.png)
+![image-20190803095209464](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081414.jpg)
 
 #### 执行流程
 
@@ -147,7 +147,7 @@
 
 ## JVM内存结构
 
-![image-20190803095248211](/Users/qing/Desktop/note/pic/image-20190803095248211.png)
+![image-20190803095248211](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081409.jpg)
 
 #### 程序计数器（PC 寄存器）
 
@@ -179,7 +179,7 @@
 
 ## Java内存模型
 
-![image-20190803095341342](/Users/qing/Desktop/note/pic/image-20190803095341342.png)
+![image-20190803095341342](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081406.jpg)
 
 Java的多线程之间是通过共享内存进行通信的，在通信过程中会存在一系列如可见性、原子性、顺序性等问题，而JMM就是围绕着多线程通信以及与其相关的一系列特性而建立的模型。JMM定义了一些语法集，这些语法集映射到Java语言中就是volatile、synchronized等关键字。有兴趣可以看看我的另外一篇笔记：[www.jianshu.com/p/3c1691aed…](https://link.juejin.im?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2F3c1691aed1a5)
 
@@ -187,7 +187,7 @@ Java内存模型规定了所有的变量都存储在主内存中，每条线程�
 
 ## springMVC执行流程图
 
-![image-20190803095423420](/Users/qing/Desktop/note/pic/image-20190803095423420.png)
+![image-20190803095423420](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-11-080754.jpg)
 
 User向服务器发送request,前端控制Servelt DispatcherServlet捕获;
 
@@ -207,7 +207,7 @@ ViewResolver 结合Model和View，来渲染视图
 
 ## JDBC执行流程
 
-![image-20190803095509067](/Users/qing/Desktop/note/pic/image-20190803095509067.png)
+![image-20190803095509067](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081418.jpg)
 
 #### JDBC执行流程：
 
@@ -221,7 +221,7 @@ ViewResolver 结合Model和View，来渲染视图
 
 Spring Cloud是一个基于Spring Boot实现的云原生应用开发工具，它为基于JVM的云原生应用开发中涉及的配置管理、服务发现、熔断器、智能路由、微代理、控制总线、分布式会话和集群状态管理等操作提供了一种简单的开发方式。
 
-![image-20190803095629224](/Users/qing/Desktop/note/pic/image-20190803095629224.png)
+![image-20190803095629224](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-11-075848.jpg)
 
 Eureka 负责服务的注册与发现。
 
@@ -243,7 +243,7 @@ Feign是一个声明式的Web Service客户端，它的目的就是让Web Servic
 
 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远程服务调用方案，这容易和负载均衡弄混，负载均衡是对外提供一个公共地址，请求过来时通过轮询、随机等，路由到不同server。
 
-![image-20190803144141579](/Users/qing/Desktop/note/pic/image-20190803144141579.png)
+![image-20190803144141579](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081411.jpg)
 
 
 
@@ -310,7 +310,7 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 
 ## Mind Map
 
-[details](https://www.processon.com/view/link/5eb114dfe0b34d0712434e5d)
+[脑图](http://naotu.baidu.com/file/60297df091db66fdfd9a653902f86272?token=c83591fd896d0c46)
 
 ![](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-03-Linux.png)
 
@@ -323,6 +323,12 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
   ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-074702.jpg)
 
 - 开机/重启前 应先执行`sync`, 把内存数据写入磁盘
+
+- rwx权限详解
+
+  ![image-20200509205615660](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-10-035616.png)
+
+  ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-10-034527.png)
 
 - 
 
@@ -405,3 +411,38 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
     1. 定义top表示栈顶,初始化-1;
     2. 入栈: top++; stack[top] = data;
     3. 出栈: int value = stack[top]; top--, return value;
+
+- 前缀, 中缀, 后缀表达式(逆波兰)
+
+  - 后缀: 
+
+    例如: (3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 - , 针对后缀表达式求值步骤如下:
+
+    1. 从左至右扫描，将 3 和 4 压入堆栈;
+    2. 遇到+运算符，因此弹出 4 和 3(4 为栈顶元素，3 为次顶元素)，计算出 3+4 的值，得 7，再将 7 入栈; 
+    3. 将 5 入栈;
+    4. 接下来是×运算符，因此弹出 5 和 7，计算出 7×5=35，将 35 入栈;
+    5. 将 6 入栈;
+    6. 最后是-运算符，计算出 35-6 的值，即 29，由此得出最终结果
+  
+  - 中缀转后缀:
+  
+    1) 初始化两个栈:运算符栈 s1 和储存中间结果的栈 s2; 
+  
+    2) 从左至右扫描中缀表达式;
+    3) 遇到操作数时，将其压 s2;
+    4) 遇到运算符时，比较其与 s1 栈顶运算符的优先级:
+  
+    ​	1.如果 s1 为空，或栈顶运算符为左括号“(”，则直接将此运算符入栈; 
+  
+    ​	2.否则，若优先级比栈顶运算符的高，也将运算符压入 s1;
+    ​    3.否则，将 s1 栈顶的运算符弹出并压入到 s2 中，再次转到(4-1)与 s1 中新的栈顶运算符相比较;
+     5) 遇到括号时:
+     	(1) 如果是左括号“(”，则直接压入 s1
+     	(2) 如果是右括号“)”，则依次弹出 s1 栈顶的运算符，并压入 s2，直到遇到左括号为止，此时将这一对括号丢弃 
+  
+    6) 重复步骤 2 至 5，直到表达式的最右边
+    7) 将 s1 中剩余的运算符依次弹出并压入 s2
+    8) 依次弹出 s2 中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式
+  
+    

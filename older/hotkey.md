@@ -16,12 +16,6 @@
   * [有道](#---)
   * [Stack Overflow](#stack-overflow)
   * [github](#github)
-    + [Key Combinations](#key-combinations)
-    + [Search commands](#search-commands)
-    + [Repo commands](#repo-commands)
-    + [User commands](#user-commands)
-    + ["My" commands](#-my--commands)
-    + [Commands](#commands)
 - [Terminal](#Terminal)
 
 # Mac
@@ -281,11 +275,9 @@
 
 `.s{query}` 
 
-
-
 ## github
 
-[GitHub][https://github.com/gharlan/alfred-github-workflow]
+[GitHub](https://github.com/gharlan/alfred-github-workflow)
 
 ### Key Combinations
 
@@ -317,6 +309,17 @@
 - `gh my notifications`
 - `gh my profile`
 - `gh my issues`
+
+### Workflow commands
+
+- `gh > logout`
+- `gh > delete cache`
+- `gh > delete database`
+- `gh > update`
+- `gh > activate autoupdate`
+- `gh > deactivate autoupdate`
+- `gh > help`
+- `gh > changelog`
 
 ### Commands
 
