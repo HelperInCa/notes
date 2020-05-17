@@ -1,22 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents**
+
 - [Mac](#mac)
 - [eclipse](#eclipse)
 - [intelliJ IDEA](#intellij-idea)
-  * [一、Editing（编辑）](#--editing----)
-  * [二、Search/Replace（查询/替换）](#--search-replace-------)
-  * [三、Usage Search（使用查询）](#--usage-search------)
-  * [四、Compile and Run（编译和运行）](#--compile-and-run-------)
-  * [五、Debugging（调试）](#--debugging----)
-  * [六、Navigation（导航）](#--navigation----)
-  * [七、Refactoring（重构）](#--refactoring----)
-  * [八、VCS/Local History（版本控制/本地历史记录）](#--vcs-local-history-------------)
-  * [九、Live Templates（动态代码模板）](#--live-templates--------)
-  * [十、General（通用）](#--general----)
-  * [十一、Other（一些官方文档上没有体现的快捷键）](#---other-----------------)
+  - [一、Editing（编辑）](#%E4%B8%80editing%E7%BC%96%E8%BE%91)
+  - [二、Search/Replace（查询/替换）](#%E4%BA%8Csearchreplace%E6%9F%A5%E8%AF%A2%E6%9B%BF%E6%8D%A2)
+  - [三、Usage Search（使用查询）](#%E4%B8%89usage-search%E4%BD%BF%E7%94%A8%E6%9F%A5%E8%AF%A2)
+  - [四、Compile and Run（编译和运行）](#%E5%9B%9Bcompile-and-run%E7%BC%96%E8%AF%91%E5%92%8C%E8%BF%90%E8%A1%8C)
+  - [五、Debugging（调试）](#%E4%BA%94debugging%E8%B0%83%E8%AF%95)
+  - [六、Navigation（导航）](#%E5%85%ADnavigation%E5%AF%BC%E8%88%AA)
+  - [七、Refactoring（重构）](#%E4%B8%83refactoring%E9%87%8D%E6%9E%84)
+  - [八、VCS/Local History（版本控制/本地历史记录）](#%E5%85%ABvcslocal-history%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E6%9C%AC%E5%9C%B0%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95)
+  - [九、Live Templates（动态代码模板）](#%E4%B9%9Dlive-templates%E5%8A%A8%E6%80%81%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF)
+  - [十、General（通用）](#%E5%8D%81general%E9%80%9A%E7%94%A8)
+  - [十一、Other（一些官方文档上没有体现的快捷键）](#%E5%8D%81%E4%B8%80other%E4%B8%80%E4%BA%9B%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E4%B8%8A%E6%B2%A1%E6%9C%89%E4%BD%93%E7%8E%B0%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE)
 - [alfred workflow](#alfred-workflow)
-  * [有道](#---)
-  * [Stack Overflow](#stack-overflow)
-  * [github](#github)
-- [Terminal](#Terminal)
+  - [有道](#%E6%9C%89%E9%81%93)
+  - [Stack Overflow](#stack-overflow)
+  - [github](#github)
+    - [Key Combinations](#key-combinations)
+    - [Search commands](#search-commands)
+    - [Repo commands](#repo-commands)
+    - [User commands](#user-commands)
+    - ["My" commands](#my-commands)
+    - [Workflow commands](#workflow-commands)
+    - [Commands](#commands)
+- [Terminal](#terminal)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Mac
 
@@ -38,18 +51,6 @@
 
 - `Command + shift + 5` 截屏
 
-- alias 
-
-  - ~/.bash_profile
-
-    - `jpnb` = `jupyter notebook`
-    - `pip` = `pip3`
-
-  - ~/.zshrc
-
-    - `proxy `  terminal走代理
-
-      `unproxy`  关闭 
 
 # eclipse
 

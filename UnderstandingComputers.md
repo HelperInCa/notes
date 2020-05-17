@@ -1,47 +1,180 @@
-   * [Computer network](#computer-network)
-      * [RESTful:](#restful)
-      * [HTTP](#http)
-            * [三次握手](#三次握手)
-            * [四次分手](#四次分手)
-   * [容错/高可用/灾备](#容错高可用灾备)
-   * [Important flow charts](#important-flow-charts)
-      * [spring 生命周期](#spring-生命周期)
-      * [TCP 三次握手四次挥手](#tcp-三次握手四次挥手)
-            * [三次握手：](#三次握手-1)
-                * [四次挥手：](#四次挥手)
-      * [线程池执行流程图](#线程池执行流程图)
-            * [执行流程](#执行流程)
-            * [JDK提供了四种拒绝策略处理类](#jdk提供了四种拒绝策略处理类)
-      * [JVM内存结构](#jvm内存结构)
-            * [程序计数器（PC 寄存器）](#程序计数器pc-寄存器)
-                * [Java虚拟机栈](#java虚拟机栈)
-                * [本地方法栈](#本地方法栈)
-                * [Java堆](#java堆)
-                * [方法区](#方法区)
-      * [Java内存模型](#java内存模型)
-      * [springMVC执行流程图](#springmvc执行流程图)
-      * [JDBC执行流程](#jdbc执行流程)
-            * [JDBC执行流程：](#jdbc执行流程-1)
-      * [spring cloud组件架构](#spring-cloud组件架构)
-      * [dubbo  调用](#dubbo--调用)
-   * [Agile Development](#agile-development)
-      * [迭代开发（Iterative development)](#迭代开发iterative-development)
-      * [增量开发 (Incremental development)](#增量开发-incremental-development)
-      * [敏捷开发的好处(Pros of agile development)](#敏捷开发的好处pros-of-agile-development)
-         * [早期交付](#早期交付)
-         * [降低风险](#降低风险)
-      * [如何进行每一次迭代 (How to agile develop)](#如何进行每一次迭代-how-to-agile-develop)
-* [Linux](#Linux)
-     - [What's Linux](#What's-Linux)
-     - [Mind Map](#Mind-Map)
-     - [Basic](#Basic)
-     - [Unix vs. Linux](#Unix-vs.-Linux)
-     - [相关](#相关)
-* [Data Structure & Algorithm](#Data-Structure-&-Algorithm)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents**
+
+- [Software Architecture](#software-architecture)
+- [Design pattern](#design-pattern)
+- [Computer network](#computer-network)
+  - [RESTful:](#restful)
+  - [HTTP](#http)
+      - [三次握手](#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B)
+      - [四次分手](#%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B)
+- [容错/高可用/灾备](#%E5%AE%B9%E9%94%99%E9%AB%98%E5%8F%AF%E7%94%A8%E7%81%BE%E5%A4%87)
+- [Important flow charts](#important-flow-charts)
+  - [spring 生命周期](#spring-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+  - [TCP 三次握手四次挥手](#tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B)
+      - [三次握手：](#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B)
+      - [四次挥手：](#%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B)
+  - [线程池执行流程图](#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE)
+      - [执行流程](#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B)
+      - [JDK提供了四种拒绝策略处理类](#jdk%E6%8F%90%E4%BE%9B%E4%BA%86%E5%9B%9B%E7%A7%8D%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5%E5%A4%84%E7%90%86%E7%B1%BB)
+  - [JVM内存结构](#jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84)
+      - [程序计数器（PC 寄存器）](#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8pc-%E5%AF%84%E5%AD%98%E5%99%A8)
+      - [Java虚拟机栈](#java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88)
+      - [本地方法栈](#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88)
+      - [Java堆](#java%E5%A0%86)
+      - [方法区](#%E6%96%B9%E6%B3%95%E5%8C%BA)
+  - [Java内存模型](#java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B)
+  - [springMVC执行流程图](#springmvc%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE)
+  - [JDBC执行流程](#jdbc%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B)
+      - [JDBC执行流程：](#jdbc%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B)
+  - [spring cloud组件架构](#spring-cloud%E7%BB%84%E4%BB%B6%E6%9E%B6%E6%9E%84)
+  - [dubbo  调用](#dubbo--%E8%B0%83%E7%94%A8)
+- [Agile Development](#agile-development)
+  - [迭代开发（Iterative development)](#%E8%BF%AD%E4%BB%A3%E5%BC%80%E5%8F%91iterative-development)
+  - [增量开发 (Incremental development)](#%E5%A2%9E%E9%87%8F%E5%BC%80%E5%8F%91-incremental-development)
+  - [敏捷开发的好处(Pros of agile development)](#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E7%9A%84%E5%A5%BD%E5%A4%84pros-of-agile-development)
+    - [早期交付](#%E6%97%A9%E6%9C%9F%E4%BA%A4%E4%BB%98)
+    - [降低风险](#%E9%99%8D%E4%BD%8E%E9%A3%8E%E9%99%A9)
+  - [如何进行每一次迭代 (How to agile develop)](#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%AF%8F%E4%B8%80%E6%AC%A1%E8%BF%AD%E4%BB%A3-how-to-agile-develop)
+- [Linux](#linux)
+  - [What's Linux](#whats-linux)
+  - [参考](#%E5%8F%82%E8%80%83)
+  - [Basic](#basic)
+  - [Unix vs. Linux](#unix-vs-linux)
+  - [相关](#%E7%9B%B8%E5%85%B3)
+    - [inode](#inode)
+- [Data Structure & Algorithm](#data-structure--algorithm)
+  - [队列](#%E9%98%9F%E5%88%97)
+  - [链表](#%E9%93%BE%E8%A1%A8)
+  - [栈](#%E6%A0%88)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Software Architecture
+
+> [参考](http://www.ruanyifeng.com/blog/2016/09/software-architecture.html)
+
+- 分层(layered architecture)
+
+  - 分成若干水平层，每层都有清晰的角色和分工，不用知道其他层的细节。层与层之间通过接口通信
+
+  - 最常见的四层结构:
+
+    表现层（presentation）：用户界面，负责视觉和用户互动
+    业务层（business）：实现业务逻辑
+    持久层（persistence）：提供数据，SQL 语句就放在这一层
+    数据库（database） ：保存数据
+
+    有的软件在业务层和持久层之间，加了一个服务层（service），提供不同业务逻辑需要的一些通用接口。
+
+  - 优:
+
+    - 结构简单，容易理解和开发
+    - 不同技能的程序员可以分工，负责不同的层，天然适合大多数软件公司的组织架构
+    - 每一层都可以独立测试，其他层的接口通过模拟解决
+
+  - 劣: 
+
+    - 一旦环境变化，需要代码调整或增加功能时，通常比较麻烦和费时
+    - 部署较麻烦，即使只改一个小地方，往往需要整个软件重新部署，不容易做持续发布
+    - 软件升级时，可能需要整个服务暂停
+    - 扩展性差。用户请求大量增加时，必须依次扩展每一层，由于每一层内部是耦合的，扩展会很困难
+
+- 事件驱动(event-driven architecture)
+
+  - 通过事件进行通信
+
+    ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-16-060333.jpg)
+
+  - 事件队列（event queue）：接收事件的入口
+
+    分发器（event mediator）：将不同的事件分发到不同的业务逻辑单元
+
+    事件通道（event channel）：分发器与处理器之间的联系渠道
+
+    事件处理器（event processor）：实现业务逻辑，处理完成后会发出事件，触发下一步操作
+
+  - 对于简单的项目，事件队列、分发器和事件通道，可以合为一体，整个软件就分成事件代理和事件处理器两部分。
+
+  - 优:
+
+    - 分布式的异步架构，事件处理器之间高度解耦，软件的扩展性好
+    - 适用性广，各种类型的项目都可以用
+    - 性能较好，因为事件的异步本质，软件不易产生堵塞
+    - 事件处理器可以独立地加载和卸载，容易部署
+
+  - 劣:
+
+    - 涉及异步编程（要考虑远程通信、失去响应等情况），开发相对复杂
+    - 难以支持原子性操作，因为事件通过会涉及多个处理器，难回滚
+    - 分布式和异步特性导致这个架构较难测试
+
+- 微核（microkernel architecture）/插件架构（plug-in architecture）
+
+  - 软件的内核相对较小，主要功能和业务逻辑都通过插件实现。
+  - 内核通常只包含系统运行的最小功能。插件则是互相独立的，插件之间的通信，应该减少到最低，避免出现互相依赖的问题。
+  - 优:
+    - 良好的功能延伸性（extensibility），需要什么功能，开发一个插件即可
+    - 功能之间是隔离的，插件可以独立的加载和卸载，使得它比较容易部署，
+    - 可定制性高，适应不同的开发需要
+    - 可以渐进式地开发，逐步增加功能
+  - 劣: 
+    - 扩展性（scalability）差，内核通常是一个独立单元，不容易做成分布式
+    - 开发难度相对较高，因为涉及到插件与内核的通信，以及内部的插件登记机制
+
+- 微服务（microservices architecture）
+
+  - 是服务导向架构（service-oriented architecture，缩写 SOA）的升级. 每一个服务就是一个独立的部署单元（separately deployed unit）。这些单元都是分布式的，互相解耦，通过远程通信协议（比如REST、SOAP）联系。
+  - 三种实现模式
+    - RESTful API 模式：服务通过 API 提供，云服务就属于这一类
+    - RESTful 应用模式：服务通过传统的网络协议或者应用协议提供，背后通常是一个多功能的应用程序，常见于企业内部
+    - 集中消息模式：采用消息代理（message broker），可以实现消息队列、负载均衡、统一日志和异常处理，缺点是会出现单点失败，消息代理可能要做成集群
+  - 优
+    - 扩展性好，各个服务之间低耦合
+    - 容易部署，软件从单一可部署单元，被拆成了多个服务，每个服务都是可部署单元
+    - 容易开发，每个组件都可以进行持续集成式的开发，可以做到实时部署，不间断地升级
+    - 易于测试，可以单独测试每一个服务
+  - 劣
+    - 由于强调互相独立和低耦合，服务可能会拆分得很细。这导致系统依赖大量的微服务，变得很凌乱和笨重，性能也会不佳。
+    - 一旦服务之间需要通信（即一个服务要用到另一个服务），整个架构就会变得复杂。典型的例子就是一些通用的 Utility 类，一种解决方案是把它们拷贝到每一个服务中去，用冗余换取架构的简单性。
+    - 分布式的本质使得这种架构很难实现原子性操作，交易回滚会比较困难。
+
+- 云 (cloud architecture）
+
+  - 主要解决扩展性和并发的问题，是最容易扩展的架构.
+
+    高扩展性，主要原因是没使用中央数据库，而是把数据都复制到内存中，变成可复制的内存数据单元。然后，业务处理能力封装成一个个处理单元（prcessing unit）。访问量增加，就新建处理单元；访问量减少，就关闭处理单元。由于没有中央数据库，所以扩展性的最大瓶颈消失了。由于每个处理单元的数据都在内存里，最好要进行数据持久化。
+
+    ![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-16-061923.png)
+
+  - 两部分：处理单元（processing unit）和虚拟中间件（virtualized middleware）。
+
+    - 处理单元：实现业务逻辑
+    - 虚拟中间件：负责通信、保持sessions、数据复制、分布式处理、处理单元的部署
+      - 消息中间件（Messaging Grid）：管理用户请求和session，当一个请求进来以后，决定分配给哪一个处理单元。
+      - 数据中间件（Data Grid）：将数据复制到每一个处理单元，即数据同步。保证某个处理单元都得到同样的数据。
+      - 处理中间件（Processing Grid）：可选，如果一个请求涉及不同类型的处理单元，该中间件负责协调处理单元
+      - 部署中间件（Deployment Manager）：负责处理单元的启动和关闭，监控负载和响应时间，当负载增加，就新启动处理单元，负载减少，就关闭处理单元。
+
+  - 优
+
+    - 高负载，高扩展性
+    - 动态部署
+
+  - 劣
+
+    - 实现复杂，成本较高
+    - 主要适合网站类应用，不合适大量数据吞吐的大型数据库应用
+    - 较难测试
+
+# Design pattern
+
+
 
 # Computer network
 
-> https://juejin.im/post/5ad7e6c35188252ebd06acfa#heading-24
+> [参考](https://juejin.im/post/5ad7e6c35188252ebd06acfa#heading-24)
 
 ## RESTful:
 
@@ -51,9 +184,11 @@
 
 ## HTTP
 
-![image-20181106021059323](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081401.jpg)
+![image-20181106021059323](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051327.png)
 
 #### 三次握手
+
+![image-20190803095209464](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051332.jpg)
 
 1. 第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，Sequence Number为x；然后，客户端进入SYN_SEND状态，等待服务器的确认；
 2. 第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置Acknowledgment Number为x+1(Sequence Number+1)；同时，自己自己还要发送SYN请求信息，将SYN位置为1，Sequence Number为y；服务器端将上述所有信息放到一个报文段（即SYN+ACK报文段）中，一并发送给客户端，此时服务器进入SYN_RECV状态；
@@ -110,7 +245,7 @@
 
 ## TCP 三次握手四次挥手
 
-![image-20190803095051188](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081408.jpg)
+![image-20190803095051188](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051334.jpg)
 
 #### 三次握手：
 
@@ -129,7 +264,7 @@
 
 线程池：一种线程使用模式。线程过多会带来调度开销，进而影响缓存局部性和整体性能。而线程池维护着多个线程，等待着监督管理者分配可并发执行的任务，这避免了在处理短时间任务时创建与销毁线程的代价。线程池执行流程是每个开发必备的。
 
-![image-20190803095209464](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081414.jpg)
+![image-20190803095248211](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051341.jpg)
 
 #### 执行流程
 
@@ -147,7 +282,7 @@
 
 ## JVM内存结构
 
-![image-20190803095248211](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081409.jpg)
+![image-20190803095341342](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051353.jpg)
 
 #### 程序计数器（PC 寄存器）
 
@@ -179,7 +314,7 @@
 
 ## Java内存模型
 
-![image-20190803095341342](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081406.jpg)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051401.jpg)
 
 Java的多线程之间是通过共享内存进行通信的，在通信过程中会存在一系列如可见性、原子性、顺序性等问题，而JMM就是围绕着多线程通信以及与其相关的一系列特性而建立的模型。JMM定义了一些语法集，这些语法集映射到Java语言中就是volatile、synchronized等关键字。有兴趣可以看看我的另外一篇笔记：[www.jianshu.com/p/3c1691aed…](https://link.juejin.im?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2F3c1691aed1a5)
 
@@ -207,7 +342,7 @@ ViewResolver 结合Model和View，来渲染视图
 
 ## JDBC执行流程
 
-![image-20190803095509067](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081418.jpg)
+![image-20190803144141579](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051404.jpg)
 
 #### JDBC执行流程：
 
@@ -243,9 +378,7 @@ Feign是一个声明式的Web Service客户端，它的目的就是让Web Servic
 
 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远程服务调用方案，这容易和负载均衡弄混，负载均衡是对外提供一个公共地址，请求过来时通过轮询、随机等，路由到不同server。
 
-![image-20190803144141579](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-081411.jpg)
-
-
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051409.jpg)
 
 # Agile Development
 
@@ -285,8 +418,6 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 
 **每次迭代都是一个完整的软件开发周期，必须按照软件工程的方法论，进行正规的流程管理。**
 
-![](https://tva1.sinaimg.cn/large/006tNbRwgy1g9x5fcvoatj30ma0eqgnd.jpg)
-
 具体来说，每次迭代都必须依次完成以下五个步骤。
 
 1. 需求分析（requirements analysis）
@@ -308,11 +439,11 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 - It can be used as the master control program in workstations and servers.
 - Hundreds of commercial applications are available
 
-## Mind Map
+## 参考
 
 [脑图](http://naotu.baidu.com/file/60297df091db66fdfd9a653902f86272?token=c83591fd896d0c46)
 
-![](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-03-Linux.png)
+[笔记](https://github.com/HelperInCa/Linux-note-follow-Hanshunping)
 
 ## Basic
 
@@ -330,7 +461,7 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 
   ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-10-034527.png)
 
-- 
+- Shell
 
 ## Unix vs. Linux
 
@@ -424,25 +555,32 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
     4. 接下来是×运算符，因此弹出 5 和 7，计算出 7×5=35，将 35 入栈;
     5. 将 6 入栈;
     6. 最后是-运算符，计算出 35-6 的值，即 29，由此得出最终结果
-  
+
   - 中缀转后缀:
-  
-    1) 初始化两个栈:运算符栈 s1 和储存中间结果的栈 s2; 
-  
-    2) 从左至右扫描中缀表达式;
-    3) 遇到操作数时，将其压 s2;
-    4) 遇到运算符时，比较其与 s1 栈顶运算符的优先级:
-  
-    ​	1.如果 s1 为空，或栈顶运算符为左括号“(”，则直接将此运算符入栈; 
-  
-    ​	2.否则，若优先级比栈顶运算符的高，也将运算符压入 s1;
-    ​    3.否则，将 s1 栈顶的运算符弹出并压入到 s2 中，再次转到(4-1)与 s1 中新的栈顶运算符相比较;
-     5) 遇到括号时:
-     	(1) 如果是左括号“(”，则直接压入 s1
-     	(2) 如果是右括号“)”，则依次弹出 s1 栈顶的运算符，并压入 s2，直到遇到左括号为止，此时将这一对括号丢弃 
-  
-    6) 重复步骤 2 至 5，直到表达式的最右边
-    7) 将 s1 中剩余的运算符依次弹出并压入 s2
-    8) 依次弹出 s2 中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式
-  
+
+  1. 初始化两个栈:运算符栈 s1 和储存中间结果的栈 s2; 
+  2. 从左至右扫描中缀表达式;
+    3. 遇到操作数时，将其压 s2;
+  4. 遇到运算符时，比较其与 s1 栈顶运算符的优先级:
     
+     1. 如果 s1 为空，或栈顶运算符为左括号“(”，则直接将此运算符入栈; 
+     
+     2. 否则，若优先级比栈顶运算符的高，也将运算符压入 s1;
+     
+     3. 否则，将 s1 栈顶的运算符弹出并压入到 s2 中，再次转到(4-1)与 s1中新的栈顶运算符相比较;
+    5. 遇到括号时:
+          1. 如果是左括号“(”，则直接压入 s1
+        2.  如果是右括号“)”，则依次弹出 s1 栈顶的运算符，并压入 s2，直到遇到左括号为止，此时将这一对括号丢弃 
+
+    6. 重复步骤 2 至 5，直到表达式的最右边
+    7. 将 s1 中剩余的运算符依次弹出并压入 s2
+    8. 依次弹出 s2 中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式
+
+  ## 递归
+  
+  - 规则: 
+    1. 执行一个方法时，就创建一个新的受保护的栈空间
+    2. 方法的局部变量是独立的，不会相互影响. 如果方法中使用的是引用类型变量(比如数组)，就会共享该引用类型的数据.
+    3. 递归必须向**退出递归的条件**逼近，否则就是无限递归,出现StackOverflowError
+    4. 当一个方法执行完毕，或者遇到return，就将**结果返回给调用者**，同时当方法执行完毕或返回时, 该方法也就执行完毕
+

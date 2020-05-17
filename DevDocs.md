@@ -1,28 +1,38 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents**
+
 - [Basics](#basics)
-  * [Java](#java)
-  * [Python3](#python3)
-    + [(TBD)](#-tbd-)
-  * [Golang](#golang)
-  * [Database](#database)
+  - [Java](#java)
+  - [Python3](#python3)
+    - [(TBD)](#tbd)
+  - [Golang](#golang)
+  - [Database](#database)
 - [Hotkeys](#hotkeys)
 - [Git](#git)
-  * [git init](#git-init)
-  * [git status](#git-status)
-  * [git add](#git-add)
-  * [git commit](#git-commit)
-  * [git log](#git-log)
-  * [git push](#git-push)
-  * [git pull](#git-pull)
-  * [git remote](#git-remote)
-    + [rename](#rename)
-    + [remove](#remove)
-  * [git rm](#git-rm)
-    - [remove pushed files/folders from repo](#remove-pushed-files/folders-from-repo)
-- [Tools](#Tools)
-  - [import Markdown to Medium](#import-Markdown-to-Medium)
-  - [Zsh](#Zsh)
-  - [Plugins](#Plugins)
-- [Docker](#Docker)
+  - [git init](#git-init)
+  - [git status](#git-status)
+  - [git add](#git-add)
+  - [git commit](#git-commit)
+    - [commit message & change log](#commit-message--change-log)
+  - [git log](#git-log)
+  - [git push](#git-push)
+  - [git pull](#git-pull)
+  - [git remote](#git-remote)
+    - [rename](#rename)
+    - [remove](#remove)
+  - [git rm](#git-rm)
+  - [gitignore](#gitignore)
+- [Tools](#tools)
+  - [Gist](#gist)
+  - [Zsh](#zsh)
+  - [Plugins](#plugins)
+- [Docker](#docker)
+  - [脑图](#%E8%84%91%E5%9B%BE)
+- [Bash](#bash)
+- [alias](#alias)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Basics
 
@@ -67,7 +77,7 @@
 > - [GItHub help](https://help.github.com/en/github)
 > - [脑图](http://naotu.baidu.com/file/8f3e66d234023d218379fc8ef7790fe0?token=652534011488cbfa) 
 
-![](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-04-19-233217.jpg)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-git%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png)
 
 ## git init
 
@@ -163,7 +173,7 @@
 
   - 以后，凡是用到`git commit`命令，一律改为使用`git cz`。这时，就会出现选项，用来生成符合格式的 Commit message
 
-    ![](https://raw.githubusercontent.com/commitizen/cz-cli/master/meta/screenshots/add-commit.png)
+    ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051322.png)
 
 ## git log
 
@@ -207,18 +217,22 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   update `.gitignore`
 
+## gitignore
 
+- 全局
+
+  `~/.gitignore_global`
 
 # Tools
 
-## import Markdown to Medium
+## Gist
 
 - create a private Gist and paste the Markdown
-- `command` + `c` the file on GIst and `command` + `v` on Medium
+- `command` + `c` the file on Gist and `command` + `v` on Medium
 
 > cons:
 >
-> - not support HTML
+> - not support HTML well
 
 ## Zsh
 
@@ -294,6 +308,26 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 - [trash](https://github.com/ali-rantakari/trash)
 
   allow `rm` to move files to .Trash/ and have the "put back" feature
+  
+- [doctoc](https://github.com/thlorenz/doctoc)
+
+  Generates table of contents for markdown files inside local git repository.
+
+  ```bash
+  doctoc /path/to/file [...]
+  ```
+
+  - generate links compatible with other sites
+
+    ```shell
+    --bitbucket bitbucket.org
+    --nodejs    nodejs.org
+    --github    github.com
+    --gitlab    gitlab.com
+    --ghost     ghost.org
+    ```
+
+  - Use the `--maxlevel` option to limit TOC entries to headings only up to the specified level; e.g., `doctoc --maxlevel 3`
 
 # Docker
 
@@ -307,3 +341,28 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
 - Docker 容器后台运行时, 必须要有一个前台进程, 否则会自动停止
 
+# Bash
+
+- [参考](https://wangdoc.com/bash/index.html)
+
+# alias 
+
+- ~/.bash_profile
+
+  - `jpnb` = `jupyter notebook`
+  - `pip` = `pip3`
+
+  - `proxy `  terminal走代理
+
+    `unproxy`  关闭 
+
+  - `rm`实现 "回收站"功能
+
+  - `gz`=`tar -xzvf`
+    `tgz`=`tar -xzvf`
+    `zip`=`unzip`
+    `bz2`=`tar -xjvf`
+
+  - `toc` MD生成目录
+
+    > 文件名不能有空格!

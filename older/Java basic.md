@@ -1,45 +1,45 @@
-  
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents**
 
-Table of Contents
-=================
+- [Java基础](#java%E5%9F%BA%E7%A1%80)
+  - [数组常见异常](#%E6%95%B0%E7%BB%84%E5%B8%B8%E8%A7%81%E5%BC%82%E5%B8%B8)
+    - [第一种:](#%E7%AC%AC%E4%B8%80%E7%A7%8D)
+    - [第二种:](#%E7%AC%AC%E4%BA%8C%E7%A7%8D)
+    - [第三种:](#%E7%AC%AC%E4%B8%89%E7%A7%8D)
+  - [array复制](#array%E5%A4%8D%E5%88%B6)
+  - [array元素反转](#array%E5%85%83%E7%B4%A0%E5%8F%8D%E8%BD%AC)
+  - [数组排序](#%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F)
+- [面向对象](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1)
+  - [总结](#%E6%80%BB%E7%BB%93)
+  - [overload重载](#overload%E9%87%8D%E8%BD%BD)
+  - [匿名类对象](#%E5%8C%BF%E5%90%8D%E7%B1%BB%E5%AF%B9%E8%B1%A1)
+  - [可变个数的形参的方法(数据类型要一样)](#%E5%8F%AF%E5%8F%98%E4%B8%AA%E6%95%B0%E7%9A%84%E5%BD%A2%E5%8F%82%E7%9A%84%E6%96%B9%E6%B3%95%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A6%81%E4%B8%80%E6%A0%B7)
+  - [*方法参数传递*](#%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92)
+  - [面向对象特征之一: 封装(Encapsulation)](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%B8%80-%E5%B0%81%E8%A3%85encapsulation)
+  - [类的成员之三: 构造器(constructor)](#%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E4%B9%8B%E4%B8%89-%E6%9E%84%E9%80%A0%E5%99%A8constructor)
+  - [this](#this)
+  - [package](#package)
+  - [import](#import)
+  - [面向对象特征之二:继承(inheritance)](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%BA%8C%E7%BB%A7%E6%89%BFinheritance)
+    - [override重写](#override%E9%87%8D%E5%86%99)
+    - [super](#super)
+  - [面向对象特征之三: 多态性](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%B8%89-%E5%A4%9A%E6%80%81%E6%80%A7)
+    - [object类](#object%E7%B1%BB)
+    - [toString方法](#tostring%E6%96%B9%E6%B3%95)
+    - [Wrapper包装类](#wrapper%E5%8C%85%E8%A3%85%E7%B1%BB)
+  - [static](#static)
+  - [类的成员之四: 代码块](#%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E4%B9%8B%E5%9B%9B-%E4%BB%A3%E7%A0%81%E5%9D%97)
+  - [final](#final)
+  - [Abstract](#abstract)
+  - [interface 接口](#interface-%E6%8E%A5%E5%8F%A3)
+  - [类的成员之五: 内部类](#%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E4%B9%8B%E4%BA%94-%E5%86%85%E9%83%A8%E7%B1%BB)
+- [异常处理(Exception&Error)](#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86exceptionerror)
+  - [common *RuntimeException*:](#common-runtimeexception)
+  - [如何处理异常](#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8)
+- [集合](#%E9%9B%86%E5%90%88)
 
-   * [JAVA基础](#java基础)
-      * [数组常见异常](#数组常见异常)
-         * [第一种:](#第一种)
-         * [第二种:](#第二种)
-         * [第三种:](#第三种)
-      * [array复制](#array复制)
-      * [array元素反转](#array元素反转)
-      * [数组排序](#数组排序)
-   * [面向对象](#面向对象)
-      * [overload重载](#overload重载)
-      * [匿名类对象](#匿名类对象)
-      * [可变个数的形参的方法](#可变个数的形参的方法)
-      * [<em>方法参数传递</em>](#方法参数传递)
-      * [面向对象特征之一: 封装(Encapsulation)](#面向对象特征之一-封装encapsulation)
-      * [类的成员之三: 构造器(constructor)](#类的成员之三-构造器constructor)
-      * [this](#this)
-      * [package](#package)
-      * [import](#import)
-      * [面向对象特征之二:继承(inheritance)](#面向对象特征之二继承inheritance)
-         * [override重写](#override重写)
-         * [super](#super)
-      * [面向对象特征之三: 多态性](#面向对象特征之三-多态性)
-         * [object类](#object类)
-         * [toString方法](#tostring方法)
-         * [Wrapper包装类](#wrapper包装类)
-         * [关键字static](#关键字static)
-      * [类的成员之四: 代码块](#类的成员之四-代码块)
-         * [keyword: final](#keyword-final)
-      * [Abstract Class](#abstract-class)
-      * [interface 接口](#interface-接口)
-      * [类的成员之五: 内部类(<em>以后看</em>)](#类的成员之五-内部类以后看)
-   * [异常处理(Exception&amp;Error)](#异常处理exceptionerror)
-      * [common <em>RuntimeException</em>:](#common-runtimeexception)
-      * [如何处理异常](#如何处理异常)
-   * [集合](#集合)
-
-
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 #  Java基础
 
@@ -174,6 +174,10 @@ for(int x = 0,y = arr.length - 1;x < y;x++,y--){
 
 
 # 面向对象
+
+## 总结
+
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-16-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.JPG)
 
 ## overload重载
 
@@ -746,7 +750,7 @@ public boolean equals(Object obj){
 
 ## static
 
-static修饰field, method, *代码块, *内部类
+static修饰属性, 方法, *代码块, *内部类
 
 - static修饰属性(类变量)
 
@@ -762,21 +766,19 @@ static修饰field, method, *代码块, *内部类
 
 - static修饰方法(类方法)
 
-  与类变量相同, 除以下:
-
-  - 内部只能调用静态的属性和静态的方法, 非静态的方法能调用静态的属性和方法
+  - 只能调用静态的属性和静态的方法, 非静态的方法能调用静态的属性和方法
 
   > - *static修饰的方法里不能有this|super*
-  >
+>
   > - constructor 看作和方法一样
 
 > 静态的结构(static的field method 代码块 内部类)生命周期比非静态结构长: 加载早于非静态, 被回收晚于非静态
 
+![static变量的内存结构图](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-045620.jpg)
 
+应用: 
 
-static应用: 
-
-*利用静态的变量达到累加的效果, 因为静态的内容独一份,被多个对象所共用, 比如记录创建对象的次数/ 每个对象某个属性有关联*
+利用静态的变量达到**累加**的效果, 因为静态的内容独一份,被多个对象所共用, 比如记录创建对象的次数/ 每个对象某个属性有关联
 
 ```java
 public class TestAccount {
@@ -804,8 +806,6 @@ class Account{
 }
 ```
 
-![static变量的内存结构图](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-082024.jpg)
-
 
 
 ## 类的成员之四: 代码块
@@ -816,9 +816,9 @@ class Account{
 
   - 对类的属性(静态||非静态)进行初始化
   - 可以有输出语句
-  - 一个类中可以有多个代码块,多个代码块之间按照顺序结构执行
+  - 一个类中可以有多个代码块,多个代码块之间按照**顺序**结构执行
   - 每创建一个类的对象, 非静态代码块就加载一次
-  - 非静态代码块的执行早于构造器
+  - 非静态代码块的执行**早于**构造器
 
 > 属性赋值的操作:
 >
@@ -867,9 +867,7 @@ class Order{
 }
 ```
 
-
-
-### keyword: final
+## final
 
 - 修饰类, 属性, 方法
 
@@ -877,31 +875,29 @@ class Order{
 
   - final method: 不能被重写, eg. Object.getClass()
 
-  - final field: 此属性是常量. 初始化后不可再赋值. 常量用大写字符, eg. final int L
+  - final field: 此属性是常量. 用大写字符, eg. final int L
 
-    > 此常量在哪赋值: ①不能默认赋值②可以显式赋值, 代码块, 构造器
+    > 在哪赋值: ①不能默认赋值②可以显式赋值: 代码块, 构造器
 
   - 全局常量: 被static, final修饰, eg. Math.PI
 
-    > public static final doubke PI
+    > public static final double PI
 
-> *different: finally,  finalize()*
+> diff: finally,  finalize()
 
+## Abstract 
 
+- 可以修饰类, 方法
 
-## Abstract Class
+- 不能被实例化, 但可以定义构造器
 
-- keyword **abstract**
-
-- cannot use **new**, but can customize **constructor** 
-
-  > every class has constructor
+  > 所有类都有构造器
 
 - 有抽象方法的一定是抽象类, 抽象类不一定有抽象方法
 
-- 若子类继承抽象类, 并重写了*所有*的抽象方法, 则此类是"实体类", 即可以实例化;
+- 若子类继承抽象类, 并重写了*所有* 的抽象方法, 则此类是"实体类", 即可以实例化;
 
-  若子类继承抽象类, 并未重写了*所有*的抽象方法, 则此类仍为抽象类.
+  若子类继承抽象类, 并未重写了*所有* 的抽象方法, 则此类仍为抽象类.
 
 ```java
 public class TestAbstract {
@@ -919,9 +915,9 @@ abstract class Person {
     public Person(String name) {
         this.name = name;
     }
-    
+    //abstract method
     public abstract void eat();
-    public abstract void walk();//abstract method
+    public abstract void walk();
 }
     
 class Student extends Person {
@@ -946,14 +942,14 @@ class Student extends Person {
 
 ## interface 接口
 
-- interface是与class并行的一个概念
-- 接口看作特殊的抽象类, 包含常量和抽象方法, 不能包含变量, 一般的方法.
+- interface是与class并行的
+- 接口看作特殊的抽象类, 包含*常量*, *抽象方法*, 不能包含变量, 一般的方法.
 - 没有构造器, 所以不能创建对象
 - 定义的是一种功能, 可以被类实现(**implements**)
-- 实现接口的类, 必须重写其中所有的抽象方法, 才能实例化, 否则仍为一个抽象类
-- 类能实现多个接口(java中是单继承)
+- 实现接口的类, 必须重写其中*所有* 的抽象方法, 才能实例化, 否则仍为一个抽象类
+- 类能实现多个接口(Java中是单继承)
 - 接口与接口之间是继承
-- 只能被public, default修饰
+- 只能被public, (default)修饰
 
 ```java
 public class TestInterface {
@@ -999,7 +995,7 @@ interface JJ extends AA, MM {
 
 
 
-## 类的成员之五: 内部类(*以后看*)
+## 类的成员之五: 内部类
 
 1. 在类的内部再定义类, 外面的类:外部类. 里面的类: 内部类
 2. 分类: 
@@ -1081,50 +1077,73 @@ interface JJ extends AA, MM {
 
 ## 如何处理异常
 
-- 抓抛模型: 
-
-  1. "抛": 当我们执行代码时,一旦出现异常,会在异常代码处生成一个对应的异常类型的对象,并将此对象抛出,且程序终止.(自动抛/手动抛)
-
-     > 此异常类的对象抛给方法的调用者
+- 抓抛模型 
 
   2. "抓": 抓住上一步抛出来的异常类的对象.
 
-     java提供了两种处理异常类的对象的方式
+     - try-catch-(finally)
+     
+     ```java
+     try {
+     
+     //可能出现异常的代码
+     
+     } catch (Exception e1) {
+     
+     //处理的方式1
+     
+     } catch (Exception e2) {
+     
+     //处理的方式2
+     
+     }
+     finally {
+     
+     //一定要执行的代码
+     
+     ```
+  
+}
+     ```
+  
+     
+     
+     > 1. try内声明的变量,类似于局部变量, 出了try{}, 就不能被调用
+     > 2. finally{ }可省略
+     > 3. catch() 对异常对象的处理:
+     >    - getMessage();
+     >    - printStackTrace();
+     > 4. 可以有多个catch(), try{} 中抛出的异常类从上往下匹配catch()中异常类的类型, 满足一个并执行完处理方式后就跳出其后多条catch()
+     > 5. 异常处理之后的代码可以执行
+     > 6. catch()中多个异常类型是子父类,  子类**必须**放上面, 否则编译不通过
+     > 7. finally{ }中的代码一定被执行, 不管try{}, catch() {}中是否有仍未处理的异常/ 是否有return
+     > 8. try-catch可以嵌套
+     
+     - throws
+     
+       在方法声明处, 显式抛出该异常对象的类型.
+     
+       ```java
+       public staic void method() throws Exception{
+         ...
+       }
+     ```
 
-     1. 方式一:
+  2. "抛": 当我们执行代码时,一旦出现异常,会在异常代码处生成一个对应的异常类型的对象,并将此对象抛出,且程序终止.(自动抛/手动抛)
 
-        try {
+     > 此异常类的对象抛给方法的调用者
 
-        //可能出现异常的代码
+     - 手动抛`throw`+ 异常类的对象
+  
+       ```java
+     throw new RuntimeException("wrong");
+       ```
 
-        } catch (Exception e1) {
+       - 自定义异常类
 
-        //处理的方式
-
-        } catch (Exception e2) {
-
-        //处理的方式
-
-        }
-
-        finally {
-
-        //一定要执行的代码
-
-        }
-
-        > 1. try内声明的变量,类似于局部变量, 出了try{}, 就不能被调用
-        > 2. finally{ }可省略
-        > 3. catch() 对异常对象的处理:
-        >    - getMessage();
-        >    - printStackTrace();
-        > 4. 可以有多个catch(), try{} 中抛出的异常类从上往下匹配catch()中异常类的类型, 满足一个并执行完处理方式后就跳出其后多条catch()
-        > 5. 异常处理之后的代码可以执行
-        > 6. catch()中多个异常类型是子父类,  子类**必须**放上面, 否则编译不通过
-        > 7. finally{ }中的代码一定被执行, 不管try{}, catch() {}中是否有仍未处理的异常/ 是否有return
-        > 8. try-catch可以嵌套
-
-     2. 方式二: 
+         仿造RuntimeException
+  
+     - 子类重写父类方法, 抛出的异常类型 <= 被重写的方法抛的异常 
 
 
 
@@ -1132,7 +1151,7 @@ interface JJ extends AA, MM {
 
 ![Collection接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-181351.jpg)
 
-![Map接口继承树](https://ipic-1300911741.cos.na-siliconvalley.myqcloud.com/2020-05-11-082020.jpg)
+![Map接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-045626.jpg)
 
 ```java
 public class TestCollection {
