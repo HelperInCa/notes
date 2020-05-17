@@ -3,6 +3,9 @@
 **Contents**
 
 - [Mac](#mac)
+- [alfred](#alfred)
+  - [usage](#usage)
+  - [workflow](#workflow)
 - [eclipse](#eclipse)
 - [intelliJ IDEA](#intellij-idea)
   - [一、Editing（编辑）](#%E4%B8%80editing%E7%BC%96%E8%BE%91)
@@ -16,17 +19,6 @@
   - [九、Live Templates（动态代码模板）](#%E4%B9%9Dlive-templates%E5%8A%A8%E6%80%81%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF)
   - [十、General（通用）](#%E5%8D%81general%E9%80%9A%E7%94%A8)
   - [十一、Other（一些官方文档上没有体现的快捷键）](#%E5%8D%81%E4%B8%80other%E4%B8%80%E4%BA%9B%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E4%B8%8A%E6%B2%A1%E6%9C%89%E4%BD%93%E7%8E%B0%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE)
-- [alfred workflow](#alfred-workflow)
-  - [有道](#%E6%9C%89%E9%81%93)
-  - [Stack Overflow](#stack-overflow)
-  - [github](#github)
-    - [Key Combinations](#key-combinations)
-    - [Search commands](#search-commands)
-    - [Repo commands](#repo-commands)
-    - [User commands](#user-commands)
-    - ["My" commands](#my-commands)
-    - [Workflow commands](#workflow-commands)
-    - [Commands](#commands)
 - [Terminal](#terminal)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -37,11 +29,7 @@
 
 - `⌦` 向前删除键（Fn+Delete）
 
-- `⇞` Page Up（Fn+↑）
-
-- `⇟` Page Down（Fn+↓）
-
-- `command + shift + G` Finder进入指定文件夹
+- `command + shift + g` Finder进入指定文件夹
 
 - `command + shift + .`开/关隐藏文件 
 
@@ -51,6 +39,85 @@
 
 - `Command + shift + 5` 截屏
 
+- `⌘ + ⌃ + space` emoji
+
+  ![The OS X emoji interaction](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-17-213953.gif) 
+
+# alfred
+## usage
+
+- `ej` eject volumes; `eja` eject all volumes
+
+- snippets
+
+  - `s {query}`
+  
+- collection: Mac symbols, currency, emoji, dynamic placeholder
+  
+- [emoji](http://joelcalifa.com/blog/alfred-emoji-snippet-pack/)
+  
+    `s :{query}` browse emoji
+    
+  - [dynamic placeholder](https://www.alfredapp.com/help/workflows/advanced/placeholders/)
+  
+    `::date` May 17, 2020
+  
+    `::time` 16:10:55     
+
+## workflow
+
+- [有道](https://github.com/wensonsmith/YoudaoTranslate)
+  - 使用方法 `d {query}`
+  - 按住`cmd` +`return` 即可发音,这样不会关闭窗口。在音标上直接回车也可以播放发音并会关闭窗口。
+  - 在选项上`return`可以复制翻译结果
+  - 翻译结果上按 `Shift` 可以直接预览有道网页
+  - 输入 `d *` 可以查询最近的查询记录
+
+- Stack Overflow
+
+  `.s {query}` 
+
+- [GitHub](https://github.com/gharlan/alfred-github-workflow)
+  
+  - Key Combinations
+
+| Key Combination        | Action                        |
+| ---------------------- | ----------------------------- |
+| `enter`                | Open entry in default browser |
+| `cmd` + `c`            | Copy URL of the entry         |
+| `cmd` + `enter`        | Paste URL to front most app   |
+| `shift` or `cmd` + `y` | Open URL in QuickLook         |
+
+  - Search commands
+    - `gh s repo`
+    - `gh s @user`
+
+  - Repo commands
+    - `gh user/repo`
+    - `gh user/repo @branch`
+
+  - User commands
+    - `gh @user`
+    - `gh @user overview`
+
+  - "My" commands
+    - `gh my dashboard`
+    - `gh my notifications`
+    - `gh my profile`
+    - `gh my issues`
+
+  - Workflow commands
+    - `gh > logout`
+    - `gh > delete cache`
+    - `gh > delete database`
+    - `gh > update`
+    - `gh > activate autoupdate`
+    - `gh > deactivate autoupdate`
+    - `gh > help`
+    - `gh > changelog`
+
+  - Commands
+    - To search through your GitHub Enterprise instance replace `gh` by `ghe`.
 
 # eclipse
 
@@ -246,7 +313,7 @@
 - `Command + Shift + F12` 切换最大化编辑器
 - `Option + Shift + F` 添加到收藏夹
 - `Option + Shift + I` 检查当前文件与当前的配置文件
-- Control + ` 快速切换当前的scheme（切换主题、代码样式等）
+- `Control + ` 快速切换当前的scheme（切换主题、代码样式等）
 - `Command + ,` 打开IDEA系统设置
 - `Command + ;` 打开项目结构对话框
 - `Shift + Command + A` 查找动作（可设置相关选项）
@@ -255,78 +322,6 @@
 ## 十一、Other（一些官方文档上没有体现的快捷键）
 
 - `Command + Shift +8` 竖编辑模式
-
-
-
-# alfred workflow
-
-
-
-## 有道
-
-[GitHub](https://github.com/wensonsmith/YoudaoTranslate)
-
-- 使用方法 `d {query}`
-- 按住`cmd` +`return` 即可发音,这样不会关闭窗口。在音标上直接回车也可以播放发音并会关闭窗口。
-- 在选项上`return`可以复制翻译结果
-- 翻译结果上按 `Shift` 可以直接预览有道网页
-- 输入 `d *` 可以查询最近的查询记录
-
-## Stack Overflow
-
-`.s{query}` 
-
-## github
-
-[GitHub](https://github.com/gharlan/alfred-github-workflow)
-
-### Key Combinations
-
-| Key Combination        | Action                        |
-| ---------------------- | ----------------------------- |
-| `enter`                | Open entry in default browser |
-| `cmd` + `c`            | Copy URL of the entry         |
-| `cmd` + `enter`        | Paste URL to front most app   |
-| `shift` or `cmd` + `y` | Open URL in QuickLook         |
-
-### Search commands
-
-- `gh s repo`
-- `gh s @user`
-
-### Repo commands
-
-- `gh user/repo`
-- `gh user/repo @branch`
-
-### User commands
-
-- `gh @user`
-- `gh @user overview`
-
-### "My" commands
-
-- `gh my dashboard`
-- `gh my notifications`
-- `gh my profile`
-- `gh my issues`
-
-### Workflow commands
-
-- `gh > logout`
-- `gh > delete cache`
-- `gh > delete database`
-- `gh > update`
-- `gh > activate autoupdate`
-- `gh > deactivate autoupdate`
-- `gh > help`
-- `gh > changelog`
-
-### Commands
-
-To search through your GitHub Enterprise instance replace `gh` by `ghe`.
-
-
 
 # Terminal
 

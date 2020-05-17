@@ -350,6 +350,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 - ~/.bash_profile
 
   - `jpnb` = `jupyter notebook`
+
   - `pip` = `pip3`
 
   - `proxy `  terminal走代理
@@ -366,3 +367,6 @@ Use the `git remote rm` command to remove a remote URL from your repository.
   - `toc` MD生成目录
 
     > 文件名不能有空格!
+- ~/.zshrc
+  
+  - `ch`清空zsh历史记录
