@@ -38,7 +38,7 @@
 
 ## Java
 
-[github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/Java%20basic.md)
+[notes](https://github.com/HelperInCa/notes/blob/master/older/Java%20basic.md)
 
 ## Python3
 
@@ -55,20 +55,15 @@
 
 ## Golang
 
-[github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/Golang%20basics.md)
+[notes](https://github.com/HelperInCa/notes/blob/master/older/Golang%20basics.md)
 
 ## Database
 
-[github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/Database.md)
-
-
+[notes](https://github.com/HelperInCa/notes/blob/master/older/Database.md)
 
 # Hotkeys
 
-- [github.com/HelperInCa/](https://github.com/HelperInCa/notes/blob/master/older/hotkey.md)
-- [cheetsheets including languages, tools, libraries](https://github.com/skywind3000/awesome-cheatsheets)
-
-
+- [collections](https://github.com/HelperInCa/notes/blob/master/older/hotkey.md)
 
 # Git
 
