@@ -1079,79 +1079,85 @@ interface JJ extends AA, MM {
 
 - 抓抛模型 
 
-  2. "抓": 抓住上一步抛出来的异常类的对象.
+  1. "抓": 抓住上一步抛出来的异常类的对象.
 
-     - try-catch-(finally)
-     
-     ```java
-     try {
-     
-     //可能出现异常的代码
-     
-     } catch (Exception e1) {
-     
-     //处理的方式1
-     
-     } catch (Exception e2) {
-     
-     //处理的方式2
-     
-     }
-     finally {
-     
-     //一定要执行的代码
-     
-     ```
+  - try-catch-(finally)
+
+  ```java
+  try {
   
-}
-     ```
+  //可能出现异常的代码
   
-     
-     
-     > 1. try内声明的变量,类似于局部变量, 出了try{}, 就不能被调用
-     > 2. finally{ }可省略
-     > 3. catch() 对异常对象的处理:
-     >    - getMessage();
-     >    - printStackTrace();
-     > 4. 可以有多个catch(), try{} 中抛出的异常类从上往下匹配catch()中异常类的类型, 满足一个并执行完处理方式后就跳出其后多条catch()
-     > 5. 异常处理之后的代码可以执行
-     > 6. catch()中多个异常类型是子父类,  子类**必须**放上面, 否则编译不通过
-     > 7. finally{ }中的代码一定被执行, 不管try{}, catch() {}中是否有仍未处理的异常/ 是否有return
-     > 8. try-catch可以嵌套
-     
-     - throws
-     
-       在方法声明处, 显式抛出该异常对象的类型.
-     
-       ```java
-       public staic void method() throws Exception{
-         ...
-       }
-     ```
-
-  2. "抛": 当我们执行代码时,一旦出现异常,会在异常代码处生成一个对应的异常类型的对象,并将此对象抛出,且程序终止.(自动抛/手动抛)
-
-     > 此异常类的对象抛给方法的调用者
-
-     - 手动抛`throw`+ 异常类的对象
+  } catch (Exception e1) {
   
-       ```java
-     throw new RuntimeException("wrong");
-       ```
-
-       - 自定义异常类
-
-         仿造RuntimeException
+  //处理的方式1
   
-     - 子类重写父类方法, 抛出的异常类型 <= 被重写的方法抛的异常 
+  } catch (Exception e2) {
+  
+  //处理的方式2
+  
+  }
+  finally {
+  
+  //一定要执行的代码
+  }
+  ```
+
+     1. try内声明的变量,类似于局部变量, 出了try{}, 就不能被调用
+            finally{ }可省略
+
+     2. catch() 对异常对象的处理:
+
+           - getMessage();
+           - printStackTrace();
+
+        3. 可以有多个catch(), try{} 中抛出的异常类从上往下匹配catch()中异常类的类型, 满足一个并执行完处理方式后就跳出其后多条catch(). 异常处理之后的代码可以执行
+
+        4. catch()中多个异常类型是子父类,  子类**必须**放上面, 否则编译不通过
+
+        5. finally{ }中的代码一定被执行, 不管try{}, catch() {}中是否有仍未处理的异常/ 是否有return
+
+        6. try-catch可以嵌套   
+
+              
+
+  - throws
+
+    在方法声明处, 显式抛出该异常对象的类型. 
+
+```java
+   public staic void method() throws Exception{
+     ...
+   }
+```
+
+​	2. "抛": 当我们执行代码时,一旦出现异常,会在异常代码处生成一个对应的异常类型的对象,并将此对象抛出,且程序终止.(自动抛/手动抛)
+
+> 此异常类的对象抛给方法的调用者
+
+- 手动抛`throw`+ 异常类的对象
+
+  ```java
+  throw new RuntimeException("wrong");
+  ```
+
+  - 自定义异常类
+
+    仿造RuntimeException
+
+- 子类重写父类方法, 抛出的异常类型 <= 被重写的方法抛的异常 
 
 
 
 # 集合
 
+![image-20200517221016723](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-18-051017.png)
+
 ![Collection接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-181351.jpg)
 
-![Map接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-045626.jpg)
+## Collection接口
+
+- 方法
 
 ```java
 public class TestCollection {
@@ -1195,3 +1201,114 @@ public class TestCollection {
 }
 ```
 
+- Iterator接口
+
+```java
+public class TestIterator {
+  @Test
+  public void testIterator() {
+     		Collection coll = new Arraylist();
+        coll.add(123);
+        coll.add("aa");
+        coll.add(new Date());
+    		// 迭代器遍历集合
+    		Iterator i = coll.iterator();
+    		while(i.hasNext()) {
+          sout(i.next());
+        }
+    		// foreach遍历
+    		for(Object o: coll) {
+          sout(o);
+        }
+  }
+}
+```
+
+- List接口(有序, 可重复)
+
+  - List 方法
+
+    ![image-20200517230137354](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-18-060137.png)
+
+  - ArrayList(List的**主要**实现类)
+    - 本质是对象引用的一个可变数组
+    - 线程不安全(vector线程安全, 但效率低, 不使用)
+  - LinkedList
+    - 链表实现
+    - 频繁插入/删除时使用
+
+- Set接口(无序, 不重复)
+
+  - 无序!=随机
+
+    元素的位置根据hash值存储
+
+  - hashcode(), equals(), compareTo()要*重写*, 保证得到一致的结果
+
+  - **HashSet**(*主要* 实现类)
+
+  - LinkedHashSet
+
+    - 使用链表维护*添加* 的顺序, 但存储是*无序*
+    - 效率: 遍历>HashSet, 插入删除<HashSet
+  
+  - TreeSet
+  
+    - 元素是同一类
+    - 排序
+      - 自然
+      - 实现Comparable接口的compareTo()
+        - String, 包装类已重写. 升序(小 -> 大, a -> z)
+      - 定制
+        - 实现Comparator接口的compare()
+    
+
+## Map接口
+
+![Map接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-045626.jpg)
+
+> HashSet是HashMap的一种特殊情况, 底层实现有关联
+
+- 保存具有**单向一对一**的数据
+
+  key, value可以是任何引用类型数据
+
+  key常用Set存, 所以不允许重复, 需重写hashCode(), equals()
+
+  value常用String存
+
+- 方法
+
+  ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-18-225038.png)
+
+- HashMap(*主要* )
+
+  - 子类: LinkedHashMap 迭代顺序与插入顺序一致
+
+- TreeMap
+
+  类似TreeSet
+
+- Hashtable
+
+  - 过时, 线程安全. 不允许null作为key, value
+
+  - 子类: Properties
+
+    key, value都为String. 常用于处理属性文件
+
+    ```java
+    Properties pros = new Properties();
+    pros.load(new FileInputStream("jdbc.properties"));
+    String user = pros.getProperty("user");
+    Sout(user);
+    ```
+
+## Collections工具类
+
+- 提供**静态**方法操作Collection, Map的元素
+
+  - 排序: reverse(List), shuffle(List), sort(List), sort(List，Comparator)
+
+  - 查找, 替换: Object max(Collection), Object max(Collection，Comparator), intfrequency(Collection，Object), void copy(List dest,List src), boolean replaceAll()
+  - 同步: synchronizedXxx()

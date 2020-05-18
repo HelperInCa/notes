@@ -50,23 +50,26 @@
 # alfred
 ## usage
 
-- `ej` eject volumes; `eja` eject all volumes
+- 
+
+    - `ej` eject volumes; `eja` eject all volumes
+    - append selected text: hold `⌘` and double tap `c` twice
 
 - snippets
 
   - `s {query}`
-  
-- collection: Mac symbols, currency, emoji, dynamic placeholder
-  
-- [emoji](http://joelcalifa.com/blog/alfred-emoji-snippet-pack/)
-  
-    `s :{query}` browse emoji
-    
-  - [dynamic placeholder](https://www.alfredapp.com/help/workflows/advanced/placeholders/)
-  
-    `::date` May 17, 2020
-  
-    `::time` 16:10:55     
+
+  - collection: Mac symbols, currency, emoji, dynamic placeholder
+
+    - [emoji](http://joelcalifa.com/blog/alfred-emoji-snippet-pack/)
+
+      `s :{query}` browse emoji
+
+    - [dynamic placeholder](https://www.alfredapp.com/help/workflows/advanced/placeholders/)
+
+      `::date` May 17, 2020
+
+      `::time` 16:10:55 
 
 ## workflow
 
