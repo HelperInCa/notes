@@ -38,6 +38,9 @@
   - [common *RuntimeException*:](#common-runtimeexception)
   - [如何处理异常](#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8)
 - [集合](#%E9%9B%86%E5%90%88)
+  - [Collection接口](#collection%E6%8E%A5%E5%8F%A3)
+  - [Map接口](#map%E6%8E%A5%E5%8F%A3)
+  - [Collections工具类](#collections%E5%B7%A5%E5%85%B7%E7%B1%BB)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1312,3 +1315,4 @@ public class TestIterator {
 
   - 查找, 替换: Object max(Collection), Object max(Collection，Comparator), intfrequency(Collection，Object), void copy(List dest,List src), boolean replaceAll()
   - 同步: synchronizedXxx()
+
