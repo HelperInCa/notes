@@ -26,7 +26,6 @@
 - [Tools](#tools)
   - [Gist](#gist)
   - [Zsh](#zsh)
-  - [Plugins](#plugins)
 - [Docker](#docker)
   - [脑图](#%E8%84%91%E5%9B%BE)
 - [Bash](#bash)
@@ -63,7 +62,7 @@
 
 # Hotkeys
 
-- [collections](https://github.com/HelperInCa/notes/blob/master/older/hotkey.md)
+- [collections](https://github.com/HelperInCa/notes/blob/master/modules/hotkey.md)
 
 # Git
 
@@ -298,31 +297,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   - [syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
-## Plugins
 
-- [trash](https://github.com/ali-rantakari/trash)
-
-  allow `rm` to move files to .Trash/ and have the "put back" feature
-  
-- [doctoc](https://github.com/thlorenz/doctoc)
-
-  Generates table of contents for markdown files inside local git repository.
-
-  ```bash
-  doctoc /path/to/file [...]
-  ```
-
-  - generate links compatible with other sites
-
-    ```shell
-    --bitbucket bitbucket.org
-    --nodejs    nodejs.org
-    --github    github.com
-    --gitlab    gitlab.com
-    --ghost     ghost.org
-    ```
-
-  - Use the `--maxlevel` option to limit TOC entries to headings only up to the specified level; e.g., `doctoc --maxlevel 3`
 
 # Docker
 
@@ -342,7 +317,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
 # alias 
 
-- ~/.bash_profile
+- ~/.zshrc
 
   - `jpnb` = `jupyter notebook`
 
@@ -362,6 +337,6 @@ Use the `git remote rm` command to remove a remote URL from your repository.
   - `toc` MD生成目录
 
     > 文件名不能有空格!
-- ~/.zshrc
-  
+    
   - `ch`清空zsh历史记录
+

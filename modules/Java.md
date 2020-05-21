@@ -41,6 +41,18 @@
   - [Collection接口](#collection%E6%8E%A5%E5%8F%A3)
   - [Map接口](#map%E6%8E%A5%E5%8F%A3)
   - [Collections工具类](#collections%E5%B7%A5%E5%85%B7%E7%B1%BB)
+- [泛型 generics](#%E6%B3%9B%E5%9E%8B-generics)
+  - [集合中的泛型](#%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B)
+  - [自定义泛型类](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%9B%E5%9E%8B%E7%B1%BB)
+  - [泛型和继承](#%E6%B3%9B%E5%9E%8B%E5%92%8C%E7%BB%A7%E6%89%BF)
+  - [通配符](#%E9%80%9A%E9%85%8D%E7%AC%A6)
+- [枚举 Enum type](#%E6%9E%9A%E4%B8%BE-enum-type)
+- [注解 Annotation](#%E6%B3%A8%E8%A7%A3-annotation)
+- [IO](#io)
+  - [File类](#file%E7%B1%BB)
+  - [流](#%E6%B5%81)
+    - [节点流](#%E8%8A%82%E7%82%B9%E6%B5%81)
+    - [缓冲流](#%E7%BC%93%E5%86%B2%E6%B5%81)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1315,4 +1327,242 @@ public class TestIterator {
 
   - 查找, 替换: Object max(Collection), Object max(Collection，Comparator), intfrequency(Collection，Object), void copy(List dest,List src), boolean replaceAll()
   - 同步: synchronizedXxx()
+
+
+
+# 泛型 generics
+
+## 集合中的泛型
+
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-19-193547.png)
+
+```java
+public interface List<E> {
+  void add(E x);
+  Iterator<E> iterator();
+}
+```
+
+## 自定义泛型类
+
+```java
+class person<T> {
+  // 定义属性
+  private T info;
+  // 定义方法
+  public T getInfo() {
+    return info;
+  }
+  public void setInfo(T info) {
+    this.info = info;
+  }
+  // 定义构造器
+  public Person(T info) {
+    this.info = info;
+  }
+}
+```
+
+> - static 方法不能声明泛型
+> - try-catch中不能定义泛型
+
+- 泛型方法
+
+  **[**访问权限**]** **<**泛型**>** 返回类型 方法名**([**泛型标识 参数名称**])** 抛出的异常
+
+  ```java
+  public class DAO {
+    public <E> E get(int id, E e) {...}
+  }
+  ```
+
+## 泛型和继承
+
+若B是A的一个子类型(类/接口), G是有泛型声明的类/接口, G\<B>不是G\<A>子类型
+
+## 通配符
+
+- `?`, 如 `List<?>`, `Map<?>`
+- `List<?>`是`List<String>`、`List<Object>`等各种泛型List的父类
+  - *读取* `List<?>`中元素是安全的, 因为返回的总是Object
+  - *写入* `List<?>`中元素是不允许的, 除了null, 因为null是所有类型的成员
+
+- 有限制的通配符
+  - <? extends A> 允许泛型为A及A子类的调用
+  - <? super A> 允许泛型为A及A父类的调用
+  - <? extends Comparable> 允许泛型为实现Comparable接口的实现类的引用调用
+
+
+
+# 枚举 Enum type
+
+- 枚举类对象的属性不应允许被改动**,** 所以应该使用 **private final** 修饰
+
+- `enum`
+
+  - 必须在枚举类的第一行声明枚举类对象
+
+  - switch-case: case子句直接使用枚举值
+
+  - 主要方法: 
+
+    - `values()` 返回对象数组. 用于遍历所有枚举值
+    - `valueOf(String str)` 把一个字符串转为对应的枚举类对象。要求字符串必须是枚举类对象的“名字”。否则，会有运行异常。
+
+  - 实现接口
+
+    若需要每个枚举值在调用实现的接口方法呈现出不同的行为方式, 则可以让每个枚举值分别来实现该方法
+
+  ```java
+  enum Season implements Info{
+    SPRING("1", "A") {
+    	public void show() {
+        sout("a");
+      }
+    },
+    SUMMER("2", "B") {
+      public void show() {
+        sout("b");
+      }
+    },
+    FALL("3", "C"),
+    WINTER("4", "D");
+  }
+  interface Info {
+    void show();
+  }
+  ```
+
+  
+
+# 注解 Annotation
+
+- 内置
+
+  - `@Override`: 限定重写父类方法, 只能用于方法
+  - `@Deprecated`: 用于表示某个程序元素(类, 方法等)已过时
+  - `@SuppressWarnings`: 抑制编译器警告
+
+- 自定义
+
+  ```java
+  public @interface MyAnnotation { 
+    String str() default "hello";
+  }
+  ```
+
+- 元注解: 修饰其他注解
+
+  Retention
+  Target
+  Documented
+  Inherited
+
+
+
+# IO
+
+package java.io
+
+## File类
+
+File: 文件和目录路径名的抽象表示形式
+
+- 能新建、删除、重命名文件/目录, 但不能访问文件内容本身。如果需要访问文件内容本身，需使用输入/输出流
+
+- File对象可以作为参数传递给流的构造函数
+
+- 方法
+
+  - 访问文件名
+
+    getName() 
+    getPath() 
+    getAbsoluteFile() 
+    getAbsolutePath()
+    getParent() 
+    renameTo(File newName)
+    
+  - 文件检测
+    
+    exists()
+    
+    canWrite() 
+    
+    canRead() 
+    
+    isFile() 
+    
+    isDirectory()
+    
+  - 获取文件信息
+    
+    lastModified() 
+    
+    length()
+    
+  - 文件操作
+    
+    createNewFile()
+    
+    delete()
+    
+  - 目录操作
+    
+    mkDir() 
+    
+    mkDirs() 
+    
+    list()
+    
+    listFiles()
+
+## 流
+
+- 分类
+
+  - 按操作*数据单位* 不同分为:字节流(8 bit)，字符流(16 bit, 文本)
+
+  - 按*流向* 不同分为:输入流，输出流
+
+  - 按*角色* 的不同分为:节点流(直接处理数据)，处理流(加工节点流)
+
+    | (抽象基类) | 字节流       | 字符类 |
+    | ---------- | ------------ | ------ |
+    | 输入流     | InputStream  | Reader |
+    | 输出流     | OutputStream | Writer |
+
+    > java.io涉及40几个类, 都是从上面4个抽象基类派生的
+    >
+    > 派生出的子类名以父类名作为后缀
+
+    ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-21-010528.png)
+
+    ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-21-011243.png)
+
+- 打开文件IO不属于内存中资源, 无法被自动回收, 应**显式关闭**IO. 
+
+  `.close()`
+
+### 节点流
+
+用try-catch处理保证流一定关闭
+
+- FileInputStream/Reader
+
+  - `int read(byte[] b)` `int read(char [] c)`
+
+  - `int read(byte[] b, int offset, int length)` `int read(char[] b, int offset, int length)`
+
+- FileOutputStream/Writer
+
+  - `void write(byte[] b/char[] cbuf)`
+  - `void write(byte[] b/char[] buff, int offset, int length)`
+  - `void write(String str)` `void write(String str, int off, int len)`
+### 缓冲流
+
+
+
+  
+
 

@@ -38,7 +38,6 @@
   - [select 语句](#select-%E8%AF%AD%E5%8F%A5)
   - [默认选择](#%E9%BB%98%E8%AE%A4%E9%80%89%E6%8B%A9)
   - [sync.Mutex](#syncmutex)
-  - [references](#references)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
