@@ -53,6 +53,34 @@
   - [流](#%E6%B5%81)
     - [节点流](#%E8%8A%82%E7%82%B9%E6%B5%81)
     - [缓冲流](#%E7%BC%93%E5%86%B2%E6%B5%81)
+    - [转换流](#%E8%BD%AC%E6%8D%A2%E6%B5%81)
+    - [标准输入输出流](#%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81)
+    - [打印流](#%E6%89%93%E5%8D%B0%E6%B5%81)
+    - [数据流](#%E6%95%B0%E6%8D%AE%E6%B5%81)
+    - [对象流](#%E5%AF%B9%E8%B1%A1%E6%B5%81)
+    - [RandomAccessFile](#randomaccessfile)
+- [多线程](#%E5%A4%9A%E7%BA%BF%E7%A8%8B)
+  - [java.lang.Thread类](#javalangthread%E7%B1%BB)
+    - [Thread 常用方法](#thread-%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95)
+  - [java.lang.Runnable接口](#javalangrunnable%E6%8E%A5%E5%8F%A3)
+  - [线程的生命周期](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+  - [线程的同步](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5)
+  - [线程通信](#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1)
+- [常用类](#%E5%B8%B8%E7%94%A8%E7%B1%BB)
+  - [String类](#string%E7%B1%BB)
+  - [StringBuffer](#stringbuffer)
+  - [StringBuilder](#stringbuilder)
+  - [日期类](#%E6%97%A5%E6%9C%9F%E7%B1%BB)
+  - [Math类](#math%E7%B1%BB)
+  - [BigInteger/BigDecimal](#bigintegerbigdecimal)
+- [反射](#%E5%8F%8D%E5%B0%84)
+  - [Class类](#class%E7%B1%BB)
+  - [获取Class类的对象](#%E8%8E%B7%E5%8F%96class%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1)
+  - [创建类对象并获取其完整结构](#%E5%88%9B%E5%BB%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%8E%B7%E5%8F%96%E5%85%B6%E5%AE%8C%E6%95%B4%E7%BB%93%E6%9E%84)
+  - [调用指定属性, 方法, 构造器](#%E8%B0%83%E7%94%A8%E6%8C%87%E5%AE%9A%E5%B1%9E%E6%80%A7-%E6%96%B9%E6%B3%95-%E6%9E%84%E9%80%A0%E5%99%A8)
+  - [动态代理](#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
+- [网络编程](#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B)
+  - [网络基础](#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1546,9 +1574,13 @@ File: 文件和目录路径名的抽象表示形式
 
 ### 节点流
 
-用try-catch处理保证流一定关闭
+**用try-catch处理保证流一定关闭**
 
 - FileInputStream/Reader
+
+  1.建立一个流对象，将已存在的一个文件加载进流。 	FileReader fr = new FileReader(“Test.txt”);
+  2.创建一个临时存放数据的数组。							char[] ch = new char[1024];
+  3.调用流对象的读取方法将流中的数据读入到数组中。 fr.read(ch);
 
   - `int read(byte[] b)` `int read(char [] c)`
 
@@ -1556,13 +1588,558 @@ File: 文件和目录路径名的抽象表示形式
 
 - FileOutputStream/Writer
 
+  1.创建流对象，建立数据存放文件 				 FileWriter fw = new FileWriter(“Test.txt”);
+  2.调用流对象的写入方法，将数据写入流    	fw.write(“text”);
+  3.关闭流资源，并将流中的数据清空到文件中  fw.close();
+  
   - `void write(byte[] b/char[] cbuf)`
   - `void write(byte[] b/char[] buff, int offset, int length)`
   - `void write(String str)` `void write(String str, int off, int len)`
 ### 缓冲流
 
+- 在使用缓冲流类时，会创建一个内部缓冲区数组
+
+- 缓冲流要“套接”在相应的节点流之上，提高了读写的效率，增加了一些新方法
+
+- BufferedInputStream/Reader
+
+  - `BufferedReader br.readline()` 一次读一行
+
+- BufferedOutputStream/Writer
+
+  - 每次写入后刷新缓冲区 `flush()` 
+
+  ![20200522-2T89qF](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200522-2T89qF.png)
+
+### 转换流
+
+- 在字节流和字符流之间 按指定字符集转换
+- 同样要套接在相应节点流上
+- InputStreamReader和OutputStreamWriter
+
+### 标准输入输出流
+
+- System.in和System.out分别代表系统标准的输入和输出设备. 默认输入设备是键盘，输出设备是显示器
+
+- System.in的类型是InputStream System.out的类型是PrintStream, 是OutputStream的子
+
+  类FilterOutputStream的子类
+
+- 通过System类的setIn()，setOut()对默认设备进行改变
+
+### 打印流
+
+- PrintStream(字节打印流)和PrintWriter(字符打印流)
+
+### 数据流
+
+- 处理基本数据类型, String,  DataInputStream 和 DataOutputStream
+
+### 对象流
+
+- ObjectInputStream和OjbectOutputSteam
+
+- 存储和读取对象的处理流
+
+- 序列化(Serialize):用ObjectOutputStream类将一个Java对象 写入IO流中
+  反序列化(Deserialize):用ObjectInputStream类从IO流中恢复该Java对象
+  ObjectOutputStream和ObjectInputStream不能序列化`static`和 `transient`修饰的成员变量
+
+- 类及属性都要实现Serializable接口才能序列化
+
+- 实现Serializable接口的类都有一个表示序列化版本标识符的静态变量: `private static final long serialVersionUID` 
+
+  - 应显示定义.
+
+    如果类没有显示定义这个静态变量，它的值是Java运行时自动生成。若类的源代码作了修改，serialVersionUID可能发生变化
+
+  - 用途: 类的不同版本间的兼容性
+
+### RandomAccessFile
+
+跳到文件的任意地方来读、写文件
+
+- RandomAccessFile对象包含一个记录指针，用以标示当前读, 写处的位置。RandomAccessFile 类对象可以自由移动记录指针:
+  `long getFilePointer()`: 获取文件记录指针的当前位置 
+
+  `void seek(long pos)`: 将文件记录指针定位到 pos 位置
+
+- 构造器
+  public RandomAccessFile(String name, String mode)
+
+  - mode 指定 RandomAccessFile 的访问模式:
+
+     ➢ **r:** 以只读方式打开
+     ➢ **rw**:打开以便读取和写入
+     ➢ **rwd:**打开以便读取和写入;同步文件内容的更新
+     ➢ **rws:**打开以便读取和写入;同步文件内容和元数据的更新
+
+# 多线程
+
+## java.lang.Thread类
+
+创建线程第一种方法: 继承Thread类
+
+1. 定义子类继承Thread类。
+2. 子类中重写Thread类中的run方法。
+3. 创建Thread子类对象，即创建了线程对象。
+4. 调用线程对象start方法:启动线程，调用run方法。
+
+![20200523-Zkyuv3](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200523-Zkyuv3.png)
+
+### Thread 常用方法
+
+- void start(): 启动线程，并执行对象的run()方法 
+
+- run(): 线程在被调度时执行的操作
+
+- String getName(): 返回线程的名称
+
+- void setName(String name):设置该线程名称
+
+- static currentThread(): 返回当前线程
+
+- static void yield(): 暂停当前正在执行的线程，把执行机会让给优先级相同或更高的线程
+
+- join() :当某个程序执行流中调用其他线程的 join() 方法时, 调用线程将被阻塞，直到 join() 方法加入的 join 线程执行完为止
+
+- static void sleep(long millis):(指定时间:毫秒) 令当前活动线程在指定时间段内放弃对CPU控制,使其他线程有机会被执行,时间到后重排队。
+
+- 线程的优先级控制
+  MAX_PRIORITY(10); MIN _PRIORITY (1); NORM_PRIORITY (5); 
+
+  - 线程创建时继承父线程的优先级
+
+  方法:
+
+  - getPriority() :返回线程优先值
+  - setPriority(int newPriority) :改变线程的优先级 
+
+## java.lang.Runnable接口
+
+创建线程第二种方法: 实现Runnable接口. 更好
+
+1. 定义子类，实现Runnable接口。 
+2. 子类中重写Runnable的run() 
+3. 通过Thread类含参构造器创建线程对象
+4. 将Runnable的子类对象作为实际参数传递给Thread类的构造方法中
+5. 调用Thread类的start():开启线程，调用run()
+
+```java
+class PrimeRun implements Runnable {
+         long minPrime;
+         PrimeRun(long minPrime) {
+             this.minPrime = minPrime;
+         }
+         public void run() {. . .}
+}
+
+PrimeRun p = new PrimeRun(143);
+new Thread(p).start();
+```
+
+## 线程的生命周期
+
+![20200523-KJoiD5](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200523-KJoiD5.png)
+
+## 线程的同步
+
+- 提出的问题: 
+
+  多个线程操作共享数据可能出现一个线程未执行完毕时, 另外的线程参与进来而破坏数据。
+
+- 解决办法**:** 
+
+  对多条操作共享数据的语句，只能让一个线程都执行完，在执行过程中， 其他线程不可以参与执行。
+
+  - 同步代码块
+
+    > 所有线程必须共用同一把锁; 包裹的代码块不多也不少, 只有共享数据的部分
+
+    ```java
+    // 可以用任意一个类的对象充当同步监视器(锁)
+    Object obj = new Object();
+    public void run() {
+      // Object obj = new Object(); 这样会导致每个线程自己有一把锁, 没有同步的作用
+      synchronized(obj) {
+      // 需要被同步的代码
+    	}
+    }
+    ```
+
+  - 同步方法
+
+    > 同步方法(非静态的)的锁为this。
+    > 同步方法(静态的)的锁为当前类本身。
+
+    ```java
+    public synchronized void show (String name){...}
+    ```
+
+  > 互斥锁 mutex
+  >
+  > 防止两条线程同时对同一公共资源进行读写的机制
+
+- 锁
+
+  - 释放锁: 
+
+    - 当前线程的同步方法/代码块执行结束; 被break, return终止; 异常抛出
+    - 当前线程的同步方法/代码块执行`wait()`, 暂停当前线程, 并释放锁
+
+  - 不会释放锁:
+
+    - 遇到`sleep()`, `yield()`暂停当前线程
+
+  - 死锁
+
+    不同的线程分别占用对方需要的同步资源不放弃，都在等待对方放弃自己需要的同步资源，就形成了线程的死锁.
+
+    减少同步资源的定义.
+
+## 线程通信
+
+`java.lang.Object`
+
+- `wait()` 令当前线程挂起并放弃CPU、同步资源，使别的线程可访问并修改共享资源，而当前线程排队等候再次对资源的访问
+- `notify()`:唤醒正在排队等待同步资源的线程中优先级最高者
+- `notifyAll()`:唤醒正在排队等待资源的所有线程
+
+> 这三个方法只有在synchronized方法或代码块中使用，否则会报 java.lang.IllegalMonitorStateException异常
 
 
-  
+
+# 常用类
+
+## String类
+
+- 使用**Unicode**字符编码，一个字符占两个字节
+- String是一个final类，代表不可变的字符序列. 底层实现是char[]
+
+![20200525-tVoKkl](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200525-tVoKkl.png)
+
+> [常量池理解](https://www.jianshu.com/p/c7f47de2ee80)
+
+- 字符串对象操作
+  - public int length()
+  - public char charAt(int index)
+  - public boolean equals(Object anObject)
+  - public int compareTo(String anotherString) 
+  - public int indexOf(String s)
+  - public int indexOf(String s ,int startpoint)
+  - public int lastIndexOf(String s)
+  - public int lastIndexOf(String s ,int startpoint) 
+  - public boolean startsWith(String prefix)
+  - public boolean endsWith(String suffix)
+  - public boolean regionMatches(int toffset, String other, int ooffset, int len)
+
+- 字符串对象修改
+
+  - public String substring(int startpoint)
+  - public String substring(int start,int end)
+  - pubic String replace(char oldChar,char newChar)
+  - public String replaceAll(String old,String new)
+
+  - public String trim()
+
+  - public String concat(String str)
+
+  - public String[] split(String regex)
+
+- 包装类, 基本数据类型, 字节/字符数组 相互转换
+
+  1. 字符串 与 基本数据类型, 包装类 转换
+
+     - 字符串 -> 基本数据类型/包装类: 包装类的parseXxx(String str)
+     - 基本数据类型/包装类 -> 字符串: 字符串重载的valueOf()
+
+  2. 字符串 与 字节数组 转换
+
+     - 字符串 -> 字节数组: 字符串的getBytes()
+
+     - 字节数组 -> 字符串: 字符串的构造器
+
+  3. 字符串 与 字符数组 转换
+
+     - 字符串 -> 字符数组: 字符串的toCharArray()
+     - 字符数组 -> 字符串: 字符串的构造器
+
+## StringBuffer
+
+java.lang.StringBuffer代表**可变**的字符序列，可以对字符串内容进行增删改查. 线程安全. 
+
+添加 append() 
+
+删除 delete(int start, int end)
+
+修改 setCharAt(int index, char ch)
+
+插入 insert()
+
+反转 reverse()
+
+长度 length()
+
+## StringBuilder
+
+java.lang.StringBuilder和StringBuilder类似, 效率更高, 但线程不安全
+
+
+
+## 日期类
+
+- java.lang.System类下的public static long currentTimeMillis(), 用于计算时间差
+
+- java.util.Date (及其子类 java.sql.Date)
+
+  - toString()
+  - getTime()
+
+- java.text.SimpleDateFormat
+
+  不与语言环境有关的方式来格式化和解析日期的具体类.
+
+  格式化(日期->文本)、解析(文本->日期)
+
+- java.util.Calendar
+
+  抽象基类，主用用于完成日期字段之间相互操作的功能
+
+  - 获取Calendar实例的方法
+    - 使用Calendar.getInstance()方法 
+    - 调用它的子类GregorianCalendar的构造器
+
+  - get(), add(), Date getTime()/setTime(Date d)
+
+## Math类
+
+java.lang.Math提供了一系列静态方法用于科学计算;其方法的参数和返回值类型一般为double型
+
+## BigInteger/BigDecimal
+
+支持任意精度
+
+
+
+# 反射
+
+**Reflection(反射)**是被视为动态语言的关键，反射机制允许程序在执行期借助于Reflection API取得任何类的内部信息且能直接操作. 
+
+## Class类
+
+- java.lang.Class 本身是一个类
+- 一个类在JVM中只有一个Class对象, 因为只能创建一次
+- 一个Class对象对应一个加载到JVM的一个.class文件
+- 通过Class可以完整得到一个类的结构
+
+
+
+## 获取Class类的对象
+
+1. 若已知具体的类，通过类的class属性获取，该方法最安全可靠，性能最高
+
+   ```java
+   Class clazz = String.class;
+   ```
+
+2. 已知某个类的实例，调用该实例的getClass()方法获取Class对象
+
+   ```java
+   Class clazz = “hello, world”.getClass(); 
+   ```
+
+3. 已知一个类的全类名，且该类在类路径下，可通过 Class类的静态方法*forName()* 获取，可能抛`ClassNotFoundException` 
+
+   ```java
+   Class clazz = Class.forName(“java.lang.String”);
+   ```
+
+4. 类的加载器(了解)
+
+   ```java
+   ClassLoader cl = this.getClass().getClassLoader(); 
+   Class clazz4 = cl.loadClass(“类的全类名”);
+   ```
+
+   > `getResourceAsStream(String str)`:获取类路径下的指定文件的输入流
+
+
+
+## 创建类对象并获取其完整结构
+
+- 创建类的对象
+
+  1. 调用Class对象的`newInstance()`
+     - 类必须要有一个无参的构造器
+     - 类的构造器访问权限足够
+  2. 若类没有无参构造器, 则先取得指定形参的构造器, 显式调用, 再实例化
+
+- 获取对应的运行时类的属性
+
+  - `Field[] getFields()` 获取类中及其父类中声明为public的属性
+  - `Field[] getDeclaredFields()` 获取类本身声明的所有属性
+    - `int getModifiers()` 以整数形式返回此Field的修饰符
+    - `Class<?> getType()` 得到属性类型 
+    - `String getName()` 返回属性名
+
+- 获取对应的运行时类的方法
+
+  - `Method[] getMethods()` 返回类或接口本身的public的方法
+  - `Method[] getDeclaredMethods()` 返回类及父类的全部方法 
+    - `Class<?> getReturnType()`取得全部的返回值  
+    - `Class<?>[] getParameterTypes()` 取得全部的参数  
+    - `int getModifiers()`取得修饰符
+    - `Class<?>[] getExceptionTypes()` 取得异常信息
+
+- 构造器
+
+  - `public Constructor<T>[] getConstructors()`
+    返回类的所有public构造方法
+  - `public Constructor<T>[] getDeclaredConstructors()`
+    返回此类声明的所有构造方法。
+    - 取得修饰符: `public int getModifiers()`
+    - 取得方法名称: `public String getName()` 
+    - 取得参数的类型: `public Class<?>[] getParameterTypes()`
+
+- 注解
+
+  `getAnnotation(Class<T> annotationClass)`
+  `getDeclaredAnnotations()`
+
+- 泛型
+
+  - 获取父类泛型类型:`Type getGenericSuperclass()` 
+  - 泛型类型: `ParameterizedType` 
+  - 获取实际的泛型类型参数数组: `getActualTypeArguments()`
+
+- 包
+
+  `Package getPackage()`
+
+
+
+## 调用指定属性, 方法, 构造器
+
+- 属性
+
+  - `public Field getField(String name)` 返回public的属性名为name的属性。
+    `public Field getDeclaredField(String name)` 返回属性名为name的属性。
+
+  - `public Object get(Object obj)` 取得指定对象obj上此Field的属性内容
+    `public void set(Object obj,Object value)` 设置指定对象obj上此Field的属性内
+    容
+
+    > 当类中属性设置为private，在使用set()和get()方法时，首先要使用Field类中的`setAccessible(true)`方法将需要操作的属性设置为可以被外部访问
+
+- 方法
+
+  1. 通过Class类的`getMethod(String name,Class...parameterTypes)`方法取得一个Method对象，并设置此方法操作时所需要的参数类型。 
+
+  2. 调用Class.newInstance()
+
+  3. 若原方法声明为private,则需要在调用invoke()方法前， 显式调用方法对象`setAccessible(true)`方法，将可访问 private的方法。
+
+  4. 之后使用`Object invoke(Object obj, Object[] args)`进行调用，并向方法中传递要设置的obj对象的参数信息。
+
+     
+
+## 动态代理
+
+- 代理模式: 使用一个代理将对象包装起来, 然后用该代理对象取代原始对象. 任何对原始对象的调用都要通过代理. 代理对象决定是否以及何时将方法调用转到原始对象
+
+- 动态代理步骤
+
+  1. 创建被代理的类, 接口
+  2. 创建一个实现接口InvocationHandler的类，必须实现invoke方法，以完成代理的具体操
+     作
+  3. 通过Proxy类的静态方法`Object newProxyInstance(ClassLoader loader, Class[] interfaces, InvocationHandler h)` 创建一个代理类对象
+  4. 当通过代理类对象发起对被重写的方法调用时, 会转换为`invoke()`调用
+
+- AOP (Aspect Orient Programming)
+
+  ![20200528-9cyVe4](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200528-9cyVe4.png)
+
+  ![20200528-qk349Y](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200528-qk349Y.png)
+
+# 网络编程
+
+## 网络基础
+
+- 如何实现网络中主机互相通信
+
+  - 通信双方地址
+
+  - 数据传输的规则: OSI模型, TCP/IP协议
+
+    ![20200528-ACK9ib](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200528-ACK9ib.png)
+
+- IP, 端口号
+
+  - IP
+
+    - 域名-(DNS)->IP
+
+    - java.net.InetAddress类
+
+      没有公共构造器, 提供2个静态方法获取实例:
+
+      `getByName(String host)` 
+
+      `getByAddress(byte[] addr)`
+
+  - 端口号: 进程
+
+    16位整数 0-65535. 其中0-1023被预先定义占用.
+
+- 网络通信协议
+
+  - TCP(Transmission Control Protocol)
+    使用TCP协议前，须先采用“三次握手”方式建立连接 
+    在连接中可进行大数据量的传输 
+    传输完毕，需释放已建立的连接，"四次挥手"
+
+    可靠但效率低
+
+  - UDP(User Datagram Protocol)
+
+    将数据、源、目的封装成数据包，不需要建立连接 
+
+    每个数据报的大小限制在64K内 
+
+    因无需连接，故是不可靠的 
+
+    发送数据结束时无需释放资源，速度快
+
+- Socket 套接字
+
+  - 通信的两端都要有Socket，是两台机器间通信的端点 
+  - Socket允许程序把网络连接当成一个流，数据在两个Socket间通过IO传输。
+  - 一般主动发起通信的应用程序是客户端，等待通信请求的为服务端
+
+  ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200528-QQTy0j.png)
+
+  > 当server使用阻塞IO(如InputStream.read()), 在数据没有到达前，read 会挂起，进程会卡住. 需要client在发送完数据后, 显式告诉server发送完毕(`void shutdownOutput()`)
+
+-  UDP通信
+
+  1. DatagramSocket与DatagramPacket
+
+     UDP数据报通过数据报套接字DatagramSocket发送和接收,
+
+     DatagramPacket对象封装了UDP数据报，在数据报中包含了发送端的IP地址和端口号以及接收端的IP地址和端口号
+
+  2. 建立发送端，接收端
+  3. 建立数据包
+  4. 调用Socket的发送、接收方法
+  5. 关闭Socket
+
+- URL编程
+
+  java.net.URL类
+
+  - URL的方法 `InputStream openStream()`:能从网络上读取数据
+  - URLConnection: 要发送数据, 则先建立连接. 通过`URLConnection openConnection()`生成URLConnection对象
+
+
 
 
