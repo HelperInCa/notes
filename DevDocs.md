@@ -37,7 +37,7 @@
 
 ## Java
 
-[notes](https://github.com/HelperInCa/notes/blob/master/older/Java%20basic.md)
+[notes](https://github.com/HelperInCa/notes/blob/master/modules/Java.md)
 
 ## Python3
 
@@ -54,11 +54,11 @@
 
 ## Golang
 
-[notes](https://github.com/HelperInCa/notes/blob/master/older/Golang%20basics.md)
+[notes](https://github.com/HelperInCa/notes/blob/master/modules/Golang.md)
 
 ## Database
 
-[notes](https://github.com/HelperInCa/notes/blob/master/older/Database.md)
+[notes](https://github.com/HelperInCa/notes/blob/master/modules/Database.md)
 
 # Hotkeys
 
