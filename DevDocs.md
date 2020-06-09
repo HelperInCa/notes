@@ -62,7 +62,7 @@
 
 # Hotkeys
 
-- [collections](https://github.com/HelperInCa/notes/blob/master/modules/hotkey.md)
+[Collections](https://github.com/HelperInCa/notes/blob/master/modules/hotkey.md)
 
 # Git
 
@@ -323,7 +323,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   - `pip` = `pip3`
 
-  - `proxy `  terminal走代理
+  - `proxy `  terminal走sock5
 
     `unproxy`  关闭 
 
