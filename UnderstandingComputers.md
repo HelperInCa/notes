@@ -37,6 +37,7 @@
     - [早期交付](#%E6%97%A9%E6%9C%9F%E4%BA%A4%E4%BB%98)
     - [降低风险](#%E9%99%8D%E4%BD%8E%E9%A3%8E%E9%99%A9)
   - [如何进行每一次迭代 (How to agile develop)](#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%AF%8F%E4%B8%80%E6%AC%A1%E8%BF%AD%E4%BB%A3-how-to-agile-develop)
+- [Code Review](#code-review)
 - [Linux](#linux)
   - [What's Linux](#whats-linux)
   - [参考](#%E5%8F%82%E8%80%83)
@@ -48,6 +49,8 @@
   - [队列](#%E9%98%9F%E5%88%97)
   - [链表](#%E9%93%BE%E8%A1%A8)
   - [栈](#%E6%A0%88)
+  - [递归](#%E9%80%92%E5%BD%92)
+  - [排序](#%E6%8E%92%E5%BA%8F)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
