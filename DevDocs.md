@@ -149,7 +149,7 @@
 
     Body部分的格式是固定的，必须写成`This reverts commit <hash>.`
 
-- Commitizen
+- **Commitizen**
 
   撰写合格 Commit message 的工具
 
@@ -181,7 +181,11 @@
 
 ## git remote
 
-### rename
+- add
+
+  `git remote add [remote name] [remote URL]`
+
+- rename
 
 Use the `git remote rename` command to rename an existing remote.
 
@@ -195,7 +199,7 @@ $ git remote rename origin destination
 # Change remote name from 'origin' to 'destination'
 ```
 
-### remove
+- remove
 
 Use the `git remote rm` command to remove a remote URL from your repository.
 
