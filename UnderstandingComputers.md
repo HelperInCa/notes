@@ -5,10 +5,18 @@
 - [Software Architecture](#software-architecture)
 - [Design pattern](#design-pattern)
 - [Computer network](#computer-network)
-  - [RESTful:](#restful)
-  - [HTTP](#http)
-      - [三次握手](#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B)
-      - [四次分手](#%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B)
+  - [网络体系](#%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB)
+  - [IP地址(TODO)](#ip%E5%9C%B0%E5%9D%80todo)
+  - [子网掩码及网络划分(TODO)](#%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%88%92%E5%88%86todo)
+  - [ARP/RARP协议](#arprarp%E5%8D%8F%E8%AE%AE)
+  - [路由选择协议](#%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE)
+  - [TCP/IP(TODO)](#tcpiptodo)
+  - [UDP](#udp)
+  - [NAT协议](#nat%E5%8D%8F%E8%AE%AE)
+  - [DHCP协议](#dhcp%E5%8D%8F%E8%AE%AE)
+  - [HTTP(TODO)](#httptodo)
+  - [RESTful(Representational State Transfer)](#restfulrepresentational-state-transfer)
+  - [举例](#%E4%B8%BE%E4%BE%8B)
 - [容错/高可用/灾备](#%E5%AE%B9%E9%94%99%E9%AB%98%E5%8F%AF%E7%94%A8%E7%81%BE%E5%A4%87)
 - [Important flow charts](#important-flow-charts)
   - [spring 生命周期](#spring-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
@@ -178,35 +186,155 @@
 
 # Computer network
 
-> [参考](https://juejin.im/post/5ad7e6c35188252ebd06acfa#heading-24)
+> [参考1](https://juejin.im/post/5ad7e6c35188252ebd06acfa)
+>
+> [refer2](https://www.cnblogs.com/maybe2030/p/4781555.html)
 
-## RESTful:
+## 网络体系
 
-- (Resource): 信息实体,uri
-- Representation: 形式 eg: 文本可以用txt, HTML, XML
-- State Transfer: 表现层转化
+- `OSI`体系结构：概念清楚 & 理念完整，但复杂 & 不实用
 
-## HTTP
+  ![20200628UiIt6f](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628UiIt6f.jpg)
 
-![image-20181106021059323](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051327.png)
+- `TCP` / `IP`体系结构：含了一系列构成互联网基础的网络协议，是`Internet`的核心协议 & 被广泛应用于局域网 和 广域网
 
-#### 三次握手
+  ![20200628bIxx6C](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628bIxx6C.jpg)
 
-![image-20190803095209464](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051332.jpg)
+- 五层体系结构：融合了`OSI` 与 `TCP` / `IP`的体系结构，目的是为了学习 & 讲解计算机原理
 
+补充:
+
+1. 物理层（Physical Layer）
+
+   - 重要设备: 中继器（Repeater，也叫放大器), 集线器
+
+2. 数据链路层（Data Link Layer）
+
+   - 主要的协议：以太网协议(链路层与物理层之间)
+
+   - 重要设备：网桥, 交换机
+
+3. 网络层（Network Layer）
+
+   - 基本数据单位: 数据报(Datagram)
+   - 重要设备：路由器
+
+4. 传输层（Transport Layer）
+
+   - 重要设备：网关
+
+## IP地址(TODO)
+
+## 子网掩码及网络划分(TODO)
+
+计算子网掩码时，注意IP地址中的保留地址，即“ 0”地址和广播地址，它们是指主机地址或网络地址全为“ 0”或“ 1”时的IP地址，它们代表着本网络地址和广播地址，一般是不能被计算在内的。
+
+## ARP/RARP协议
+
+- 地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。
+- ARP命令可用于查询本机ARP缓存中IP地址和MAC地址的对应关系、添加或删除静态对应关系等。
+- 逆地址解析协议，即RARP，功能和ARP协议相对，其将局域网中某个主机的物理地址转换为IP地址，
+
+## 路由选择协议
+  - RIP协议 ：底层是贝尔曼福特算法，它选择路由的度量标准（metric)是跳数，最大跳数是15跳，如果大于15跳，它就会丢弃数据包。
+  - OSPF协议 ：Open Shortest Path First开放式最短路径优先，底层是迪杰斯特拉算法，是链路状态路由选择协议，它选择路由的度量标准是带宽，延迟。
+## TCP/IP(TODO)
+
+> [refer](https://www.jianshu.com/p/65605622234b)
+
+- 由网络层的IP协议和传输层的TCP(Transmission Control Protocol)协议组成。
+- 总结: TCP负责发现传输的问题，一有问题就发出信号，要求重新传输，直到所有数据安全正确地传输到目的地。而IP是给因特网的每一台联网设备规定一个地址。
+- 基于TCP的应用层协议
+  FTP（文件传输协议）、Telnet（远程登录协议）、SMTP（简单邮件传输协议）、POP3（和SMTP相对，用于接收邮件）、HTTP协议等
+- TCP报文首部格式
+  ![20200628fSRSfz](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628fSRSfz.jpg)
+- TCP的三次握手, 四次挥手
+  ![image-20190803095209464](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-051332.jpg)
+- 三次握手
 1. 第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，Sequence Number为x；然后，客户端进入SYN_SEND状态，等待服务器的确认；
+
 2. 第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置Acknowledgment Number为x+1(Sequence Number+1)；同时，自己自己还要发送SYN请求信息，将SYN位置为1，Sequence Number为y；服务器端将上述所有信息放到一个报文段（即SYN+ACK报文段）中，一并发送给客户端，此时服务器进入SYN_RECV状态；
+
 3. 第三次握手：客户端收到服务器的SYN+ACK报文段。然后将Acknowledgment Number设置为y+1，向服务器发送ACK报文段，这个报文段发送完毕以后，客户端和服务器端都进入ESTABLISHED状态，完成TCP三次握手。
-   完成了三次握手，客户端和服务器端就可以开始传送数据。以上就是TCP三次握手的总体介绍。
+    完成了三次握手，客户端和服务器端就可以开始传送数据。
 
-#### 四次分手
+  - 四次分手
 
-当客户端和服务器通过三次握手建立了TCP连接以后，当数据传送完毕，要断开TCP连接的啊。那对于TCP的断开连接，就有“四次分手”。
+  当数据传送完毕，要断开TCP连接。那对于TCP的断开连接，就有“四次分手”。
 
-1. 第一次分手：主机1（可以使客户端，也可以是服务器端），设置Sequence Number和Acknowledgment Number，向主机2发送一个FIN报文段；此时，主机1进入FIN_WAIT_1状态；这表示主机1没有数据要发送给主机2了；
-2. 第二次分手：主机2收到了主机1发送的FIN报文段，向主机1回一个ACK报文段，Acknowledgment Number为Sequence Number加1；主机1进入FIN_WAIT_2状态；主机2告诉主机1，我“同意”你的关闭请求；
-3. 第三次分手：主机2向主机1发送FIN报文段，请求关闭连接，同时主机2进入LAST_ACK状态；
-4. 第四次分手：主机1收到主机2发送的FIN报文段，向主机2发送ACK报文段，然后主机1进入TIME_WAIT状态；主机2收到主机1的ACK报文段以后，就关闭连接；此时，主机1等待2MSL后依然没有收到回复，则证明Server端已正常关闭，那好，主机1也可以关闭连接了。
+4. 第一次分手：主机1（可以使客户端，也可以是服务器端），设置Sequence Number和Acknowledgment Number，向主机2发送一个FIN报文段；此时，主机1进入FIN_WAIT_1状态；这表示主机1没有数据要发送给主机2了；
+
+5. 第二次分手：主机2收到了主机1发送的FIN报文段，向主机1回一个ACK报文段，Acknowledgment Number为Sequence Number加1；主机1进入FIN_WAIT_2状态；主机2告诉主机1，我“同意”你的关闭请求；
+
+6. 第三次分手：主机2向主机1发送FIN报文段，请求关闭连接，同时主机2进入LAST_ACK状态；
+
+7. 第四次分手：主机1收到主机2发送的FIN报文段，向主机2发送ACK报文段，然后主机1进入TIME_WAIT状态；主机2收到主机1的ACK报文段以后，就关闭连接；此时，主机1等待2MSL后依然没有收到回复，则证明Server端已正常关闭，那好，主机1也可以关闭连接了。
+  - 为什么要三次挥手？
+    在只有两次“握手”的情形下，假设Client想跟Server建立连接，但是却因为中途连接请求的数据报丢失了，故Client端不得不重新发送一遍；这个时候Server端仅收到一个连接请求，因此可以正常的建立连接。但是，有时候Client端重新发送请求不是因为数据报丢失了，而是有可能数据传输过程因为网络并发量很大在某结点被阻塞了，这种情形下Server端将先后收到2次请求，并持续等待两个Client请求向他发送数据...问题就在这里，Cient端实际上只有一次请求，而Server端却有2个响应，极端的情况可能由于Client端多次重新发送请求数据而导致Server端最后建立了N多个响应在等待，因而造成极大的资源浪费！所以，“三次握手”很有必要！
+  - 为什么要四次挥手？
+    试想一下，假如现在你是客户端你想断开跟Server的所有连接该怎么做？第一步，你自己先停止向Server端发送数据，并等待Server的回复。但事情还没有完，虽然你自身不往Server发送数据了，但是因为你们之前已经建立好平等的连接了，所以此时他也有主动权向你发送数据；故Server端还得终止主动向你发送数据，并等待你的确认。其实，就是保证双方的一个合约的完整执行！
+
+## UDP
+
+- 用户数据报协议 User Datagram Protocol
+  ![20200628gtr1ef](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628gtr1ef.jpg)
+
+  优点: 速度快; 
+
+  缺点: 消息易丢失
+
+- 基于`UDP`的应用层协议
+
+  域名转换：`DNS`协议, 文件传输：`FTP`协议, 网络管理：`SNMP`协议, 远程文件服务器：`NFS`协议
+
+- TCP, UDP 比较
+
+  ![20200628zE4PeL](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628zE4PeL.jpg)
+## NAT协议
+  NAT网络地址转换(Network Address Translation)属接入广域网(WAN)技术，是一种将私有（保留）地址转化为合法IP地址的转换技术，它被广泛应用于各种类型Internet接入方式和各种类型的网络中。原因很简单，NAT不仅完美地解决了lP地址不足的问题，而且还能够有效地避免来自网络外部的攻击，隐藏并保护网络内部的计算机。
+## DHCP协议
+  DHCP动态主机设置协议（Dynamic Host Configuration Protocol）是一个局域网的网络协议，使用UDP协议工作，主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段。
+## HTTP(TODO)
+
+> [refer](https://www.jianshu.com/p/a6d086a3997d)
+
+![20200628oUQ3h7](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628oUQ3h7.jpg)
+- HTTP 协议包括哪些请求？
+  GET：请求读取由URL所标志的信息。
+  POST：给服务器添加信息（如注释）。
+  PUT：在给定的URL下存储一个文档。
+  DELETE：删除给定的URL所标志的资源。
+- HTTP 中， POST 与 GET 的区别
+1. Get是从服务器上获取数据，Post是向服务器传送数据。
+2. Get是把参数数据队列加到提交表单的Action属性所指向的URL中，值和表单内各个字段一一对应，在URL中可以看到。
+3. Get传送的数据量小，不能大于2KB；Post传送的数据量较大，一般被默认为不受限制。
+4. 根据HTTP规范，GET用于信息获取，而且应该是安全的和幂等的。
+   - 所谓 安全的 意味着该操作用于获取信息而非修改信息。换句话说，GET请求一般不应产生副作用。就是说，它仅仅是获取资源信息，就像数据库查询一样，不会修改，增加数据，不会影响资源的状态。
+   - *幂等* 意味着对同一URL的多个请求应该返回同样的结果。
+
+## RESTful(Representational State Transfer)
+
+> [refer](https://www.ruanyifeng.com/blog/2011/09/restful.html)
+
+- Resource 资源: 信息实体,uri
+
+- Representation 表现层: eg: 文本可以用txt, HTML, XML格式表现
+
+- State Transfer 状态转化: HTTP协议中 GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源
+
+- [设计细节](https://www.ruanyifeng.com/blog/2018/10/restful-api-best-practices.html)
+
+## 举例
+在浏览器中输入 www.baidu.com  后执行的全部过程
+1）客户端浏览器通过DNS解析到 www.baidu.com 的IP地址220.181.38.148，通过这个IP地址找到客户端到服务器的路径。客户端浏览器发起一个HTTP会话到220.181.38.148，然后通过TCP进行封装数据包，输入到网络层。
+
+　　2）在客户端的传输层，把HTTP会话请求分成报文段，添加源和目的端口，如服务器使用80端口监听客户端的请求，客户端由系统随机选择一个端口如5000，与服务器进行交换，服务器把相应的请求返回给客户端的5000端口。然后使用IP层的IP地址查找目的端。
+
+　　3）客户端的网络层不用关系应用层或者传输层的东西，主要做的是通过查找路由表确定如何到达服务器，期间可能经过多个路由器，这些都是由路由器来完成的工作，不作过多的描述，无非就是通过查找路由表决定通过那个路径到达服务器。
+
+　　4）客户端的链路层，包通过链路层发送到路由器，通过邻居协议查找给定IP地址的MAC地址，然后发送ARP请求查找目的地址，如果得到回应后就可以使用ARP的请求应答交换的IP数据包现在就可以传输了，然后发送IP数据包到达服务器的地址。
+　　![20200628mkCSAo](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628mkCSAo.jpg)
+
 
 
 
@@ -701,5 +829,16 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 
 - 遍历 查找 删除
 
+- 线索化二叉树
+
+  - 添加了直接指向节点的前驱和后继的指针
+  - 线性遍历: 无需递归, 提高效率
   
+- 哈夫曼树
+  
+- 二叉排序树 BST
+
+- 平衡二叉树 (AVL tree) 
+
+- 
 

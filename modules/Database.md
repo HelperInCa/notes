@@ -3,7 +3,7 @@
 **Contents**
 
 - [MySQL](#mysql)
-- [SQL SEVER](#sql-sever)
+- [SQL SERVER](#sql-server)
   - [UNION & UNION ALL & JOINS](#union--union-all--joins)
   - [stored procedure](#stored-procedure)
     - [CREATE PROCEDURE or CREATE PROC:](#create-procedure-or-create-proc)
@@ -98,7 +98,7 @@ select column_list from tablename where condition order by column_list desc /*Âè
 
 ```
 
-# SQL SEVER
+# SQL SERVER
 
 ```mssql
 -- foreign key

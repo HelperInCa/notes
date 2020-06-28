@@ -19,8 +19,6 @@
   - [git push](#git-push)
   - [git pull](#git-pull)
   - [git remote](#git-remote)
-    - [rename](#rename)
-    - [remove](#remove)
   - [git rm](#git-rm)
   - [gitignore](#gitignore)
 - [Tools](#tools)
@@ -331,15 +329,17 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
     `unproxy`  关闭 
 
-  - `rm`实现 "回收站"功能
+    > 查看当前ip: `$curl cip.cc` or `$curl ip.cn`
 
+  - `rm`实现 "回收站"功能
+  
   - `gz`=`tar -xzvf`
     `tgz`=`tar -xzvf`
-    `zip`=`unzip`
+  `zip`=`unzip`
     `bz2`=`tar -xjvf`
 
   - `toc` MD生成目录
-
+  
     > 文件名不能有空格!
     
   - `ch`清空zsh历史记录
