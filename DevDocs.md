@@ -8,6 +8,7 @@
     - [(TBD)](#tbd)
   - [Golang](#golang)
   - [Database](#database)
+  - [运算符的优先级](#%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7)
 - [Hotkeys](#hotkeys)
 - [Git](#git)
   - [git init](#git-init)
@@ -57,6 +58,12 @@
 ## Database
 
 [notes](https://github.com/HelperInCa/notes/blob/master/modules/Database.md)
+
+## 运算符的优先级
+
+> [refer](https://www.cnblogs.com/pinlantu/p/9853493.html)
+
+若没有圆括号加以约束，那么对于数值变量来说，优先级顺序依次为：+正号、-负号 **＞** 乘号*、除号/、取余数符号% **＞** 加号+、减号- **＞** 大于号、等号、小于号、不等号 **＞** 各种赋值符号；对于布尔变量来说，优先级顺序依次为：逻辑非 **＞** 等号、不等号 **＞** 逻辑与、或、异或 **＞** 各种赋值符号。
 
 # Hotkeys
 

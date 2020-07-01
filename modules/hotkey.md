@@ -114,74 +114,93 @@
 
 # intelliJ IDEA
 
+> [refer](https://www.jetbrains.com/help/rider/Reference_Keymap_Rider_OSX.html?keymap=mac_os_x_10.5)
+
+- 常用
+
+  | Command                                                      | Shortcut    |
+  | ------------------------------------------------------------ | ----------- |
+  | [Open Solution or Project](https://www.jetbrains.com/help/rider/Creating_and_Opening_Projects_and_Solutions.html?keymap=mac_os_x_10.5#open_existing_project) | ⌃+⇧+O       |
+  | [Show Action List](https://www.jetbrains.com/help/rider/Actions_List.html?keymap=mac_os_x_10.5) | ⌥+Enter     |
+  | [Search Everywhere](https://www.jetbrains.com/help/rider/Searching_Everywhere.html?keymap=mac_os_x_10.5) | Double-⇧    |
+  | [Navigate To…](https://www.jetbrains.com/help/rider/Navigation_and_Search__Navigate_from_Here.html?keymap=mac_os_x_10.5) | ⌃+⇧+N       |
+  | [Find Usages](https://www.jetbrains.com/help/rider/Navigation_and_Search__Finding_Usages__Finding_Usages_of_a_Symbol.html?keymap=mac_os_x_10.5) | ⌥+F7        |
+  | [Select In...](https://www.jetbrains.com/help/rider/Navigation_and_Search__Context_Dependent_Navigation.html?keymap=mac_os_x_10.5#locating-current-item-in-other-views) | ⌥+F1        |
+  | [Settings...](https://www.jetbrains.com/help/rider/Rider_Settings.html?keymap=mac_os_x_10.5) | ⌘+,         |
+  | [Find Action...](https://www.jetbrains.com/help/rider/Navigating_to_Action.html?keymap=mac_os_x_10.5) | ⌘+⇧+A       |
+  | [Generate...](https://www.jetbrains.com/help/rider/Generating_Type_Members.html?keymap=mac_os_x_10.5) | ⌘+N ⌃+Enter |
+  | [Build Solution](https://www.jetbrains.com/help/rider/Building_Projects.html?keymap=mac_os_x_10.5) | ⌘+F9        |
+  | [Debug...](https://www.jetbrains.com/help/rider/Starting_Debugging.html?keymap=mac_os_x_10.5) | ⌃+⌥+D       |
+  | [View Breakpoints...](https://www.jetbrains.com/help/rider/Using_Breakpoints.html?keymap=mac_os_x_10.5) | ⌘+⇧+F8      |
+  | [Attach to Process...](https://www.jetbrains.com/help/rider/Starting_Debugging.html?keymap=mac_os_x_10.5) | ⌥+⇧+F5      |
+  | [VCS Operations Popup...](https://www.jetbrains.com/help/rider/Version_Control_Integration.html?keymap=mac_os_x_10.5) | ⌃+V         |
+  | [Refactor This...](https://www.jetbrains.com/help/rider/Refactor_This.html?keymap=mac_os_x_10.5) | ⌃+T         |
+  | [Inspect This...](https://www.jetbrains.com/help/rider/Code_Analysis__Inspect_This.html?keymap=mac_os_x_10.5) | ⌘+⌥+⇧+A     |
+
 - Editing（编辑）
-  
+
   - `⌘ + ⇧ + 上/下` 上下移动当前行代码. 若光标在方法前, 则移动整个方法
-  
-- `⌘ + 左/右` 定位到行首/行末
-  
+
+  - `⌘ + 左/右` 定位到行首/行末
+
     `⌥ + 左/右` 定位到前一个单词
 
   - `Control + Space` 基本的代码补全（补全任何类、方法、变量）
-  
+
   - `Control + Shift + Space` 智能代码补全（过滤器方法列表和变量的预期类型）
     
   - `Command + Shift + Enter` 自动结束代码，行末自动添加分号
 
-    - `F1` 查看文档, 参数信息
+  - `F1` 查看文档, 参数信息
+
+  - `Command + 鼠标放在代码上` 显示代码简要信息
+
+  - `Command + F1` 在错误或警告处显示具体描述信息
     
-- `Command + 鼠标放在代码上` 显示代码简要信息
-  
-    - `Command + F1` 在错误或警告处显示具体描述信息
-  
   - `Command + N, Control + Enter, Control + N` 生成代码（getter、setter、构造函数、hashCode/equals,toString）
-  
+
   - `Control + O` 覆盖方法（重写父类方法）
     
   - `Control + I` 实现方法（实现接口中的方法）
 
-    - `Command + Option + T` 包围代码（使用if..else, try..catch, for, synchronized等包围选中的代码）
+  - `Command + Option + T` 包围代码（使用if..else, try..catch, for, synchronized等包围选中的代码）
+
+  - `Option + 方向键上` 连续选中代码块
     
-- `Command + Option + /` 注释/取消注释与块注释
-  
-    - `Option + 方向键上` 连续选中代码块
-  
   - `Option + 方向键下` 减少当前选中的代码块
-  
+
   - `Control + Shift + Q` 显示上下文信息
     
   - `Option + Enter` 显示意向动作和快速修复代码
 
-    - `Command + Option + L` 格式化代码
+  - `Command + Option + L` 格式化代码
+
+  - `Control + Option + O` 优化import
+
+  - `Control + Option + I` 自动缩进线
     
-- `Control + Option + O` 优化import
-  
-    - `Control + Option + I` 自动缩进线
-  
   - `Tab / Shift + Tab` 缩进代码 / 反缩进代码
-  
+
   - `Command + D` 复制当前行或选定的块
     
   - `Command + Delete` 删除当前行或选定的块的行
-  
-    - `Control + Shift + J` 智能的将代码拼接成一行
-    
-  - `Command + Enter` 智能的拆分拼接的行
-  
-    - `Command + Shift + ] / Command + Shift + [` 选择直到代码块结束/开始
-    
+
+  - `Control + Shift + J` 智能的将代码拼接成一行
+
+    `Command + Enter` 智能的拆分拼接的行
+
+  - `Command + Shift + ] / Command + Shift + [` 选择直到代码块结束/开始
+
   - `Option + Fn + Delete` 删除到单词的末尾
-  
-    - `Option + Delete` 删除到单词的开头
-    
+
+    `Option + Delete` 删除到单词的开头
+
   - `Command + 加号 / Command + 减号` 展开 / 折叠代码块
-  
-    - `Command + Shift + 加号` 展开所有代码块
-    
-  - `Command + Shift + 减号` 折叠所有代码块
-  
-  - `Command + W` 关闭活动的编辑器选项卡
-  
+
+    `Command + Shift + 加号` 展开所有代码块
+
+    `Command + Shift + 减号` 折叠所有代码块
+
 - Search/Replace（查询/替换）
   - `Double Shift` 查询任何东西
   - `Command + F` 文件内查找
