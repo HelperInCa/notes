@@ -28,7 +28,10 @@
 - [Docker](#docker)
   - [脑图](#%E8%84%91%E5%9B%BE)
 - [Bash](#bash)
-- [alias](#alias)
+- [My Alias](#my-alias)
+- [Spring Boot](#spring-boot)
+- [Jira](#jira)
+- [Spring](#spring)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -399,3 +402,200 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
 # Jira
 
+# Spring
+
+- Pros:
+
+  - Lightweight
+  - opensource
+
+- **IoC(Inversion of Control)** 控制反转
+
+  - non invasive: no need to implement any interface or inherit any class from Spring to your classes, so whenever you want to change from Spring to your classes, then you do not need to change your class
+
+  - end to end development: Spring supports all aspects of developments
+
+  - Dependency Injection (DI) 
+
+    tight couple -> loose couple 
+
+  
+
+- IoC container
+
+  The container gets its instructions on what objects to instantiate, configure, and assemble by reading configuration metadata. The configuration metadata is represented in XML, Java annotations, or Java code.
+
+  - DI -> reflection: 允许程序在运行的时候动态的生成对象、执行对象的方法、改变对象的属性，spring就是通过反射来实现注入的。
+
+  ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-054653.jpg)
+
+  - IoC 容器底层是对象工厂
+
+    Spring提供2种实现方式:
+
+    ![20200727094444](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200727094444.png)
+
+- Bean管理
+
+  - Singleton: default
+
+  - Prototype
+
+  - 什么是Bean管理
+
+    - Spring 创建对象
+    - Spring 注入属性
+
+   - Bean管理的两种方式
+
+     - XML
+
+       - 创建对象
+
+         ![20200727110444](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200727110444.png)
+
+       - DI(Dependency Injection) 依赖注入, 就是注入属性
+
+         > DI vs. IoC: DI 是 IoC 的具体实现方式
+
+         - setter
+
+           ![20200727112243](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200727112243.png)
+
+         - 有参构造器
+
+           ![image-20200727112348507](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200727112348.png)
+
+         - p名称空间注入(简化setter)
+
+         - 注入其他类型属性
+
+           - null
+
+             ```xml
+             <property name="address">
+             	<null/>
+             </property>
+             ```
+
+           - 属性值包含特殊符号
+
+             ```xml
+             <!--例如<南京>
+             	1. 转义 &lt; &gt;
+             	2. 写入CDATA
+             -->
+             <property name="address">
+             	<value><![CDATA[<南京>]]></value>
+             </property>
+             ```
+
+         - 注入外部Bean
+
+           <img src="https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200727165511.png" alt="20200727165511" style="zoom:150%;" />
+           
+         - 注入内部bean
+
+           ![image-20200728161010240](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200728161010.png)
+
+           ![image-20200728161353468](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200728161353.png)
+
+         - 级联赋值
+
+           1. ![image-20200728164008182](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200728164008.png)
+
+           2. ![image-20200728164307470](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200728164307.png)
+
+              ```xml
+              <bean id="emp" class="com.atguigu.spring5.bean.Emp">
+              	<!--设置两个普通属性-->
+                  <property name="ename" value="lucy"></property>
+                  <property name="gender" value="女"></property>
+              	<!--级联赋值-->
+                  <property name="dept" ref="dept"></property>
+              	<property name="dept.dname" value="技术部"></property>
+              </bean>
+              <bean id="dept" class="com.atguigu.spring5.bean.Dept">
+                  <property name="dname" value="财务部"></property>
+              </bean>
+              ```
+
+         - 注入集合属性
+
+           属性: array, List, Map, Set
+
+           1. 创建类，定义数组、list、map、set 类型属性，生成对应 set 方法
+
+           2. 配置文件
+
+              ```xml
+              <bean id="stu" class="com.atguigu.spring5.collectiontype.Stu">
+              	<!--array属性注入-->
+                  <property name="courses">
+                  	<array>
+                      	<value>Java</value>
+                          <value>MySQL</value>
+                      </array>
+                  </property>
+                  <!--list 类型属性注入-->
+                  <property name="list">
+                  	<list>
+                      	<value>Jack</value>
+                          <value>Rose</value>
+                      </list>
+                  </property>
+                  <!--map 类型属性注入-->
+                  <property name="maps">
+                  	<map>
+                      	<entry key="JAVA" value="java"></entry>
+                          <entry key="PHP" value="php"></entry>
+                      </map>
+                  </property>
+                  <!--set 类型属性注入-->
+                  <property name="sets">
+                  	<set>
+                      	<value>Redis</value>
+                          <value>Google</value>
+                      </set>
+                  </property>
+              </bean>
+              ```
+
+           3. 集合里面设置对象类型值
+
+              ![20200728200521](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200728200521.png)
+
+           4. 把集合注入部分提取出来
+
+              1. XML中引入命名空间 util
+
+                 ![image-20200728201753847](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200728201754.png)
+
+              2. 使用 util 标签完成集合类型属性注入
+
+                 ```xml
+                 <!--1 提取 list 集合类型属性注入-->
+                 <util:list id="bookList">
+                 	<value>书1</value>
+                     <value>书2</value>
+                     <value>书3</value>
+                 </util:list>
+                 <!--2 提取 list 集合类型属性注入使用-->
+                 <bean id="book" class="com.atguigu.spring5.collectiontype.Book">
+                 	<property name="list" ref="bookList"></property>
+                 </bean>
+                 ```
+
+                 
+
+     - Annotation
+
+- **AOP**(Aspect Oriented Programming) 面向切面编程
+
+  *what where when*
+
+  - Aspect: classes like TimeRecordingAspect, LogAspect, etc
+  - Pointcut: Regular Expression
+  - Advice: @Before, @AfterReturning, @Around 
+
+- SSH(Struts, Spring, Hibernate)
