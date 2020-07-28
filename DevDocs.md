@@ -154,6 +154,48 @@
 
     Body部分的格式是固定的，必须写成`This reverts commit <hash>.`
 
+- Commit message template
+
+  ```bash
+  # 当前项目目录下
+  $ git config commit.template [filepath]
+  # 全局
+  $ git config --global commit.template [filepath]
+  ```
+
+  一份建议的模版
+
+  ```bash
+  # <类型>(<scope>): <主题> (最多50个字)
+  
+  # 解释为什么要做这些改动
+  # |<----  请限制每行最多72个字   ---->|
+  
+  # 提供相关文章和其它资源的链接和关键字
+  # 例如: Github issue #23
+  
+  # --- 提交 结束 ---
+  # 类型值包含
+  #    feat (新特性)
+  #    fix (bug修复)
+  #    docs (文档改动)
+  #    style (格式化, 缺失分号等; 不包括生产代码变动)
+  #    refactor (重构代码)
+  #    test (添加缺失的测试, 重构测试, 不包括生产代码变动)
+  #    chore (更新grunt任务等; 不包括生产代码变动)
+  # --------------------
+  # 注意
+  #    主题和内容以一个空行分隔
+  #    主题限制为最大50个字
+  #    主题行结束不用标点
+  #    主题行使用祈使名
+  #    内容每行72个字
+  #    内容用于解释为什么和是什么,而不是怎么做
+  #    内容多行时以'-'分隔
+  ```
+
+  
+
 - **Commitizen**
 
   撰写合格 Commit message 的工具
@@ -324,7 +366,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
 - [参考](https://wangdoc.com/bash/index.html)
 
-# alias 
+# My Alias
 
 - ~/.zshrc
 
@@ -350,4 +392,10 @@ Use the `git remote rm` command to remove a remote URL from your repository.
     > 文件名不能有空格!
     
   - `ch`清空zsh历史记录
+
+# Spring Boot
+
+[NoteTODO]()
+
+# Jira
 
