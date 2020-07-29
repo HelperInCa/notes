@@ -32,6 +32,8 @@
 - [Spring Boot](#spring-boot)
 - [Jira](#jira)
 - [Spring](#spring)
+  - [IoC(Inversion of Control) 控制反转](#iocinversion-of-control-%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC)
+  - [Bean管理](#bean%E7%AE%A1%E7%90%86)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -408,8 +410,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   - Lightweight
   - opensource
-
-- **IoC(Inversion of Control)** 控制反转
+## IoC(Inversion of Control) 控制反转
 
   - non invasive: no need to implement any interface or inherit any class from Spring to your classes, so whenever you want to change from Spring to your classes, then you do not need to change your class
 
@@ -435,7 +436,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
     ![20200727094444](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200727094444.png)
 
-- Bean管理
+## Bean管理
 
   - Singleton: default
 
