@@ -586,9 +586,244 @@ Use the `git remote rm` command to remove a remote URL from your repository.
                  </bean>
                  ```
 
-                 
+         - Factory Bean
+
+           1. 普通Bean: 配置文件中定义Bean类型就是返回类型
+
+           2. Factory Bean: 配置文件中定义Bean类型可以和返回类型不一样
+
+              1. 创建类, 让类作为Factory Bean, 实现接口FactoryBean
+
+              2. 在要实现的方法中定义返回的Bean类型
+
+              ![image-20200729100300413](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729100300.png)
+
+         - Bean作用域
+
+           - Spring中 可以设置bean实例为单实例还是多实例, *默认单实例*
+
+           - 如何设置单实例/多实例
+
+             1. 配置文件bean标签里属性 scope 用于设置单例还是多例
+             2. scope: 
+                - singleton 默认
+                - prototype
+
+             3. singleton 和 prototype 区别
+                 第一 singleton单实例，prototype多实例
+                 第二 设置 scope 值是 singleton 时候，加载 spring 配置文件时候就会创建单实例对象;
+
+                设置 scope 值是 prototype 时候，不是在加载 spring 配置文件时候创建 对象，在调用 getBean 方法时候创建多实例对象
+
+             ![image-20200729103410317](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729103410.png)
+
+         - Bean生命周期(7步)
+
+           1. 通过构造器创建 bean 实例(无参数构造)
+           2. 为 bean 的属性设置值和对其他 bean 引用(调用 set 方法)
+           3. 把 bean 实例传递 bean 后置处理器的方法 postProcessBeforeInitialization
+           4. 调用 bean 的初始化的方法(需要进行配置初始化的方法)
+           5. 把 bean 实例传递 bean 后置处理器的方法 postProcessAfterInitialization 
+           6. bean 可以使用了(对象获取到了)
+           7. 当容器关闭时候，调用 bean 的销毁的方法(需要进行配置销毁的方法)
+
+           ```java
+           public class Orders {
+               // 无参构造
+               public Orders {
+                   System.out.println("第一步 执行无参数构造创建 bean 实例");
+               }
+               private String oname;
+           	public void setOname(String oname) {
+           		this.oname = oname;
+           		System.out.println("第二步 调用 set 方法设置属性值"); 
+               }
+               // 创建执行的初始化的方法
+           	public void initMethod() {
+                   System.out.println("第三步 执行初始化的方法");
+               }
+               //创建执行的销毁的方法
+           	public void destroyMethod() { 
+                   System.out.println("第五步 执行销毁的方法");
+           	}
+           }
+           ```
+
+           
+
+           ![image-20200729113951271](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729113951.png)
+
+           ![image-20200729113904874](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729113905.png)
+
+         - XML自动装配(常用注解方式实现此功能)
+
+           根据指定装配规则(属性名称或者属性类型)，Spring 自动将匹配的属性值进行注入
+
+           - 根据属性名称自动注入
+
+             ```xml
+             <bean id="emp" class="com.atguigu.spring5.autowire.Emp" autowire="byName">
+             	<!--<property name="dept" ref="dept"></property>-->
+             </bean>
+             <bean id="dept" class="com.atguigu.spring5.autowire.Dept"></bean>
+             ```
+
+           - 根据属性类型自动注入
+
+             ```xml
+             <bean id="emp" class="com.atguigu.spring5.autowire.Emp" autowire="byType"> 
+                 <!--<property name="dept" ref="dept"></property>-->
+             </bean>
+             <bean id="dept" class="com.atguigu.spring5.autowire.Dept"></bean>
+             ```
+
+         - XML外部属性文件
+
+           > 直接配置数据库
+           >
+           > ![image-20200729152954625](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729152954.png)
+
+           1. 创建外部属性文件，properties 格式文件，写数据库信息
+
+              ![image-20200729153122868](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729153123.png)
+
+           2. 把外部 properties 属性文件引入到 spring 配置文件中
+
+              引入 context 命名空间
+
+              ![image-20200729153704267](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729153704.png)
 
      - Annotation
+
+       - 注解是什么
+
+         1. 注解是代码特殊标记，格式:@注解名称(属性名称=属性值, 属性名称=属性值..) 
+         2. 注解在类/方法/属性上面
+         3. 目的:简化 xml 配置
+
+       - 四个注解
+
+         1. `@Component`
+
+         2. `@Service`
+
+         3. `@Controller`
+
+         4. `@Repository`
+
+          四个注解功能是一样的，都可以用来创建 bean 实例
+         
+       - 注解 创建对象
+
+         1. 引入依赖
+
+            `spring-aop-5.2.8.RELEASE.jar`
+
+         2. 开启组件扫描
+
+            ```xml
+            <!--
+            a. 如果扫描多个包，多个包使用逗号隔开 b. 扫描包上层目录
+            -->
+            <context:component-scan base-package="com.atguigu"></context:component-scan>
+            ```
+
+         3. 创建类，在类上面添加创建对象注解
+
+            ```java
+            //在注解里面 value 属性值可以省略不写， 
+            //默认值是类名称，首字母小写 
+            //UserService -- userService
+            @Component(value = "userService") //<bean id="userService" class=".."/> 
+            public class UserService {
+            	public void add() { 
+                	System.out.println("service add.......");
+            	} 
+            }
+            ```
+
+         - 开启组件扫描配置细节
+
+           ![image-20200729171043241](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200729171043.png)
+
+       - 注解 注入属性
+
+         1. `@AutoWired` 根据属性类型进行自动装配
+
+            - 把 service 和 dao 对象创建，在 service 和 dao 类添加创建对象注解
+
+            - 在 service 注入 dao 对象，在 service 类添加 dao 类型属性，在属性上面使用注解
+
+            ```java
+            @Service
+            public class UserService { 
+                //添加注入属性注解
+                //定义 dao 类型属性 
+                //不需要添加 set 方法     
+            	@Autowired
+                private UserDao userDao;
+            	
+                public void add() { 
+                    System.out.println("service add.......");
+                    userDao.add();
+            	} 
+            }
+            ```
+
+         2. `@Qualifier` 根据名称进行注入
+
+            *要和`@AutoWired`组合使用*
+
+            ```java
+            @Autowired //根据类型进行注入
+            @Qualifier(value = "userDaoImpl1") //根据名称进行注入 
+            private UserDao userDao;
+            ```
+
+            
+
+         3. `@Resource` 可以根据类型或名称注入
+
+            ```java
+            //@Resource //根据类型进行注入
+            @Resource(name = "userDaoImpl1") //根据名称进行注入 
+            private UserDao userDao;
+            ```
+
+            > `@Resource` 是`javax.annotation.Resource`, 不是Spring中的, 推荐使用`@AutoWired` `@Qualifier`
+
+         4. `@Value` 普通类型注入
+
+            ```java
+            @Value(value = "abc") 
+            private String name;
+            ```
+
+       - 完全注解开发
+
+         1. 创建配置类，替代 xml 配置文件
+
+         ```java
+         @Configuration //作为配置类，替代xml配置文件 @ComponentScan(basePackages = {"com.atguigu"}) 
+         public class SpringConfig {
+         }
+         ```
+
+         2. 编写测试类
+
+         ```java
+         @Test
+         public void testService2() { 
+             //加载配置类
+         	ApplicationContext context
+         = new AnnotationConfigApplicationContext(SpringConfig.class);
+         	UserService userService = context.getBean("userService", UserService.class);
+         	System.out.println(userService);
+         	userService.add();
+         }  
+         ```
+
+         
 
 - **AOP**(Aspect Oriented Programming) 面向切面编程
 
