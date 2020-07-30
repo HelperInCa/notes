@@ -410,7 +410,9 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   - Lightweight
   - opensource
-## IoC(Inversion of Control) 控制反转
+## IoC(Inversion of Control) 
+
+控制反转
 
   - non invasive: no need to implement any interface or inherit any class from Spring to your classes, so whenever you want to change from Spring to your classes, then you do not need to change your class
 
@@ -449,7 +451,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
    - Bean管理的两种方式
 
-     - XML
+     - 配置文件(XML)
 
        - 创建对象
 
@@ -826,12 +828,349 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
          
 
-- **AOP**(Aspect Oriented Programming) 面向切面编程
+## **AOP**(Aspect Oriented Programming) 
+面向切面编程: 对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提					高程序的可重用性，同时提高了开发的效率.
 
-  *what where when*
+​					通俗描述: 不通过修改源代码方式, 在主干功能里添加新功能
 
-  - Aspect: classes like TimeRecordingAspect, LogAspect, etc
-  - Pointcut: Regular Expression
-  - Advice: @Before, @AfterReturning, @Around 
+- 动态代理
+
+  - 有接口时, 使用 JDK 动态代理
+
+    *创建接口实现类代理对象，增强类的方法*
+
+    ![image-20200730134350329](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730134350.png)
+
+  - 没有接口时, 使用 CGLIB 动态代理
+
+    *创建子类的代理对象，增强类的方法*
+
+    ![image-20200730111817011](/Users/qing/Library/Application%20Support/typora-user-images/image-20200730111817011.png)
+
+- JDK 动态代理
+
+  - 原理: 使用 Proxy 类里面的方法创建代理对象
+
+    `java.lang.reflect.Proxy`
+
+    ```java
+    public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h)
+    返回指定接口的代理类的实例, 该接口将方法调用分派给指定的调用处理程序
+    ```
+
+    三个参数:
+
+    - 类加载器 
+    - 增强方法所在的类，这个类实现的接口，支持多个接口 
+    - 实现这个接口 InvocationHandler，创建代理对象，写增强的部分
+
+  - JDK动态代理代码
+
+    1. 创建接口，定义方法
+
+       ```java
+       public interface UserDao {
+       	public int add(int a,int b); 
+           public String update(String id);
+       }
+       ```
+
+       
+
+    2. 创建接口实现类，实现方法
+
+       ```java
+       public class UserDaoImpl implements UserDao { 
+           @Override
+           public int add(int a, int b) {
+               return a+b;
+       	}
+       	@Override
+           public String update(String id) {
+               return id;
+       	} 
+       }
+       ```
+
+       
+
+    3. 使用 Proxy 类创建接口代理对象
+
+       ```java
+       public class JDKProxy{
+           public static void main(String[] args) {
+               //创建接口实现类代理对象
+       		Class[] interfaces = {UserDao.class};
+               UserDaoImpl userDao = new UserDaoImpl();
+       		UserDao dao =(UserDao)Proxy.newProxyInstance(JDKProxy.class.getClassLoader(), interfaces, new UserDaoProxy(userDao));
+               int result = dao.add(1, 2);
+       		System.out.println("result:"+result);
+           }
+       }
+       
+       //创建代理对象代码
+       class UserDaoProxy implements InvocationHandler { 
+           //1. 把创建的是谁的代理对象，把谁传递过来 
+           //有参数构造传递
+       	private Object obj;
+       	public UserDaoProxy(Object obj) { 
+               this.obj = obj;
+       	}
+       	//增强的逻辑
+           @Override
+           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+               //方法之前
+               System.out.println("方法之前执行...."+method.getName()+" :传递的参 数..."+ Arrays.toString(args));
+               //被增强的方法执行
+               Object res = method.invoke(obj, args); 
+               //方法之后 
+               System.out.println("方法之后执行...."+obj); 
+               return res;
+           }
+       }
+       ```
+
+- 术语
+
+  - 切面 Aspect: 把增强用到切入点的过程
+  - 连接点 Join Point: 类中哪些方法可以被增强的方法, 这些方法称为连接点
+  - 切入点Point cut: 实际被增强的方法
+  - 通知(增强) Advice: 实际增强的逻辑部分
+    - 前置 @Before
+    - 后置 @AfterReturning 返回后才通知, 所以有异常时不通知
+    - 环绕 @Around
+    - 异常 @AfterThrowing
+    - 最终 @After
+
+- 准备
+
+  1. Spring 框架一般都是基于 AspectJ 实现 AOP 操作
+      AspectJ 不是 Spring 组成部分，是独立 AOP 框架，一般把 AspectJ 和 Spirng 框架一起使用.
+
+  2. 实现AOP
+
+     - 基于注解✔️
+     - 基于 XML
+
+  3. 引入依赖
+
+     ![image-20200730155036008](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730155036.png)
+
+  4. 切入点表达式
+
+     1. 作用: 对哪个类里面的哪个方法进行增强
+
+     2. 语法: execution([权限修饰符] [返回类型(可省略] [类全路径].[方法名称]\([参数列表]) )
+
+        e.g. 
+
+        1. 对 `com.atguigu.dao.BookDao` 类里面的 add() 进行增强
+
+           ```java
+           execution(* com.atguigu.dao.BookDao.add(..))
+           ```
+
+           
+
+        2. 对 `com.atguigu.dao` 包里面所有类，类里面所有方法进行增强
+
+           ```java
+           execution(* com.atguigu.dao.*.*(..))
+           ```
+
+           
+
+- AspectJ 注解
+
+  1. 创建类，在类里面定义方法
+
+     ```java
+     public class User {
+         public void add() {
+         	System.out.println("add......."); 
+         }
+     }
+     ```
+
+  2. 创建增强类
+
+     ```java
+     public class UserProxy {
+     	//前置通知
+         public void before() {
+     		System.out.println("before......"); 
+         }
+     }
+     ```
+
+  3. 通知的配置
+
+     1. 在配置文件中, 开启注解扫描
+
+        ![image-20200730165825076](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730165825.png)
+
+     2. 使用注解创建 User 和 UserProxy 对象, 在增强类上面添加注解 `@Aspect`
+
+        ![image-20200730170015464](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730170015.png)
+
+        ![image-20200730170047740](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730170048.png)
+
+     3. 在配置文件中开启生成代理对象
+
+        ```xml
+        <!-- 开启 Aspect 生成代理对象-->
+        <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+        ```
+        
+        
+
+  4. 配置不同类型的通知
+
+     在增强类的里面，在作为通知方法上面添加通知类型注解，使用切入点表达式配置
+
+     ```java
+     @Component
+     @Aspect
+     public class UserProxy {
+         // 前置通知
+         @Before(value = "execution(* com.atguigu.spring5.aopanno.User.add(..))") 
+         public void before() {
+     		System.out.println("before........."); 
+         }
+         // 其他通知类似
+     }
+     
+     ```
+
+  5. 抽取相同切入点
+
+     ```java
+     @Pointcut(value = "execution(* com.atguigu.spring5.aopanno.User.add(..))")
+     public void pointdemo() {
+     }
+     //前置通知
+     @Before(value = "pointdemo()") 
+     public void before() {
+     	System.out.println("before........."); 
+     }
+     ```
+
+  6. 设置增强类优先级 (有多个增强类对同一个方法进行增强)
+
+     在增强类上面添加注解 `@Order(数字类型值)`，数字类型值*越小*优先级*越高*
+
+     ```java
+     @Component
+     @Aspect
+     @Order(1)
+     public class PersonProxy
+     ```
+
+     
+
+  7. 完全注解开发
+
+     创建配置类
+
+        ```java
+  @Configuration
+  @ComponentScan(basePackages = {"com.atguigu"}) @EnableAspectJAutoProxy(proxyTargetClass = true) 
+  public class ConfigAop
+        ```
+
+  
+
+- AspectJ 配置文件
+
+  1、创建两个类，增强类和被增强类，创建方法 
+
+  2、在 spring 配置文件中创建两个类对象
+
+  ```xml
+  <!--创建对象-->
+  <bean id="book" class="com.atguigu.spring5.aopxml.Book"></bean>
+  <bean id="bookProxy" class="com.atguigu.spring5.aopxml.BookProxy"></bean>
+  ```
+
+  
+
+  3、在 spring 配置文件中配置切入点
+  
+  ```xml
+    <!--配置 aop 增强-->
+    <aop:config> 
+        <!--切入点-->
+  	  <aop:pointcut id="p" expression="execution(* com.atguigu.spring5.aopxml.Book.buy(..))"/>
+  	  <!--配置切面-->
+  	  <aop:aspect ref="bookProxy"> 
+            <!--增强作用在具体的方法上-->
+  		  <aop:before method="before" pointcut-ref="p"/>
+  	  </aop:aspect>
+    </aop:config>
+  ```
+
+## JdbcTemplate
+
+Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据库操作
+
+1. 引入 jar 包
+
+![image-20200730175142491](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730175143.png)
+
+2. 在 spring 配置文件配置数据库连接池
+
+   ```xml
+   <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+   	<property name="url" value="jdbc:mysql:///user_db" />
+   	<property name="username" value="root" />
+       <property name="password" value="root" />
+       <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+   </bean>
+   ```
+
+   
+
+3. 配置 JdbcTemplate 对象，注入 DataSource
+
+   ```xml
+   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
+       <!--注入 dataSource-->
+   	<property name="dataSource" ref="dataSource"></property>
+   </bean>
+   ```
+
+   
+
+4. 创建 service 类，创建 dao 类，在 dao 注入 jdbcTemplate 对象
+
+   - 配置文件
+
+     ```xml
+     <context:component-scan base-package="com.atguigu"></context:component-scan>
+     ```
+
+   - Service
+
+     ```java
+     @Service
+     public class BookService { 
+         //注入 dao
+     	@Autowired
+         private BookDao bookDao;
+     }
+     ```
+
+   - Dao
+
+     ```java
+     @Repository
+     public class BookDaoImpl implements BookDao { 
+         //注入 JdbcTemplate
+     	@Autowired
+     	private JdbcTemplate jdbcTemplate;
+     }
+     ```
+
+- 
 
 - SSH(Struts, Spring, Hibernate)
