@@ -268,6 +268,171 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   `~/.gitignore_global`
 
+# Maven
+
+- 服务于 Java 平台的自动化构建工具
+
+  - 构建: 三层
+
+    1. 编译 
+
+    2. 部署 一个 BS项目最终运行的并不是动态 Web 工程本身, 而是它编译后的结果
+
+       ![image-20200804111750030](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804111750.png)
+
+    3. 搭建
+
+  - 构建中的各个环节
+
+    1. 清理: 删除以前编译得到的字节码文件
+    2. 编译
+    3. 测试: 自动调用 Junit
+    4. 报告
+    5. 打包: 动态 web 工程打 war 包, Java 工程打 jar 包
+    6. 安装: 将打包得到的文件复制到仓库
+    7. 部署: 将 war 包复制到 servlet 容器指定目录
+
+- 目录结构
+
+  Hello
+  		|---src
+  		|---|---main
+  		|---|---|---java
+  		|---|---|---resources
+  		|---|---test
+  		|---|---|---java
+  		|---|---|---resources
+  		|---pom.xml
+
+  为什么要约定目录结构?
+
+  - mvn 负责自动化构建. 以编译为例, mvn 要知道 Java 源文件的位置才能自动化编译
+
+  - 有两种方法自定义
+
+    - 配置
+
+      ```xml
+      <param-value>classpath:spring-context.xml</param-value>
+      ```
+
+    - 遵守框架的约定
+
+      `log4j.properties` `log4j.xml`
+
+- Maven 命令
+
+  ![image-20200804142937006](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804142939.png)
+
+- POM
+
+  - Project Object Model 
+  - pom.xml 是 mvn 工程核心配置文件
+
+- 坐标
+
+  使用如下三个向量在 Maven 的仓库中确定唯一的 Maven 工程。 
+
+  1. groupId: 公司或组织的域名倒序+当前项目名称 
+  2. artifactId: 当前项目的模块名称
+  3. version: 当前模块的版本
+
+- 仓库
+
+  本地 远程 中央
+
+- 依赖
+
+  - `mvn install`
+
+  - 范围
+
+    ![image-20200804151332828](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804151333.png)
+
+    - compile
+
+      ![image-20200804151402453](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804151402.png)
+
+    - test
+
+      ![image-20200804151419827](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804151420.png)
+
+    - provided
+
+      ![image-20200804151458645](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804151458.png)
+
+      ![image-20200804152915550](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804152915.png)
+
+  - 传递
+
+    - 优点: 不必在每个 module 中重复声明, 在最下面的工程中依赖一次
+    - 注意: 非 compile 范围的依赖不能传递
+
+  - 排除
+
+    比如不稳定的 jar 包, 不希望引入当前工程
+
+  - 原则
+
+    - 解决 module 之间 jar 包冲突
+
+    - 验证路径最短优先
+
+      验证路径相同时先声明(dependency 标签顺序)优先
+
+  - 统一管理版本
+
+    1. 使用 Properties 标签内使用自定义标签统一声明版本号
+
+       ```xml
+       <properties><hu.spring.version>4.0.0.RELEASE</hu.spring.version></properties>
+       ```
+
+       
+
+    2. 在需要统一版本的位置, 使用`${自定义标签名}`引用声明的版本号
+
+       ```XML
+       <version>${hu.spring.version}</version>
+       ```
+
+    > 需要统一声明再引用的地方都可以使用properties 标签配合自定义标签的方法
+
+  - 继承
+
+    由于 test 范围依赖不能传递, 如何统一管理版本(如 Junit)?
+
+    将 Junit 依赖统一提取到父工程, 子工程中声明 junit 依赖时不指定版本.
+
+    1. 创建一个 mvn 工程作为父工程, 打包方式为 pom
+
+    2. 子工程中声明对父工程的引用, 删除子工程坐标中与父工程重复的内容
+
+       ![image-20200804171644261](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804171645.png)
+
+    3. 在父工程中统一管理依赖版本
+
+       ![image-20200804172053145](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804172053.png)
+
+    4. 删除子工程中依赖版本号部分
+
+    5. 配置继承后, 要先安装父工程再执行安装命令
+
+  - 聚合
+    - 情景: 一键安装各个模块
+    
+    1. 在聚合工程中配置各模块
+    
+       ![image-20200804172715798](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804172716.png)
+    
+    2. 在聚合工程的 pom.xml上右键run as maven install
+    
+    
+
+- 生命周期
+
+  不论现在要执行哪一个阶段, 都是从**最初**阶段开始.
+
 # Tools
 
 ## Gist
