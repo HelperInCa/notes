@@ -21,6 +21,8 @@
   - [git remote](#git-remote)
   - [git rm](#git-rm)
   - [gitignore](#gitignore)
+  - [alias](#alias)
+- [Maven](#maven)
 - [Tools](#tools)
   - [Gist](#gist)
   - [Zsh](#zsh)
