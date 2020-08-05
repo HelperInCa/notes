@@ -268,6 +268,19 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   `~/.gitignore_global`
 
+## alias
+
+如: `st`表示`status`
+
+```bash
+$ git config --global alias.st status
+$ git config --global alias.co checkout
+$ git config --global alias.ci commit
+$ git config --global alias.br branch
+```
+
+
+
 # Maven
 
 - 服务于 Java 平台的自动化构建工具
