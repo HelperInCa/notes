@@ -163,7 +163,9 @@
     - break是终止本层循环
     - return直接结束整个方法，不管这个return处于多少层循环之内
 
-## 数组常见异常
+## 数组
+
+### 常见异常
 
 - ArrayIndexOutofBoundsException
 
@@ -203,14 +205,14 @@ public static void main(String[] args) {
 
 
 
-## array复制
+### 复制
 
 ```java
 int[] array1, array2;
 array1 = new int[] { 2, 3, 8};
 /* 
 array2 = array1
-error:如果修改array2会同时修改1,因为这样只是传递了地址给2
+error:如果修改array2会同时修改1,因为这样只是把1传递了地址给2
 */
 array2 = new int[array1.length];
 for (int i = 0; i < array1.length; i++){
@@ -220,7 +222,7 @@ for (int i = 0; i < array1.length; i++){
 
 
 
-## array元素反转
+### 元素反转
 
 ```java
 int[] arr = new int[]{ 9, 88, 5};
@@ -238,9 +240,7 @@ for(int x = 0,y = arr.length - 1;x < y;x++,y--){
 */
 ```
 
-
-
-## 数组排序
+### 排序
 
 - 冒泡
 
@@ -288,6 +288,20 @@ for(int x = 0,y = arr.length - 1;x < y;x++,y--){
   
   	}
   ```
+
+### Array工具类
+
+`java.util.Arrays` 包含了用来操作数组(比如排序和搜索)的各种方法以及能让数组转换为 List 
+
+| 1    |   boolean equals(int[] a,int[] b)    | 判断相等                                    |
+| ---- | :----------------------------------: | ------------------------------------------- |
+| 2    |       String toString(int[] a)       | 打印                                        |
+| 3    |     void fill(int[] a, int val)      | 填充                                        |
+| 4    |          void sort(int[] a)          | 排序(快排)                                  |
+| 5    |  int binarySearch(int[] a, int key)  | 二分查找                                    |
+| 6    |            asList(T... a)            | 将数组转换为 List(不能使用 add/remove等)    |
+| 7    |       copyOf(int a, a.length)        | 拷贝(底层采用System.arrayCopy（native方法)) |
+| 8    | copyOfRange(int a, int from, int to) | 一定范围拷贝(左闭右开)                      |
 
 
 
