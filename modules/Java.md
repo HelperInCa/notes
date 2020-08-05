@@ -291,7 +291,7 @@ for(int x = 0,y = arr.length - 1;x < y;x++,y--){
   	}
   ```
 
-### Array工具类
+### Arrays工具类
 
 `java.util.Arrays` 包含了用来操作数组(比如排序和搜索)的各种方法以及能让数组转换为 List 
 
