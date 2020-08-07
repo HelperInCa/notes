@@ -9,7 +9,7 @@
     - [复制](#%E5%A4%8D%E5%88%B6)
     - [元素反转](#%E5%85%83%E7%B4%A0%E5%8F%8D%E8%BD%AC)
     - [排序](#%E6%8E%92%E5%BA%8F)
-    - [Array工具类](#array%E5%B7%A5%E5%85%B7%E7%B1%BB)
+    - [Arrays工具类](#arrays%E5%B7%A5%E5%85%B7%E7%B1%BB)
 - [面向对象](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1)
   - [总结](#%E6%80%BB%E7%BB%93)
   - [overload重载](#overload%E9%87%8D%E8%BD%BD)
@@ -81,6 +81,13 @@
   - [动态代理](#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
 - [网络编程](#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B)
   - [网络基础](#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80)
+- [Java8 新特性](#java8-%E6%96%B0%E7%89%B9%E6%80%A7)
+  - [接口的默认和静态方法](#%E6%8E%A5%E5%8F%A3%E7%9A%84%E9%BB%98%E8%AE%A4%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95)
+  - [Lambda 表达式](#lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F)
+  - [函数式接口](#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3)
+  - [方法引用和构造器引用](#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8%E5%92%8C%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8)
+  - [Stream API](#stream-api)
+  - [Optional 类](#optional-%E7%B1%BB)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
