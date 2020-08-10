@@ -12,10 +12,10 @@
     - [Arrays工具类](#arrays%E5%B7%A5%E5%85%B7%E7%B1%BB)
 - [面向对象](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1)
   - [总结](#%E6%80%BB%E7%BB%93)
-  - [overload重载](#overload%E9%87%8D%E8%BD%BD)
-  - [匿名类对象](#%E5%8C%BF%E5%90%8D%E7%B1%BB%E5%AF%B9%E8%B1%A1)
-  - [可变个数的形参的方法(数据类型要一样)](#%E5%8F%AF%E5%8F%98%E4%B8%AA%E6%95%B0%E7%9A%84%E5%BD%A2%E5%8F%82%E7%9A%84%E6%96%B9%E6%B3%95%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A6%81%E4%B8%80%E6%A0%B7)
-  - [*方法参数传递*](#%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92)
+  - [类和对象](#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1)
+    - [overload重载](#overload%E9%87%8D%E8%BD%BD)
+    - [匿名类对象](#%E5%8C%BF%E5%90%8D%E7%B1%BB%E5%AF%B9%E8%B1%A1)
+    - [方法参数传递](#%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92)
   - [面向对象特征之一: 封装(Encapsulation)](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%B8%80-%E5%B0%81%E8%A3%85encapsulation)
   - [类的成员之三: 构造器(constructor)](#%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E4%B9%8B%E4%B8%89-%E6%9E%84%E9%80%A0%E5%99%A8constructor)
   - [this](#this)
@@ -325,41 +325,15 @@ for(int x = 0,y = arr.length - 1;x < y;x++,y--){
 
 ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-16-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.JPG)
 
-## overload重载
+## 类和对象
 
-同一个类中,方法名相同,而参数列表不同(类型/个数),与返回类型无关
+### 内存解析
 
-```java
-class Overload{
-    public int getSum(int i,int j){
-        return i + j;
-    }
-    public int getSum(int i, int j, int k){
-        return i + j + k;
-    }
-    public int getSum(double a, double b){
-        return a * b;
-    }
-    public void getSum(double a, double b, double c){
-        System.out.println(a + b + c);
-    }
-}
-```
+![image-20200807155215346](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200807155340.png)
 
-```java
-class Overload{
-    public void method(int i, String j){
-        
-    }
-    public void method(String j, int i){
-        
-    }
-}
-```
+![image-20200807155617992](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200807155618.png) 
 
-
-
-## 匿名类对象
+### 匿名类对象
 
 创建的类的对象是匿名的
 
@@ -372,52 +346,99 @@ p.printAreas(new Circle(), 6);
 
 
 
-## 可变个数的形参的方法(数据类型要一样)
+- 可变个数的形参的方法(数据类型要一样)
+  - 调用时, 个数从0开始
 
-- 调用时, 个数从0开始
+  ```java
+  // 以下三个sayHello()仍为overload
+  public void sayHello(String str1){
+      System.out.println("hello" + str1);
+  }
+  public void sayHello(){
+      for(int i = 0; i < args.length; i++){
+          System.out.println(args[i]);
+      }
+  }
+  // 可变个数形参
+  public void sayHello(String... args){
+      for(int i = 0; i < args.length; i++){
+          System.out.println(args[i]);
+      } 
+  }
+  ```
 
-```java
-// 以下三个sayHello()仍为overload
-public void sayHello(String str1){
-    System.out.println("hello" + str1);
-}
-public void sayHello(){
-    for(int i = 0; i < args.length; i++){
-        System.out.println(args[i]);
+  - 若方法中存在可变个数的形参,一定要声明在最后
+
+  ```java
+  public void sayHello(int i, String... args){
+      for(int i = 0; i < args.length; i++){
+          System.out.println(args[i]);
+      } 
+  }
+  ```
+
+  - 一个方法只能有一个可变个数的形参
+
+  
+
+## 类的成员: 属性, 方法
+
+- 属性(成员变量) field
+
+  - 成员变量 vs. 局部变量
+
+    |              | 成员变量                         | 局部变量                            |
+    | ------------ | -------------------------------- | ----------------------------------- |
+    | 声明的位置   | 直接声明在类中                   | 方法形参/内部, 代码块内, 构造器内   |
+    | 修饰符       | private、public、static、final等 | 能用权限修饰符修饰，可以用final修饰 |
+    | 初始化值     | 有默认初始化值                   | 无默认初始化值, 必须先显式赋值      |
+    | 内存加载空间 | 堆空间, 静态域                   | 栈空间                              |
+
+    
+
+- 方法 method
+
+  - pass by value 值传递:
+    - argument是primitive: 将parameter的值传递给argument的基本数据类型变量
+    - argument是reference: 将reference的值(对应堆空间的对象实体的首地址值) 传递给argument的引用数据类型变量
+
+  - overload重载
+
+    同一个类中,方法名相同,而参数列表不同(类型/个数),与返回类型无关
+
+    ```java
+    class Overload{
+        public int getSum(int i,int j){
+            return i + j;
+        }
+        public int getSum(int i, int j, int k){
+            return i + j + k;
+        }
+        public int getSum(double a, double b){
+            return a * b;
+        }
+        public void getSum(double a, double b, double c){
+            System.out.println(a + b + c);
+        }
     }
-}
-// 可变个数形参
-public void sayHello(String... args){
-    for(int i = 0; i < args.length; i++){
-        System.out.println(args[i]);
-    } 
-}
-```
+    ```
 
-- 若方法中存在可变个数的形参,一定要声明在最后
+    
 
-```java
-public void sayHello(int i, String... args){
-    for(int i = 0; i < args.length; i++){
-        System.out.println(args[i]);
-    } 
-}
-```
+    ```java
+    class Overload{
+        public void method(int i, String j){
+            
+        }
+        public void method(String j, int i){
+            
+        }
+    }
+    ```
 
-- 一个方法只能有一个可变个数的形参
+    
 
-
-
-## *方法参数传递*
-
-pass by value 值传递:
-
-- argument是primitive: 将parameter的值传递给argument的基本数据类型变量
-- argument是reference: 将reference的值(对应堆空间的对象实体的首地址值) 传递给argument的引用数据类型变量
-
-
-
-## 面向对象特征之一: 封装(Encapsulation) 
+## 面向对象特征之一: 封装(Encapsulation)
 
 问题： 不让对象直接作用属性，而是通过“方法.属性”来控制对象对属性的访问
 
@@ -447,26 +468,24 @@ class Animal{
             System.out.println("您输入的数据有误");
         }
     }
+    //设置类的属性
     public void setName(String n){
         //...
         name = n;
     }
-    //设置类的属性
+    //获取类的属性
     public int getLegs(){
         return legs;
     }    
     public String getName(){
         return name;
     }
-    //获取类的属性
 }
 ```
 
 
 
 - class/ method 权限修饰符: public protected default private
-
-
 
 | 修饰符    | 类内部 | 同一个包 | 子类 | 任何地方 |
 | --------- | :----: | :------: | :--: | :------: |
