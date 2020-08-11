@@ -4,6 +4,7 @@
 
 - [Software Architecture](#software-architecture)
 - [Design pattern](#design-pattern)
+  - [单例 (Singleton)](#%E5%8D%95%E4%BE%8B-singleton)
 - [Computer network](#computer-network)
   - [网络体系](#%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB)
   - [IP地址(TODO)](#ip%E5%9C%B0%E5%9D%80todo)
@@ -60,6 +61,7 @@
   - [递归](#%E9%80%92%E5%BD%92)
   - [排序](#%E6%8E%92%E5%BA%8F)
   - [树](#%E6%A0%91)
+  - [图](#%E5%9B%BE)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -182,7 +184,63 @@
 
 # Design pattern
 
+## 单例 (Singleton)
 
+- 某个类只能存在一个对象实例, 并且该类只提供一个取得其对象实例的方法
+
+  ```java
+  // 饿汉式
+  class Singleton {
+      // 1.私有化构造器
+  	private Singleton() {}
+  
+  	// 3.此实例也必须静态化
+  	private static Singleton single = new Singleton();
+      // 2.提供公共的静态的方法，返回当前类的对象 
+      public static Singleton getInstance() {
+      	return single; 
+  	}
+  }
+  
+  // 懒汉式
+  class Singleton {
+      // 1.私有化构造器
+      private Singleton() {}
+      
+      // 3.此实例也必须静态化
+      private static Singleton single;
+      // 2.提供公共的静态的方法，返回当前类的对象 
+      public static Singleton getInstance() {
+          if(single == null) {
+          	single = new Singleton();
+          }
+          return single; 
+      }
+  }
+  // 这里的懒汉式还存在线程安全问题，可修复
+  ```
+
+- 优点
+
+  由于单例模式只生成一个实例，**减少了系统性能开销**，当一个对象的产生需要比较多的资源时，如读取配置、产生其他依赖对象时，则可以通过在应用启动时直接产生一个单例对象，然后永久驻留内存的方式来解决。如 `java.lang.Runtime`的实现
+
+- 应用
+
+  - 网站的**计数器**，一般也是单例模式实现，否则难以同步。
+
+  - 应用程序的**日志**应用，一般都使用单例模式实现，这一般是由于共享的日志
+
+    文件一直处于打开状态，因为只能有一个实例去操作，否则内容不好追加。
+
+  - **数据库连接池**的设计一般也是采用单例模式，因为数据库连接是一种数据库资源。
+
+  - 项目中，**读取配置文件的类**，一般也只有一个对象。没有必要每次使用配置文件数据，都生成一个对象去读取。
+
+  - Application 也是单例的典型应用
+
+  - Windows的Task Manager (**任务管理器**)就是很典型的单例模式
+
+  - Windows的Recycle Bin (**回收站**)也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。
 
 # Computer network
 
