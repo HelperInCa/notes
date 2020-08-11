@@ -25,10 +25,7 @@
   - [面向对象特征之二:继承(inheritance)](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%BA%8C%E7%BB%A7%E6%89%BFinheritance)
     - [override重写](#override%E9%87%8D%E5%86%99)
     - [super](#super)
-  - [面向对象特征之三: 多态性](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%B8%89-%E5%A4%9A%E6%80%81%E6%80%A7)
-    - [object类](#object%E7%B1%BB)
-    - [toString方法](#tostring%E6%96%B9%E6%B3%95)
-    - [Wrapper包装类](#wrapper%E5%8C%85%E8%A3%85%E7%B1%BB)
+  - [面向对象特征之三: 多态性(Polymorphism)](#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81%E4%B9%8B%E4%B8%89-%E5%A4%9A%E6%80%81%E6%80%A7polymorphism)
   - [static](#static)
   - [类的成员之四: 代码块](#%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E4%B9%8B%E5%9B%9B-%E4%BB%A3%E7%A0%81%E5%9D%97)
   - [final](#final)
@@ -68,6 +65,8 @@
   - [线程的同步](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5)
   - [线程通信](#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1)
 - [常用类](#%E5%B8%B8%E7%94%A8%E7%B1%BB)
+  - [Object类](#object%E7%B1%BB)
+  - [Wrapper包装类](#wrapper%E5%8C%85%E8%A3%85%E7%B1%BB)
   - [String类](#string%E7%B1%BB)
   - [StringBuffer](#stringbuffer)
   - [StringBuilder](#stringbuilder)
@@ -721,7 +720,7 @@ public class Worker extends Person{
 
 
 
-## 面向对象特征之三: 多态性
+## 面向对象特征之三: 多态性(Polymorphism)
 
 1. 多态性
 
@@ -734,14 +733,14 @@ public class Worker extends Person{
    2. 子类对父类方法的重写
 
 3. 编译和运行
-    编译时, "看左边", 将此引用变量理解为父类的类型
-    运行时, "看右边", 关注真正的对象的实体: 子类的对象. 执行的方法就是子类重写的.
+    **编译时, "看左边"**, 将此引用变量理解为父类的类型
+    **运行时, "看右边"**, 关注真正的对象的实体: 子类的对象. 执行的方法就是子类重写的.
 
-4. 向下转型:
+4. 向下转型: (*自动* 类型提升)
 
-    1) 强转符:  Man m1 = (Man) p1;
+    1. 强转符:  Man m1 = (Man) p1;
 
-    2) 保证不报错ClassCastException, 最好向下转型前, 进行判断: if (p1 **instanceof**  Woman){ }
+    2. 保证不报错ClassCastException, 最好向下转型前, 进行判断: if (p1 **instanceof**  Woman){ }
 
 5. 子类对象的多态性, 并不适用于属性. 即"看左边"
 
@@ -773,164 +772,40 @@ public class JavaPolymorphism {
 }
 ```
 
+6. 继承成员变量和继承方法的区别
 
+   - 若子类重写了父类方法，就意味着子类里定义的方法彻底覆盖了父类里的同名方法
+   - 对于属性则不存在这样的现象，即使子类里定义了与父类同名的属性，它依然不可能覆盖父类中定义的属性
 
-### object类
-- java.lang.Object 类, 是所有类的根父类
-- 仅有一个空参构造器: public Object() {}
-- method: 
-  - equals()
+   ```java
+   class Base {
+       int count = 10;
+       public void display() {
+           System.out.println(this.count);
+       }
+   }
+   
+   class Sub extends Base {
+       int count = 20;
+       public void display() {
+           System.out.println(this.count);
+       }
+   }
+   
+   @Test
+   public void class Test {
+       Sub sub = new Sub();
+           System.out.println(sub.count);//20
+           sub.display();//20
+           Base base = sub;
+           System.out.println(base == sub);//true
+           System.out.println(base.count);//10
+           base.display();//20
+   }
+   ```
 
-    1. 只能比较引用类型变量
-    2. 比较两个变量的地址值是否相等
+   
 
-```java
-Person p1 = new Person();
-Person p2 = new Person();
-System.out.println(p1.equals(p2));//false
-System.out.println(p1 == p2);//false
-```
-
-​		3. String,Package类 ,File类 , Data类 重写Object类的equals()方法, 比较两个对象的"内容"是否完全相同
-
-```java
-String str1 = new String("AA");
-String str2 = new String("AA");
-String str3 = "AA";
-String str4 = "AA";
-System.out.println(str1 == str2);//false
-System.out.println(str1.equals(str2));//true
-System.out.println(str3 == str4);// true "AA"在常量池
-System.out.println(str1.equals(str3));// true
-```
-
-  		4. 自定义一个类, 希望比较两个对象的属性值都相同的情况下返回true, 就需要重写equals(Object obj)方法
-
-```java
-//自定义
-public boolean equals(Object obj){
-    if (this == obj){
-        return true;
-    }
-    if (obj instanceof Person){
-        Person p = (Person)obj;
-        return this.equals(p.name) == p.name && this.age == p.age;
-    } else {
-        return false;
-    }
-}
-```
-
-> == : 
->
-> - primitive: 比较值
-> - reference: 比较地址值
-
-
-
-### toString方法
-
-- java.lang.Object.toString:
-
-  ```java
-  public String toString() {
-      return getClass().getName() + "@" + Interger.toHexString(hashCode());
-  }
-  ```
-
-  - 当打印一个对象的引用时, 默认调用的是这个对象的toString()方法
-
-  - 当打印的对象所在类没有重写Object中toString()时, 那么调用的是Object定义的返回对象所在的类及对应的堆空间对象的首地址值
-
-  - 常常如下重写了toString(), 将对象的属性信息返回 
-
-    ```java
-    public String toString() {
-        return "Person: name = " + name + " age= " + age;
-    }//手动
-    
-    //自动
-    ```
-
-  - String, Wrapper, File, Data, 已经实现了Object中toString()  override
-
-
-
-### Wrapper包装类
-
-| Primitive |    Wrapper    |
-| :-------: | :-----------: |
-|  boolean  |    Boolean    |
-|   byte    |     Byte      |
-|   short   |     Short     |
-|    int    |  **Integer**  |
-|   long    |     Long      |
-|   char    | **Character** |
-|   float   |     Float     |
-|  double   |    Double     |
-
-> - Wrapper 默认null
-> - autoboxing/ unboxing
-
-- Wrapper与Primitive, String相互转化
-
-  ```java
-  @Test
-  public void test2() {
-      //Primitive, Wrapper ---> String: 
-      int i1 = 10;
-      String str1 = i1 + "";//"10" 方法1
-      
-      Integer i2 = i1;
-      String str2 = String.valueOf(i2);//方法2: 调用String override的valueOf(Xxx x)方法
-      String str3 = String.valueOf(true);
-      
-      //String--->Primitive, Wrapper:
-      int i3 = Integer.parseInt(str2);//方法1:  调用Wrapper的静态的parseXxx(String)方法
-      boolean b1 = Boolean.parseBoolean(str3);
-      
-  }
-  
-  @Test//Primitive <---> Wrapper
-  public void test1(){
-      int i = 0;
-      System.out.println(i);
-      boolean a = false;
-      
-      Integer i1 = new Integer(i);
-      System.out.println(i1.toString());
-      Float f = new Float(22.5F);
-      //Float f = new Float("22.5F");
-      System.out.println(f);
-      
-      //java.lang.NumberFormatException
-      //i1 = new Integer("12abc");
-      //System.out.println(i1);
-      
-      Boolean b = new Boolean("false");
-      System.out.println(b);//"false"
-      //Boolean: 当形参是"true" 返回true, 除此之外返回false
-      Boolean b1 = new Boolean("trueabc");
-      System.out.println(b1);// "false"
-      
-      Order o = new Order();
-      System.out.println(o.c);//null
-      
-      //Wrapper ---> Primitive: 调用包装类Xxx的XxxValue()方法
-      int i2 = i1.intValue();
-      System.out.println(i2);
-      
-      //JDK 5.O后, autoboxing,unboxing
-      Integer i3 = 30;//autoboxing
-      Boolean jj = false;
-      
-      int i4 = i3;//unboxing
-  }
-  
-  class Order{
-      Boolean c;
-  }
-  ```
 
 ## static
 
@@ -1951,6 +1826,168 @@ new Thread(p).start();
 
 
 # 常用类
+
+## Object类
+
+- java.lang.Object, 是所有类的根父类
+
+- 仅有一个空参构造器: `public Object() {}` 
+
+- `equals()`
+
+  1. 只能比较引用类型变量
+
+  2. 比较两个变量的地址值是否相等
+
+     ```java
+     Person p1 = new Person();
+     Person p2 = new Person();
+     System.out.println(p1.equals(p2));//false
+     System.out.println(p1 == p2);//false
+     ```
+
+     
+
+  3. String, Package类 ,File类 , Data类 重写Object类的equals()方法, 比较两个对象的"内容"是否完全相同
+
+     ```java
+     String str1 = new String("AA");
+     String str2 = new String("AA");
+     String str3 = "AA";
+     String str4 = "AA";
+     System.out.println(str1 == str2);//false
+     System.out.println(str1.equals(str2));//true
+     System.out.println(str3 == str4);// true "AA"在常量池
+     System.out.println(str1.equals(str3));// true
+     ```
+
+  4. 自定义一个类, 希望比较两个对象的属性值都相同的情况下返回true, 就需要重写equals(Object obj)方法
+
+     ```java
+     //自定义
+     public boolean equals(Object obj){
+         if (this == obj){
+             return true;
+         }
+         if (obj instanceof Person){
+             Person p = (Person)obj;
+             return this.equals(p.name) == p.name && this.age == p.age;
+         } else {
+             return false;
+         }
+     }
+     ```
+
+  > == : 
+  >
+  > - primitive: 比较值
+  > - reference: 比较地址值
+  > - 两边数据类型必须兼容(包含可自动转换), 否则编译出错
+
+- `toString()`
+
+  ```java
+  public String toString() {
+      return getClass().getName() + "@" + Interger.toHexString(hashCode());
+  }
+  ```
+
+  - 当打印一个对象的引用时, 默认调用的是这个对象的toString()方法
+
+  - 当打印的对象所在类没有重写Object中toString()时, 那么调用的是Object定义的返回对象所在的类及对应的堆空间对象的首地址值
+
+  - 常常如下重写了toString(), 将对象的属性信息返回 
+
+    ```java
+    public String toString() {
+        return "Person: name = " + name + " age= " + age;
+    }//手动
+    
+    //自动
+    ```
+
+    
+  
+  - String, Wrapper, File, Data, 已经实现了Object中toString()  override
+  
+- `hashCode()`
+
+## Wrapper包装类
+
+| Primitive |    Wrapper    |
+| :-------: | :-----------: |
+|  boolean  |    Boolean    |
+|   byte    |     Byte      |
+|   short   |     Short     |
+|    int    |  **Integer**  |
+|   long    |     Long      |
+|   char    | **Character** |
+|   float   |     Float     |
+|  double   |    Double     |
+
+
+
+- Wrapper与Primitive, String相互转化
+
+  ```java
+  @Test
+  public void test2() {
+      //Primitive, Wrapper ---> String: 
+      int i1 = 10;
+      String str1 = i1 + "";//"10" 方法1: 连接运算
+      
+      Integer i2 = i1;
+      String str2 = String.valueOf(i2);//方法2: 调用String override的valueOf(Xxx x)方法
+      String str3 = String.valueOf(true);
+      
+      //String--->Primitive, Wrapper:
+      int i3 = Integer.parseInt(str2);//调用Wrapper的静态的parseXxx(String)方法
+      boolean b1 = Boolean.parseBoolean(str3);
+      
+  }
+  
+  @Test//Primitive  ---> Wrapper
+  public void test1(){
+      int i = 0;
+      System.out.println(i);
+      boolean a = false;
+      
+      Integer i1 = new Integer(i);
+      System.out.println(i1.toString());
+      Float f = new Float(22.5F);
+      //Float f = new Float("22.5F");
+      System.out.println(f);
+      
+      //java.lang.NumberFormatException
+      //i1 = new Integer("12abc");
+      //System.out.println(i1);
+      
+      Boolean b = new Boolean("false");
+      System.out.println(b);//"false"
+      //Boolean: 当形参是"true" 返回true, 除此之外返回false
+      Boolean b1 = new Boolean("trueabc");
+      System.out.println(b1);// "false"
+      
+      Order o = new Order();
+      System.out.println(o.c);//null
+      
+      //Wrapper ---> Primitive: 调用包装类Xxx的XxxValue()方法
+      int i2 = i1.intValue();
+      System.out.println(i2);
+      
+      //JDK 5后, autoboxing,unboxing
+      Integer i3 = 30;//autoboxing
+      Boolean jj = false;
+      
+      int i4 = i3;//unboxing
+  }
+  
+  class Order{
+      Boolean c;
+  }
+  ```
+  
+  ![image-20200811145718122](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200811145718.png)
 
 ## String类
 
