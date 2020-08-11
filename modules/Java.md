@@ -809,6 +809,14 @@ public class JavaPolymorphism {
 
 ## static
 
+- 类属性、类方法的设计思想
+
+**类属性**作为该类各个对象之间**共享**的变量。在设计类时,分析哪些属性不因对象的不同而改变，将这些属性设置为类属性。相应的方法设置为类方法。
+
+**类方法**与调用者无关，由于不需要创建对象就可以调用类方法，从而简化了方法的调用。
+
+
+
 static修饰属性, 方法, *代码块, *内部类
 
 - static修饰属性(类变量)
@@ -821,13 +829,13 @@ static修饰属性, 方法, *代码块, *内部类
 
     > 实例变量(随着对象的创建而被加载)
 
-  - 静态的变量可以直接通过"类.类变量"来调用, 也可以通过"对象.类变量"来调用, 但是"类.实例变量"不行.
+  - 静态的变量可以直接通过"类.类变量"来调用, 也可以通过"对象.类变量"来调用, 但是"类.成员变量"不行.
 
 - static修饰方法(类方法)
 
   - 只能调用静态的属性和静态的方法, 非静态的方法能调用静态的属性和方法
 
-  > - *static修饰的方法里不能有this|super*
+  > - static修饰的方法里不能有this/super, 也不能被重写
 >
   > - constructor 看作和方法一样
 
@@ -835,37 +843,37 @@ static修饰属性, 方法, *代码块, *内部类
 
 ![static变量的内存结构图](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-045620.jpg)
 
-应用: 
+- 应用: 
 
-利用静态的变量达到**累加**的效果, 因为静态的内容独一份,被多个对象所共用, 比如记录创建对象的次数/ 每个对象某个属性有关联
+  利用静态的变量达到**累加**的效果, 因为静态的内容独一份,被多个对象所共用, 比如记录创建对象的次数/ 每个对象某个属性有关联
 
-```java
-public class TestAccount {
-    psvm{
-        Account a1 = new Account("abc", 1000);
-        Account a2 = new Account("CDF", 2000);
-        sout(a1);
-        sout(a2);
-    }
-}
-class Account{
-    private int id;//账号
-    private String password;
-    private double balance;
-    private static double minbalance = 1;
-    private static double rate = 0.05;//利率
-    private static int init = 1000;//初始金额
-    
-    public Account(String password, double balance) {
-        this.id = init++;
-        this.password = password;
-        this.balance = balance;
-    }
-    ...
-}
-```
+  ```java
+  public class TestAccount {
+      psvm{
+          Account a1 = new Account("abc", 1000);
+          Account a2 = new Account("CDF", 2000);
+          sout(a1);
+          sout(a2);
+      }
+  }
+  class Account{
+      private int id;//账号
+      private String password;
+      private double balance;
+      private static double minbalance = 1;
+      private static double rate = 0.05;//利率
+      private static int init = 1000;//初始金额
+      
+      public Account(String password, double balance) {
+          this.id = init++;
+          this.password = password;
+          this.balance = balance;
+      }
+      ...
+  }
+  ```
 
-
+  
 
 ## 类的成员之四: 代码块
 
