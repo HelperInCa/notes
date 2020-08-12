@@ -1010,7 +1010,7 @@ class Student extends Person {
 ## interface 接口
 
 - interface是与class并行的
-- 接口看作特殊的抽象类, 包含*常量*, *抽象方法*, 不能包含变量, 一般的方法.
+- 接口看作特殊的抽象类, 包含**常量**, **抽象方法**, 不能包含变量, 一般的方法. Java8新增默认方法, 静态方法
 - 没有构造器, 所以不能创建对象
 - 定义的是一种功能, 可以被类实现(**implements**)
 - 实现接口的类, 必须重写其中*所有* 的抽象方法, 才能实例化, 否则仍为一个抽象类
@@ -1032,6 +1032,7 @@ interface AA {
     void method1();//public abstract void method1);所有方法都有这些修饰符,所以省略
 }
 
+// 实现类必须实现所有方法, 否则需声明为 abstract
 abstract class BB implements AA {
 
 }
@@ -1060,7 +1061,51 @@ interface JJ extends AA, MM {
 }
 ```
 
+- 应用: 代理模式(Proxy)
 
+  为其他对象提供一种代理以控制对这个对象的访问
+
+  - 优点
+    - 安全代理:屏蔽对真实角色的直接访问。
+    - 远程代理:通过代理类处理远程方法调用(RMI)
+    - 延迟加载:先加载轻量级的代理对象，真正需要再加载真实对象
+
+  ```java
+  // 静态代理
+  interface Network {
+      public void browse();
+  }
+  // 被代理类
+  class RealServer implements Network {
+  	@Override
+  	public void browse() {
+          sout("真实服务器上网");
+      }
+  }
+  
+  // 代理类
+  class ProxyServer implements Network {
+      private Network network;
+      public ProxyServer(Network network) {
+  		this.network = network; 
+      }
+  	public void check() { 
+          System.out.println("检查网络连接等操作");
+  	}
+  	public void browse() { 
+          check();
+  		network.browse(); 
+      }
+  }
+  public class ProxyDemo {
+      public static void main(String[] args) {
+  		Network net = new ProxyServer(new RealServer());
+  		net.browse(); 
+      }
+  }
+  ```
+
+  
 
 ## 类的成员之五: 内部类
 
@@ -2236,11 +2281,10 @@ java.lang.Math提供了一系列静态方法用于科学计算;其方法的参�
 - 动态代理步骤
 
   1. 创建被代理的类, 接口
-  2. 创建一个实现接口InvocationHandler的类，必须实现invoke方法，以完成代理的具体操
-     作
+  2. 创建一个实现接口InvocationHandler的类，必须实现invoke方法，以完成代理的具体操作
   3. 通过Proxy类的静态方法`Object newProxyInstance(ClassLoader loader, Class[] interfaces, InvocationHandler h)` 创建一个代理类对象
   4. 当通过代理类对象发起对被重写的方法调用时, 会转换为`invoke()`调用
-
+  
 - AOP (Aspect Orient Programming)
 
   ![20200528-9cyVe4](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200528-9cyVe4.png)
@@ -2330,9 +2374,9 @@ java.lang.Math提供了一系列静态方法用于科学计算;其方法的参�
 
 ## 接口的默认和静态方法
 
-增加了两个新的概念在接口声明的时候：默认和静态方法。默认方法允许我们在接口里添加新的方法，而不会破坏实现这个接口的已有类的兼容性，也就是说不会强迫实现接口的类实现默认方法。
+- 静态方法:使用 static 关键字修饰。可以通过接口直接调用静态方法，并执行 其方法体。我们经常在相互一起使用的类中使用静态方法。你可以在标准库中 找到像Collection/Collections或者Path/Paths这样成对的接口和类。
 
-默认方法和抽象方法的区别是抽象方法必须要被实现，默认方法不是。作为替代方式，接口可以提供一个默认的方法实现，所有这个接口的实现类都会通过继承得倒这个方法（如果有需要也可以重写这个方法）
+- 默认方法:默认方法使用 default 关键字修饰。可以通过实现类对象来调用。 我们在已有的接口中提供新方法的同时，还保持了与旧版本代码的兼容性。 比如:java 8 API中对Collection、List、Comparator等接口提供了丰富的默认 方法。
 
 ```java
 public static void main( String[] args ) {
@@ -2344,7 +2388,38 @@ public static void main( String[] args ) {
 }
 ```
 
+- 冲突问题
 
+  - 若一个接口中定义了一个默认方法，而另外一个接口中也定义了一个同名同参数的方法(不管此方法是否是默认方法)，在实现类同时实现了这两个接口时，会出现接口冲突。
+
+    **解决办法**:实现类必须覆盖接口中同名同参数的方法，来解决冲突。
+
+    ```java
+    interface Filial {// 孝顺的 
+        default void help() {
+    		System.out.println("老妈，我来救你了"); 
+        }
+    }
+    interface Spoony {// 痴情的 
+        default void help() {
+    		System.out.println("媳妇，别怕，我来了"); 
+        }
+    }
+    class Man implements Filial, Spoony { 
+        @Override
+    	public void help() { 
+            System.out.println("我该怎么办呢?"); 
+    		Filial.super.help();
+    		Spoony.super.help();
+    	} 
+    }
+    ```
+
+    
+
+  - 若一个接口中定义了一个默认方法，而父类中也定义了一个同名同参数的非抽象方法，则不会出现冲突问题。因为此时遵守**类优先**原则。接口中具有相同名称和参数的默认方法会被忽略。
+
+    
 
 ## Lambda 表达式
 
