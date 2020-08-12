@@ -5,6 +5,7 @@
 - [Software Architecture](#software-architecture)
 - [Design pattern](#design-pattern)
   - [单例 (Singleton)](#%E5%8D%95%E4%BE%8B-singleton)
+  - [模板方法(TemplateMethod)](#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95templatemethod)
 - [Computer network](#computer-network)
   - [网络体系](#%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB)
   - [IP地址(TODO)](#ip%E5%9C%B0%E5%9D%80todo)
@@ -241,6 +242,42 @@
   - Windows的Task Manager (**任务管理器**)就是很典型的单例模式
 
   - Windows的Recycle Bin (**回收站**)也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。
+
+## 模板方法(TemplateMethod)
+
+- 解决的问题:
+
+  当功能内部一部分实现是确定的，一部分实现是不确定的。这时可以把不确定的部分暴露出去，让子类去实现。
+
+  换句话说，在软件开发中实现一个算法时，整体步骤很固定、通用， 这些步骤已经在父类中写好了。但是某些部分易变，易变部分可以抽象出来，供不同子类实现。
+
+  ```java
+  abstract class Template {
+      public final void getTime() {
+          long start = System.currentTimeMillis();
+          code();
+          long end = System.currentTimeMillis();
+          System.out.println("执行时间是:" + (end - start));
+  	}
+  	public abstract void code(); 
+  }
+  
+  class SubTemplate extends Template { 
+      public void code() {
+  		for (int i = 0; i < 10000; i++) {
+              System.out.println(i);
+          }
+      }
+  }
+  ```
+
+- 应用
+
+  - 数据库访问的封装
+  - Junit单元测试
+  - JavaWeb的Servlet中关于doGet/doPost方法调用  
+  - Hibernate中模板程序
+  - Spring中JDBCTemlate、HibernateTemplate等
 
 # Computer network
 

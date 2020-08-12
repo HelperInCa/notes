@@ -877,7 +877,7 @@ static修饰属性, 方法, *代码块, *内部类
 
 ## 类的成员之四: 代码块
 
-- 代码块只能有static修饰
+- 代码块(初始化块)只能有`static`修饰
 
 - 非静态代码块:
 
@@ -891,7 +891,7 @@ static修饰属性, 方法, *代码块, *内部类
 >
 > ①默认的初始化
 >
-> ②显式的初始化||初始化块(此两结构按照顺序执行)
+> ②显式的初始化||代码块(此两结构按照顺序执行)
 >
 > ③构造器
 >
@@ -938,23 +938,23 @@ class Order{
 
 - 修饰类, 属性, 方法
 
-  - final class: 不能被继承, eg. String, StringBuffer, System
+  - `final class`: 不能被继承, eg. String, StringBuffer, System
 
-  - final method: 不能被重写, eg. Object.getClass()
+  - `final method`: 不能被重写, eg. Object.getClass()
 
-  - final field: 此属性是常量. 用大写字符, eg. final int L
+  - `final field`: 此属性是常量. 用大写字符, eg. final int L
 
     > 在哪赋值: ①不能默认赋值②可以显式赋值: 代码块, 构造器
 
-  - 全局常量: 被static, final修饰, eg. Math.PI
+  - 全局常量: 被`static`, `final`修饰, eg. Math.PI
 
-    > public static final double PI
+    `public static final double PI`
 
 > diff: finally,  finalize()
 
 ## Abstract 
 
-- 可以修饰类, 方法
+- 只能修饰类, 方法
 
 - 不能被实例化, 但可以定义构造器
 
@@ -974,6 +974,7 @@ public class TestAbstract {
         Student s1 = new Student();
         s1.eat;
     }
+}    
 abstract class Person {
 	String name;
     
@@ -994,7 +995,6 @@ class Student extends Person {
     public void walk() {
         sout("student walk");
     }     
-}
 }
 ```
 
