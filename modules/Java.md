@@ -33,7 +33,7 @@
   - [interface 接口](#interface-%E6%8E%A5%E5%8F%A3)
   - [类的成员之五: 内部类](#%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E4%B9%8B%E4%BA%94-%E5%86%85%E9%83%A8%E7%B1%BB)
 - [异常处理(Exception&Error)](#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86exceptionerror)
-  - [common *RuntimeException*:](#common-runtimeexception)
+  - [common *RuntimeException*](#common-runtimeexception)
   - [如何处理异常](#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8)
 - [集合](#%E9%9B%86%E5%90%88)
   - [Collection接口](#collection%E6%8E%A5%E5%8F%A3)
@@ -58,9 +58,8 @@
     - [对象流](#%E5%AF%B9%E8%B1%A1%E6%B5%81)
     - [RandomAccessFile](#randomaccessfile)
 - [多线程](#%E5%A4%9A%E7%BA%BF%E7%A8%8B)
-  - [java.lang.Thread类](#javalangthread%E7%B1%BB)
-    - [Thread 常用方法](#thread-%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95)
-  - [java.lang.Runnable接口](#javalangrunnable%E6%8E%A5%E5%8F%A3)
+  - [程序 进程 线程](#%E7%A8%8B%E5%BA%8F-%E8%BF%9B%E7%A8%8B-%E7%BA%BF%E7%A8%8B)
+  - [线程创建和使用](#%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8)
   - [线程的生命周期](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
   - [线程的同步](#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5)
   - [线程通信](#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1)
@@ -1221,26 +1220,29 @@ interface JJ extends AA, MM {
   }
   ```
 
-     1. try内声明的变量,类似于局部变量, 出了try{}, 就不能被调用
-            finally{ }可省略
+     1. `try`内声明的变量,类似于局部变量, 出了`try{}`, 就不能被调用
+            `finally{ }`可省略
 
-     2. catch() 对异常对象的处理:
+     2. `catch()` 对异常对象的处理:
 
-           - getMessage();
-           - printStackTrace();
-
-        3. 可以有多个catch(), try{} 中抛出的异常类从上往下匹配catch()中异常类的类型, 满足一个并执行完处理方式后就跳出其后多条catch(). 异常处理之后的代码可以执行
-
-        4. catch()中多个异常类型是子父类,  子类**必须**放上面, 否则编译不通过
-
-        5. finally{ }中的代码一定被执行, 不管try{}, catch() {}中是否有仍未处理的异常/ 是否有return
-
-        6. try-catch可以嵌套   
-
-              
+           - `getMessage();`获取异常信息，返回字符串
+  
+- `printStackTrace();`获取异常类名和异常信息，以及异常出
+        
+  现在程序中的位置。返回值void。
+        
+3. 可以有多个catch(), try{} 中抛出的异常类从上往下匹配catch()中异常类的类型, 满足一个并执行完处理方式后就跳出其后多条catch(). 异常处理之后的代码可以执行
+   
+4. catch()中多个异常类型是子父类,  子类**必须**放上面, 否则编译不通过
+   
+5. `finally{ }`中的代码一定被执行, 不管try{}, catch() {}中是否有仍未处理的异常/ 是否有return
+        
+      6. try-catch可以嵌套   
+        
+            
 
   - throws
-
+  
     在方法声明处, 显式抛出该异常对象的类型. 
 
 ```java
@@ -1249,7 +1251,7 @@ interface JJ extends AA, MM {
    }
 ```
 
-​	2. "抛": 当我们执行代码时,一旦出现异常,会在异常代码处生成一个对应的异常类型的对象,并将此对象抛出,且程序终止.(自动抛/手动抛)
+​	2. "抛": 当我们执行代码时,一旦出现异常,会在异常代码处生成一个对应的异		常类型的对象,并将此对象抛出,且程序终止.(自动抛/手动抛)
 
 > 此异常类的对象抛给方法的调用者
 
@@ -1751,7 +1753,26 @@ File: 文件和目录路径名的抽象表示形式
 
 # 多线程
 
-## java.lang.Thread类
+## 程序 进程 线程
+
+- 程序(program)是为完成特定任务、用某种语言编写的一组指令的集合。即指一段静态的代码，静态对象。 
+
+- 进程(process)是程序的一次执行过程，或是正在运行的一个程序。是一个动态的过程:有它自身的产生、存在和消亡的过程。——生命周期 
+  如:运行中的QQ，运行中的MP3播放器
+  
+  - 程序是静态的，进程是动态的
+  
+  - **进程作为资源分配的单位**，系统在运行时会为每个进程分配不同的内存区
+
+- 线程(thread)，进程可进一步细化为线程，是一个程序内部的一条执行路径。 
+
+  - 若一个进程同一时间并行执行多个线程，就是支持多线程的 
+  - **线程作为调度和执行的单位**，**每个线程拥有独立的运行栈和程序计数器(pc)**，线程切换的开销小 
+  - 一个进程中的多个线程共享相同的*堆和方法区*它们从同一堆中分配对象，可以访问相同的变量和对象。这就使得线程间通信更简便、高效。但多个线程操作共享的系统资源可能就会带来安全的隐患。
+
+## 线程创建和使用
+
+- `java.lang.Thread`类
 
 创建线程第一种方法: 继承Thread类
 
@@ -1762,37 +1783,72 @@ File: 文件和目录路径名的抽象表示形式
 
 ![20200523-Zkyuv3](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200523-Zkyuv3.png)
 
-### Thread 常用方法
+```java
+// 匿名Thread 子类简化代码
+@Test
+public void Test() {
+    new Thread() {
+    	public void run() {
+            for (int i = 0; i < 100; i++) {
+                sout("子线程: " + i);
+            }
+        }
+    }.start();
+}
+```
 
-- void start(): 启动线程，并执行对象的run()方法 
 
-- run(): 线程在被调度时执行的操作
 
-- String getName(): 返回线程的名称
+> - 启动多线程只能用`start()`, 不能手动调用`run()`
+> - 一个线程对象只能调用一次`start()`, 重复调用会抛异常
 
-- void setName(String name):设置该线程名称
+-  构造器
+  - `Thread()`:创建新的Thread对象
 
-- static currentThread(): 返回当前线程
+  - `Thread(String threadname)`:创建线程并指定线程实例名
 
-- static void yield(): 暂停当前正在执行的线程，把执行机会让给优先级相同或更高的线程
+  - `Thread(Runnable target)`:指定创建线程的目标对象，它实现了Runnable接口中的run方法
 
-- join() :当某个程序执行流中调用其他线程的 join() 方法时, 调用线程将被阻塞，直到 join() 方法加入的 join 线程执行完为止
+  - `Thread(Runnable target, String name)`:创建新的Thread对象
 
-- static void sleep(long millis):(指定时间:毫秒) 令当前活动线程在指定时间段内放弃对CPU控制,使其他线程有机会被执行,时间到后重排队。
+- 常用方法
+  - `void start()`: 启动线程，并执行对象的run()方法 
 
+  - `run()`: 线程在被调度时执行的操作
+
+  - `String getName()`: 返回线程的名称
+
+  - `void setName(String name)`:设置该线程名称
+
+  - `static Thread currentThread()`: 返回当前线程
+
+  - `static void yield()`: 暂停当前正在执行的线程，把执行机会让给优先级相同或更高的线程
+
+  - `join()` :当线程 a中调用线程b的 join() 方法时, a将被阻塞，直到 b 执行完为止
+
+  - `static void sleep(long millis)`:(指定时间:毫秒) 令当前活动线程在指定时间段内放弃对CPU控制,使其他线程有机会被执行,时间到后重排队。
+
+  - `boolean isAlive()` 判断线程是否还活着
+  
 - 线程的优先级控制
-  MAX_PRIORITY(10); MIN _PRIORITY (1); NORM_PRIORITY (5); 
+    MAX_PRIORITY(10); 
 
-  - 线程创建时继承父线程的优先级
+    MIN _PRIORITY (1); 
 
-  方法:
+    NORM_PRIORITY (5); 
+  
+  高优先级是**概率上更容易**抢占 cpu,不意味着只有当高优先级执行完才开始低优先级
+    
+    - 线程创建时继承父线程的优先级
+    
+    方法:
+    
+    - `getPriority()` :返回线程优先值
+    - `setPriority(int newPriority)` :改变线程的优先级 
+  
+- `java.lang.Runnable`接口
 
-  - getPriority() :返回线程优先值
-  - setPriority(int newPriority) :改变线程的优先级 
-
-## java.lang.Runnable接口
-
-创建线程第二种方法: 实现Runnable接口. 更好
+  创建线程第二种方法: 实现Runnable接口. **优先选择此方式**
 
 1. 定义子类，实现Runnable接口。 
 2. 子类中重写Runnable的run() 
@@ -1806,12 +1862,25 @@ class PrimeRun implements Runnable {
          PrimeRun(long minPrime) {
              this.minPrime = minPrime;
          }
-         public void run() {. . .}
+         public void run() {
+             // 重写
+         }
 }
 
 PrimeRun p = new PrimeRun(143);
-new Thread(p).start();
+Thread t1 = new Thread(p).start();
+Thread t2 = new Thread(p).start();
+Thread t3 = new Thread(p).start();
 ```
+
+- 实现方式 vs. 继承方式
+
+  > public class **Thread** implements **Runnable**
+
+  - 相同: 都要重写`run()`, 将线程执行的逻辑写在`run()`中
+  - 优点:
+    - 避免了单继承的局限性
+    - 多个线程可以共享同一个接口实现类的对象，非常适合多个相同线程来处理同一份资源。
 
 ## 线程的生命周期
 
@@ -1829,7 +1898,9 @@ new Thread(p).start();
 
   - 同步代码块
 
-    > 所有线程必须共用同一把锁; 包裹的代码块不多也不少, 只有共享数据的部分
+    **所有线程必须共用同一把锁**; 包裹的代码块不多也不少, 只有共享数据的部分
+
+    > 锁: 1. `this` 2. `类名.class`
 
     ```java
     // 可以用任意一个类的对象充当同步监视器(锁)
@@ -1838,18 +1909,32 @@ new Thread(p).start();
       // Object obj = new Object(); 这样会导致每个线程自己有一把锁, 没有同步的作用
       synchronized(obj) {
       // 需要被同步的代码
-    	}
+      }
     }
     ```
 
   - 同步方法
 
-    > 同步方法(非静态的)的锁为this。
-    > 同步方法(静态的)的锁为当前类本身。
+    > 同步方法(非静态的)的锁为`this`
+    > 同步方法(静态的)的锁为类本身
 
     ```java
     public synchronized void show (String name){...}
     ```
+    
+  - 同步的范围
+
+    1、如何找问题，即代码是否存在线程安全?(非常重要) (1)明确哪些代码是多线程运行的代码 (2)明确多个线程是否有共享数据 (3)明确多线程运行代码中是否有多条语句操作共享数据
+
+    2、如何解决呢?(非常重要)
+
+    对多条操作共享数据的语句，只能让一个线程都执行完，在执行过程中，其 他线程不可以参与执行。 即所有操作共享数据的这些语句都要放在同步范围中
+
+    3、切记:
+
+    范围太小:没锁住所有有安全问题的代码  
+
+    范围太大:没发挥多线程的功能。
 
   > 互斥锁 mutex
   >
@@ -1859,7 +1944,9 @@ new Thread(p).start();
 
   - 释放锁: 
 
-    - 当前线程的同步方法/代码块执行结束; 被break, return终止; 异常抛出
+    - 当前线程的同步方法/代码块执行结束; 
+    - 被break, return终止; 
+  - 异常抛出
     - 当前线程的同步方法/代码块执行`wait()`, 暂停当前线程, 并释放锁
 
   - 不会释放锁:
@@ -1869,8 +1956,37 @@ new Thread(p).start();
   - 死锁
 
     不同的线程分别占用对方需要的同步资源不放弃，都在等待对方放弃自己需要的同步资源，就形成了线程的死锁.
-
+  
     减少同步资源的定义.
+    
+  - Lock接口
+  
+    `java.util.concurrent.locks.Lock`接口是控制多个线程对共享资源进行访问的工具。锁提供了对共享资源的独占访问，每次只能有一个线程对Lock对象加锁，线程开始访问共享资源之前应先获得Lock对象。
+  
+    ```java
+    class A {
+        private final ReentrantLock lock = new ReenTrantLock();
+        public void m() {
+            lock.lock();
+            try {
+                //保证线程安全的代码;
+            }
+            finally {
+                lock.unlock();
+            }
+        }
+    }
+    ```
+  
+    *注意*:如果同步代码有异常，要将unlock()写入finally语句块
+  
+  > synchronized 与 Lock 的对比:
+  >
+  > Lock是显式锁(**手动**开启`lock()`和关闭锁`unlock`)，synchronized是 隐式锁，出了作用域自动释放.
+  
+  - 优先使用顺序:
+  
+    Lock -> 同步代码块(已经进入了方法体，分配了相应资源) -> 同步方法 (在方法体之外)
 
 ## 线程通信
 
@@ -1881,6 +1997,10 @@ new Thread(p).start();
 - `notifyAll()`:唤醒正在排队等待资源的所有线程
 
 > 这三个方法只有在synchronized方法或代码块中使用，否则会报 java.lang.IllegalMonitorStateException异常
+
+![image-20200814191904940](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200814191905.png)
+
+
 
 
 
