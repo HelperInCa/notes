@@ -1772,32 +1772,32 @@ File: 文件和目录路径名的抽象表示形式
 
 ## 线程创建和使用
 
-- `java.lang.Thread`类
+1. `java.lang.Thread`类
 
-创建线程第一种方法: 继承Thread类
+   创建线程第一种方法: 继承Thread类
 
-1. 定义子类继承Thread类。
-2. 子类中重写Thread类中的run方法。
-3. 创建Thread子类对象，即创建了线程对象。
-4. 调用线程对象start方法:启动线程，调用run方法。
+   1. 定义子类继承Thread类。
+   2. 子类中重写Thread类中的run方法。
+   3. 创建Thread子类对象，即创建了线程对象。
+   4. 调用线程对象start方法:启动线程，调用run方法。
 
-![20200523-Zkyuv3](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200523-Zkyuv3.png)
+   ![20200523-Zkyuv3](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200523-Zkyuv3.png)
 
-```java
-// 匿名Thread 子类简化代码
-@Test
-public void Test() {
-    new Thread() {
-    	public void run() {
-            for (int i = 0; i < 100; i++) {
-                sout("子线程: " + i);
-            }
-        }
-    }.start();
-}
-```
+   ```java
+   // 匿名Thread 子类简化代码
+   @Test
+   public void Test() {
+       new Thread() {
+       	public void run() {
+               for (int i = 0; i < 100; i++) {
+                   sout("子线程: " + i);
+               }
+           }
+       }.start();
+   }
+   ```
 
-
+   
 
 > - 启动多线程只能用`start()`, 不能手动调用`run()`
 > - 一个线程对象只能调用一次`start()`, 重复调用会抛异常
@@ -1838,17 +1838,19 @@ public void Test() {
     NORM_PRIORITY (5); 
   
   高优先级是**概率上更容易**抢占 cpu,不意味着只有当高优先级执行完才开始低优先级
-    
+  
     - 线程创建时继承父线程的优先级
-    
+  
     方法:
-    
+  
     - `getPriority()` :返回线程优先值
+  
     - `setPriority(int newPriority)` :改变线程的优先级 
   
-- `java.lang.Runnable`接口
+2. `java.lang.Runnable`接口
 
   创建线程第二种方法: 实现Runnable接口. **优先选择此方式**
+
 
 1. 定义子类，实现Runnable接口。 
 2. 子类中重写Runnable的run() 
@@ -1881,6 +1883,34 @@ Thread t3 = new Thread(p).start();
   - 优点:
     - 避免了单继承的局限性
     - 多个线程可以共享同一个接口实现类的对象，非常适合多个相同线程来处理同一份资源。
+  
+3. `java.util.concurrent.Callable`接口
+
+   - 相比run()方法，可以有返回值
+   - 方法可以抛出异常
+   - 支持泛型的返回值
+   - 需要借助FutureTask类，比如获取返回结果
+
+   步骤:
+
+   1. 创建一个实现 Callable 的实现类
+   2. 将此线程需要执行的操作声明在`call()`里面
+   3. 创建 Callable 接口实现类的对象
+   4. 将此 Callable 接口实现类的对象传到 FutureTask 构造器中, 创建 FutureTask 对象
+   5. 将 FutureTask 对象传到 Thread 类的构造器中, 创建 Thread 类的对象, 并调用`start()`
+   6. (如需)FutureTask 对象的`get()`获取 Callable 中`call()`的返回值
+
+4. 线程池
+
+   提前创建好多个线程，放入线程池中，使用时直接获取，使用完放回池中。可以避免频繁创建销毁、实现重复利用。
+
+   好处:
+
+   1. 提高响应速度(减少了创建新线程的时间)
+   2. 降低资源消耗(重复利用线程池中线程，不需要每次都创建)
+   3. 便于线程管理
+
+   ![image-20200815140052087](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200815140052.png)
 
 ## 线程的生命周期
 
@@ -1947,14 +1977,15 @@ Thread t3 = new Thread(p).start();
     - 当前线程的同步方法/代码块执行结束; 
     - 被break, return终止; 
   - 异常抛出
-    - 当前线程的同步方法/代码块执行`wait()`, 暂停当前线程, 并释放锁
-
-  - 不会释放锁:
-
-    - 遇到`sleep()`, `yield()`暂停当前线程
-
-  - 死锁
-
+  
+- 当前线程的同步方法/代码块执行`wait()`, 暂停当前线程, 并释放锁
+  
+- 不会释放锁:
+  
+  - 遇到`sleep()`, `yield()`暂停当前线程
+  
+- 死锁
+  
     不同的线程分别占用对方需要的同步资源不放弃，都在等待对方放弃自己需要的同步资源，就形成了线程的死锁.
   
     减少同步资源的定义.
@@ -1992,7 +2023,7 @@ Thread t3 = new Thread(p).start();
 
 `java.lang.Object`
 
-- `wait()` 令当前线程挂起并放弃CPU、同步资源，使别的线程可访问并修改共享资源，而当前线程排队等候再次对资源的访问
+- `wait()` 令当前线程挂起并放弃CPU、同步资源，使别的线程可访问并修改共享资源**即释放锁**，而当前线程排队等候再次对资源的访问
 - `notify()`:唤醒正在排队等待同步资源的线程中优先级最高者
 - `notifyAll()`:唤醒正在排队等待资源的所有线程
 
