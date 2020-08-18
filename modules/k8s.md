@@ -43,5 +43,14 @@ ELK：提供 K8S 集群日志统一分析介入平台
 
   ![image-20200817165938167](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200817165938.png)
 
+  - 探针 probe
   
+- 控制器
 
+  - ReplicaSet
+  - Deployments
+  - DaemonSet
+  - Jobs CronJob
+  - StatefulSet
+
+- Service
