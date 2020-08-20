@@ -2202,44 +2202,31 @@ Thread t3 = new Thread(p).start();
 ## String类
 
 - 使用**Unicode**字符编码，一个字符占两个字节
-- String是一个final类，代表不可变的字符序列. 底层实现是char[]
+- String是一个`final`类，代表不可变的字符序列. 底层实现是`char[]`
 
 ![20200525-tVoKkl](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200525-tVoKkl.png)
 
 > [常量池理解](https://www.jianshu.com/p/c7f47de2ee80)
 
+- 字符串使用特性
+  - 常量与常量的拼接结果在常量池。且常量池中不会存在相同内容的常量。  
+  - 只要其中有一个是变量，结果就在堆中
+  - 如果调用`intern()`，返回值就在常量池中
+
 - 字符串对象操作
-  - public int length()
-  - public char charAt(int index)
-  - public boolean equals(Object anObject)
-  - public int compareTo(String anotherString) 
-  - public int indexOf(String s)
-  - public int indexOf(String s ,int startpoint)
-  - public int lastIndexOf(String s)
-  - public int lastIndexOf(String s ,int startpoint) 
-  - public boolean startsWith(String prefix)
-  - public boolean endsWith(String suffix)
-  - public boolean regionMatches(int toffset, String other, int ooffset, int len)
 
-- 字符串对象修改
+  ![image-20200820160214077](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200820160214.png)
 
-  - public String substring(int startpoint)
-  - public String substring(int start,int end)
-  - pubic String replace(char oldChar,char newChar)
-  - public String replaceAll(String old,String new)
+  ![image-20200820160239453](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200820160239.png)
 
-  - public String trim()
-
-  - public String concat(String str)
-
-  - public String[] split(String regex)
+  ![image-20200820160256559](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200820160256.png)
 
 - 包装类, 基本数据类型, 字节/字符数组 相互转换
 
   1. 字符串 与 基本数据类型, 包装类 转换
 
-     - 字符串 -> 基本数据类型/包装类: 包装类的parseXxx(String str)
-     - 基本数据类型/包装类 -> 字符串: 字符串重载的valueOf()
+     - 字符串 -> 基本数据类型/包装类: 包装类的`parseXxx(String str)`
+     - 基本数据类型/包装类 -> 字符串: 字符串重载的`valueOf(xxx n)`
 
   2. 字符串 与 字节数组 转换
 
@@ -2252,44 +2239,93 @@ Thread t3 = new Thread(p).start();
      - 字符串 -> 字符数组: 字符串的toCharArray()
      - 字符数组 -> 字符串: 字符串的构造器
 
-## StringBuffer
+- StringBuffer
 
-java.lang.StringBuffer代表**可变**的字符序列，可以对字符串内容进行增删改查. 线程安全. 
+    java.lang.StringBuffer代表**可变**的字符序列，可以对字符串内容进行增删改查. 线程安全.
 
-添加 append() 
+    - 构造器
 
-删除 delete(int start, int end)
+      `StringBuffer()`:初始容量为16的字符串缓冲区 
+      `StringBuffer(int size)`:构造指定容量的字符串缓冲区
+      `StringBuffer(String str)`:将内容初始化为指定字符串内容
 
-修改 setCharAt(int index, char ch)
+    - 方法
 
-插入 insert()
+        增 `append()`
 
-反转 reverse()
+        删 `delete(int start, int end)`
 
-长度 length()
+        改 `setCharAt(int index, char ch)`/ `replace(int start, int end, String str)`
 
-## StringBuilder
+        查 `charAt(int n)`
 
-java.lang.StringBuilder和StringBuilder类似, 效率更高, 但线程不安全
+        插入 `insert(int offset, xxx)`
 
+        反转 `reverse()`
 
+        长度 `length()`
+
+- StringBuilder
+
+    java.lang.StringBuilder和StringBuilder类似, 效率更高, 但线程不安全
 
 ## 日期类
 
-- java.lang.System类下的public static long currentTimeMillis(), 用于计算时间差
+- `java.time`基础包
 
-- java.util.Date (及其子类 java.sql.Date)
+    - `LocalDate`、`LocalTime`、`LocalDateTime` 
 
-  - toString()
-  - getTime()
+        他们的实例是不可变的.
 
-- java.text.SimpleDateFormat
+        ![image-20200820203221267](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200820203221.png)
+
+    - `Instant` 瞬时
+
+        表示自1970年1月1日0时0分0秒(UTC)开始的秒数。因为java.time包是基于纳秒计算的，所以Instant的精度可以达到纳秒级.
+
+        | 方法                            | 描述                                                         |
+        | ------------------------------- | ------------------------------------------------------------ |
+        | `now()`                         | 静态方法，返回默认UTC时区的Instant类的对象                   |
+        | `ofEpochMilli(long epochMilli)` | 静态方法，返回在1970-01-01 00:00:00基础上加上指定毫秒 数之后的Instant类的对象 |
+        | `atOffset(ZoneOffset offset)`   | 结合即时的偏移来创建一个 OffsetDateTime                      |
+        | `toEpochMilli()`                | 返回1970-01-01 00:00:00到当前时间的毫秒数，即为时间戳        |
+
+- `java.time.format.DateTimeFormatter`
+
+    | 方法                         | 描述                                                |
+    | ---------------------------- | --------------------------------------------------- |
+    | `ofPattern(String pattern)`  | 静态方法，返回一个指定字符串格式的DateTimeFormatter |
+    | `format(TemporalAccessor t)` | 格式化一个日期、时间，返回字符串                    |
+    | `parse(CharSequence text)`   | 将指定格式的字符序列解析为一个日期、时间            |
+
+- 其他 API
+
+    ![image-20200820204328782](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200820204329.png)
+
+*----------------以下为Java8之前的--------------------*
+
+- `java.lang.System`类下的`public static long currentTimeMillis()`, 用于计算时间差
+
+- `java.util.Date` (及其子类 java.sql.Date)
+
+  - `toString()` dow mon dd hh:mm:ss zzz yyyy 其中: dow是星期几(Mon, Wed, ...), zzz是时间标准
+  - `getTime()`
+
+- `java.text.SimpleDateFormat`
 
   不与语言环境有关的方式来格式化和解析日期的具体类.
 
-  格式化(日期->文本)、解析(文本->日期)
+  格式化(日期->文本)
 
-- java.util.Calendar
+  - `SimpleDateFormat()` :默认的模式和语言环境创建对象
+  - `public SimpleDateFormat(String pattern)`:该构造方法可以用参数pattern 指定的格式创建一个对象，该对象调用:
+  - `public String format(Date date)`:方法格式化时间对象date
+
+  解析(文本->日期)
+
+  - `public Date parse(String source)`:从给定字符串的开始解析文本，以生成 一个日期
+
+- `java.util.Calendar`
 
   抽象基类，主用用于完成日期字段之间相互操作的功能
 
@@ -2297,7 +2333,11 @@ java.lang.StringBuilder和StringBuilder类似, 效率更高, 但线程不安全
     - 使用Calendar.getInstance()方法 
     - 调用它的子类GregorianCalendar的构造器
 
-  - get(), add(), Date getTime()/setTime(Date d)
+  - get(int field), set(int field, int value), add(int feild, int amount), Date getTime()/setTime(Date d)
+  
+      > 获取月份时:一月是0，二月是1 ... 12月是11  
+      >
+      > 获取星期时:周日是1，周二是2 ... 周六是7
 
 ## Math类
 
