@@ -1498,11 +1498,11 @@ class person<T> {
 
 
 
-# 枚举 Enum type
+# 枚举 Enum
 
-- 枚举类对象的属性不应允许被改动**,** 所以应该使用 **private final** 修饰
+- 枚举类对象的属性不允许被改动**,** 使用 **private final** 修饰
 
-- `enum`
+- `java.lang.Enum`
 
   - 必须在枚举类的第一行声明枚举类对象
 
@@ -1512,31 +1512,36 @@ class person<T> {
 
     - `values()` 返回对象数组. 用于遍历所有枚举值
     - `valueOf(String str)` 把一个字符串转为对应的枚举类对象。要求字符串必须是枚举类对象的“名字”。否则，会有运行异常。
-
-  - 实现接口
-
-    若需要每个枚举值在调用实现的接口方法呈现出不同的行为方式, 则可以让每个枚举值分别来实现该方法
-
-  ```java
-  enum Season implements Info{
-    SPRING("1", "A") {
-    	public void show() {
-        sout("a");
-      }
-    },
-    SUMMER("2", "B") {
-      public void show() {
-        sout("b");
-      }
-    },
-    FALL("3", "C"),
-    WINTER("4", "D");
-  }
-  interface Info {
-    void show();
-  }
-  ```
-
+  - `toString()` 得到当前枚举常量的名称
+  
+- 实现接口
+  
+  若需要每个枚举值在调用实现的接口方法呈现出不同的行为方式, 则可以让每个枚举值分别来实现该方法
+    
+    ```java
+    // 多个对象之间用","隔开, 末尾";"结束
+    enum Season implements Info{
+        SPRING("1", "A") {
+            public void show() {
+                sout("a");
+            }
+        },
+        SUMMER("2", "B") {
+            public void show() {
+                sout("b");
+            }
+        },
+        FALL("3", "C"),
+        WINTER("4", "D");
+    }
+    
+    interface Info {
+      void show();
+    }
+    ```
+    
+    
+  
   
 
 # 注解 Annotation
@@ -1557,12 +1562,18 @@ class person<T> {
 
 - 元注解: 修饰其他注解
 
-  Retention
-  Target
-  Documented
-  Inherited
+  JDK5.0提供四个:
+  
+  `@Retention`  指定被修饰的注解的生命周期
+  
+  `@Target` 指定被修饰的注解能用于修饰哪些程序元素
+  `@Documented` 指定被修饰的注解所修饰的类将被Javadoc 提取成文档
+  `@Inherited` 指定被修饰的注解有继承性
+  
+- Java 8新特性
 
-
+    - 可重复的注解
+    - 类型的注解
 
 # IO
 
