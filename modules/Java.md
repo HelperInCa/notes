@@ -67,9 +67,8 @@
   - [Object类](#object%E7%B1%BB)
   - [Wrapper包装类](#wrapper%E5%8C%85%E8%A3%85%E7%B1%BB)
   - [String类](#string%E7%B1%BB)
-  - [StringBuffer](#stringbuffer)
-  - [StringBuilder](#stringbuilder)
   - [日期类](#%E6%97%A5%E6%9C%9F%E7%B1%BB)
+  - [比较器](#%E6%AF%94%E8%BE%83%E5%99%A8)
   - [Math类](#math%E7%B1%BB)
   - [BigInteger/BigDecimal](#bigintegerbigdecimal)
 - [反射](#%E5%8F%8D%E5%B0%84)
@@ -2339,13 +2338,41 @@ Thread t3 = new Thread(p).start();
       >
       > 获取星期时:周日是1，周二是2 ... 周六是7
 
+## 比较器
+
+- `java.lang.Comparable` 接口
+
+    - `compareTo(Object o)` 
+
+        返回值>=0: 当前对象 this >= 形参 obj; 
+
+        返回值<0:  当前对象 this < 形参 obj.
+
+    - 默认从小到大
+
+        - String:按照字符串中字符的Unicode值进行比较
+        - Character:按照字符的Unicode值来进行比较
+        - 数值类型对应的包装类以及BigInteger、BigDecimal:按照它们对应的数值大小进行比较
+        - Boolean:true 对应的包装类实例大于 false 对应的包装类实例 
+        - Date、Time等:后面的日期时间比前面的日期时间大
+
+- `java.util.Comparator` 接口
+
+    当元素的类型没有实现java.lang.Comparable接口而又不方便修改代码, 或者实现了java.lang.Comparable接口的排序规则不适合当前的操作，可考虑使用 Comparator 的对象来排序
+
+    - `campare(Object o1, Object o2)` 
+
+        - 返回值>=0: o1 >= o2; 
+
+            返回值<0: o1 < o2
+
 ## Math类
 
-java.lang.Math提供了一系列静态方法用于科学计算;其方法的参数和返回值类型一般为double型
+`java.lang.Math`提供了一系列静态方法用于科学计算;其方法的参数和返回值类型一般为double型
 
 ## BigInteger/BigDecimal
 
-支持任意精度
+不可变 任意精度
 
 
 
