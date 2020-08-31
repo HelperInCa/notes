@@ -1272,7 +1272,7 @@ interface JJ extends AA, MM {
 
 ![image-20200517221016723](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-18-051017.png)
 
-![Collection接口继承树](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-03-181351.jpg)
+![image-20200831105640844](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200831105641.png)
 
 ## Collection接口
 
@@ -1315,12 +1315,27 @@ public class TestCollection {
         coll1.add(123);
         coll1.add("AA");
         boolean b3 = coll.containsAll(coll1);
-        sout("#" + b3);
+        sout("#" + b3); // true
+        /**
+         * 8.删除
+         * 	boolean remove(Object obj) :通过元素的equals()判断是否是要删除的那个元素。只会删除找到的第一个元素
+		 * 	boolean removeAll(Collection coll):取当前集合的差集
+		 *  9. 取两个集合的交集
+		 boolean retainAll(Collection c):把交集的结果存在当前集合中，不影响c
+		 *  10. 集合是否相等
+		 boolean equals(Object obj)
+		 *  11. 转成对象数组
+		 Object[] toArray()
+		 *  12. 获取集合对象的哈希值
+		 hashCode()
+         */
     }
 }
 ```
 
 - Iterator接口
+    - Iterator 仅用于遍历集合，Iterator 本身并**不提供承装对象**的能力。如果需要创建 Iterator 对象，则必须有一个被迭代的集合。
+    - 集合对象每次调用iterator()方法都得到一个**全新**的迭代器对象，默认游标都在集合的第一个元素之前。
 
 ```java
 public class TestIterator {
@@ -1343,37 +1358,41 @@ public class TestIterator {
 }
 ```
 
-- List接口(有序, 可重复)
+- List接口(**有序, 可重复**)
 
-  - List 方法
+  - 方法
 
     ![image-20200517230137354](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-18-060137.png)
 
-  - ArrayList(List的**主要**实现类)
+  - ArrayList(**主要**实现类)
     - 本质是对象引用的一个可变数组
-    - 线程不安全(vector线程安全, 但效率低, 不使用)
+    - 线程不安全(Vector线程安全, 但效率低, 不使用)
+    
+    > `Arrays.asList()`返回的既不是 ArrayList 实例，也不是 Vector 实例。 是一个固定长度的 List 集合, 不能add remove
   - LinkedList
-    - 链表实现
+    - 双向链表
     - 频繁插入/删除时使用
 
-- Set接口(无序, 不重复)
+- Set接口(**无序, 不重复**)
 
   - 无序!=随机
 
     元素的位置根据hash值存储
 
-  - hashcode(), equals(), compareTo()要*重写*, 保证得到一致的结果
+  - `hashcode()`,`equals()`, `compareTo()`要*重写*, 保证得到一致的结果
 
-  - **HashSet**(*主要* 实现类)
+  - HashSet(**主要**实现类)
 
-  - LinkedHashSet
+  - LinkedHashSet(HashSet子类)
 
-    - 使用链表维护*添加* 的顺序, 但存储是*无序*
-    - 效率: 遍历>HashSet, 插入删除<HashSet
+    - 使用链表维护*插入*顺序, 但存储是*无序*
+    - 性能: 遍历>HashSet, 插入删除<HashSet
   
   - TreeSet
   
+    - 底层:红黑树
     - 元素是同一类
+    - 查询比 List 快
     - 排序
       - 自然
       - 实现Comparable接口的compareTo()
@@ -1388,19 +1407,19 @@ public class TestIterator {
 
 > HashSet是HashMap的一种特殊情况, 底层实现有关联
 
-- 保存具有**单向一对一**的数据
+- 保存具有**单向一对一**的数据, 即通过指定的 key 总能找到唯一确定的 value;
 
-  key, value可以是任何引用类型数据
+  key, value可以是任何引用类型数据;
 
-  key常用Set存, 所以不允许重复, 需重写hashCode(), equals()
+  key常用Set存, 所以不允许重复, 需重写`hashCode()`, `equals()`;
 
-  value常用String存
+  value常用String存;
 
 - 方法
 
   ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-18-225038.png)
 
-- HashMap(*主要* )
+- HashMap(**主要**)
 
   - 子类: LinkedHashMap 迭代顺序与插入顺序一致
 
@@ -1410,7 +1429,7 @@ public class TestIterator {
 
 - Hashtable
 
-  - 过时, 线程安全. 不允许null作为key, value
+  - *过时*, 线程安全. 不允许null作为key, value
 
   - 子类: Properties
 
@@ -1517,7 +1536,7 @@ class person<T> {
 - 实现接口
   
   若需要每个枚举值在调用实现的接口方法呈现出不同的行为方式, 则可以让每个枚举值分别来实现该方法
-    
+  
     ```java
     // 多个对象之间用","隔开, 末尾";"结束
     enum Season implements Info{
@@ -1539,7 +1558,7 @@ class person<T> {
       void show();
     }
     ```
-    
+  
     
   
   
