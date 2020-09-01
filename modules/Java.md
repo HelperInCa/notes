@@ -44,7 +44,7 @@
   - [自定义泛型类](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%9B%E5%9E%8B%E7%B1%BB)
   - [泛型和继承](#%E6%B3%9B%E5%9E%8B%E5%92%8C%E7%BB%A7%E6%89%BF)
   - [通配符](#%E9%80%9A%E9%85%8D%E7%AC%A6)
-- [枚举 Enum type](#%E6%9E%9A%E4%B8%BE-enum-type)
+- [枚举 Enum](#%E6%9E%9A%E4%B8%BE-enum)
 - [注解 Annotation](#%E6%B3%A8%E8%A7%A3-annotation)
 - [IO](#io)
   - [File类](#file%E7%B1%BB)
@@ -1444,7 +1444,7 @@ public class TestIterator {
 
 ## Collections工具类
 
-- 提供**静态**方法操作Collection, Map的元素
+- 提供**静态**方法操作Set, List, Map的元素
 
   - 排序: reverse(List), shuffle(List), sort(List), sort(List，Comparator)
 
@@ -1501,7 +1501,8 @@ class person<T> {
 
 ## 泛型和继承
 
-若B是A的一个子类型(类/接口), G是有泛型声明的类/接口, G\<B>不是G\<A>子类型
+- 父类有泛型，子类可以保留泛型也可指定泛型类型
+- 若B是A的一个子类型(类/接口), G是有泛型声明的类/接口, G\<B>**不是**G\<A>子类型
 
 ## 通配符
 
@@ -1511,9 +1512,9 @@ class person<T> {
   - *写入* `List<?>`中元素是不允许的, 除了null, 因为null是所有类型的成员
 
 - 有限制的通配符
-  - <? extends A> 允许泛型为A及A子类的调用
-  - <? super A> 允许泛型为A及A父类的调用
-  - <? extends Comparable> 允许泛型为实现Comparable接口的实现类的引用调用
+  - `<? extends A>` 允许泛型为A及A子类的调用
+  - `<? super A>` 允许泛型为A及A父类的调用
+  - `<? extends Comparable>` 允许泛型为实现Comparable接口的实现类的引用调用
 
 
 
