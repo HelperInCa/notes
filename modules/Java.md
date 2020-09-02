@@ -57,6 +57,7 @@
     - [数据流](#%E6%95%B0%E6%8D%AE%E6%B5%81)
     - [对象流](#%E5%AF%B9%E8%B1%A1%E6%B5%81)
     - [RandomAccessFile](#randomaccessfile)
+    - [NIO](#nio)
 - [多线程](#%E5%A4%9A%E7%BA%BF%E7%A8%8B)
   - [程序 进程 线程](#%E7%A8%8B%E5%BA%8F-%E8%BF%9B%E7%A8%8B-%E7%BA%BF%E7%A8%8B)
   - [线程创建和使用](#%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8)
@@ -1508,8 +1509,8 @@ class person<T> {
 
 - `?`, 如 `List<?>`, `Map<?>`
 - `List<?>`是`List<String>`、`List<Object>`等各种泛型List的父类
-  - *读取* `List<?>`中元素是安全的, 因为返回的总是Object
-  - *写入* `List<?>`中元素是不允许的, 除了null, 因为null是所有类型的成员
+  - *读取* `List<?>`中元素是*安全*的, 因为返回的总是Object
+  - *写入* `List<?>`中元素是*不允许*的, 除了null, 因为null是所有类型的成员
 
 - 有限制的通配符
   - `<? extends A>` 允许泛型为A及A子类的调用
@@ -1597,15 +1598,35 @@ class person<T> {
 
 # IO
 
-package java.io
+`package java.io`
 
 ## File类
 
-File: 文件和目录路径名的抽象表示形式
+`File`: 文件和目录路径名的抽象表示形式
 
 - 能新建、删除、重命名文件/目录, 但不能访问文件内容本身。如果需要访问文件内容本身，需使用输入/输出流
 
-- File对象可以作为参数传递给流的构造函数
+- File对象可以作为参数传递给流的构造器
+
+- 路径分隔符
+
+    Windows和DOS系统默认使用“\”来表示
+
+    UNIX和URL使用“/”来表示
+
+    为了解决这个隐患，File类提供了一个常量:
+
+    `public static final String separator`根据操作系统，动态提供分隔符
+
+    ```java
+    File file = new File("d:" + File.separator + "info.txt");
+    ```
+
+- 构造器
+
+    - `public File(String pathname)` 以pathname为路径创建File对象，可以是绝对路径或者相对路径，如果pathname是相对路径，则默认的当前路径在系统属性user.dir中存储。
+    - `public File(String parent,String child)` 以parent为父路径，child为子路径创建File对象。
+    - `public File(File parent,String child)` 根据一个父File对象和子文件路径创建File对象
 
 - 方法
 
@@ -1622,13 +1643,13 @@ File: 文件和目录路径名的抽象表示形式
     
     exists()
     
-    canWrite() 
-    
-    canRead() 
-    
     isFile() 
     
     isDirectory()
+    
+    canWrite() 
+    
+    canRead() 
     
   - 获取文件信息
     
@@ -1644,9 +1665,9 @@ File: 文件和目录路径名的抽象表示形式
     
   - 目录操作
     
-    mkDir() 
+    mkdir() 
     
-    mkDirs() 
+    mkdirs() 创建文件目录. 如果上层文件目录不存在, 一并创建 
     
     list()
     
@@ -1681,19 +1702,28 @@ File: 文件和目录路径名的抽象表示形式
 
 ### 节点流
 
+- 注意:
+
+    - 在写入一个文件时，如果使用构造`FileOutputStream(file)`，则目录下有同名文件将被覆盖。
+
+        如果使用构造器`FileOutputStream(file,true)`，则目录下的同名文件不会被覆盖, 在文件内容末尾追加内容
+
+    - 字符流操作字符，只能操作普通文本文件。最常见的文本文件: .txt，.java，.c，.cpp 等源代码。.doc,excel,ppt这些不是文本文件。
+
 **用try-catch处理保证流一定关闭**
 
-- FileInputStream/Reader
+- FileInputStream/FileReader
 
   1.建立一个流对象，将已存在的一个文件加载进流。 	FileReader fr = new FileReader(“Test.txt”);
   2.创建一个临时存放数据的数组。							char[] ch = new char[1024];
   3.调用流对象的读取方法将流中的数据读入到数组中。 fr.read(ch);
 
   - `int read(byte[] b)` `int read(char [] c)`
-
   - `int read(byte[] b, int offset, int length)` `int read(char[] b, int offset, int length)`
 
-- FileOutputStream/Writer
+  ![image-20200902171645404](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200902171646.png)
+
+- FileOutputStream/FileWriter
 
   1.创建流对象，建立数据存放文件 				 FileWriter fw = new FileWriter(“Test.txt”);
   2.调用流对象的写入方法，将数据写入流    	fw.write(“text”);
@@ -1704,7 +1734,7 @@ File: 文件和目录路径名的抽象表示形式
   - `void write(String str)` `void write(String str, int off, int len)`
 ### 缓冲流
 
-- 在使用缓冲流类时，会创建一个内部缓冲区数组
+- 在使用缓冲流类时，会创建一个内部缓冲区数组(默认 8Kb)
 
 - 缓冲流要“套接”在相应的节点流之上，提高了读写的效率，增加了一些新方法
 
@@ -1714,15 +1744,21 @@ File: 文件和目录路径名的抽象表示形式
 
 - BufferedOutputStream/Writer
 
-  - 每次写入后刷新缓冲区 `flush()` 
+  - 每次写入后刷新缓冲区 `flush()`, 即强制把缓冲区内容写入输出流 
 
-  ![20200522-2T89qF](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200522-2T89qF.png)
+  ![image-20200902180025545](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200902180026.png)
 
 ### 转换流
 
 - 在字节流和字符流之间 按指定字符集转换
+
 - 同样要套接在相应节点流上
-- InputStreamReader和OutputStreamWriter
+
+- `InputStreamReader(InputStream out,String charsetName)` `OutputStreamWriter(OutputStream out,String charsetName)`
+
+- 字节流中的数据都是字符时，转成字符流操作更高效。
+
+    我们使用转换流来处理文件乱码问题。实现编码和解码的功能
 
 ### 标准输入输出流
 
@@ -1744,7 +1780,7 @@ File: 文件和目录路径名的抽象表示形式
 
 ### 对象流
 
-- ObjectInputStream和OjbectOutputSteam
+- `ObjectInputStream` `OjbectOutputSteam`
 
 - 存储和读取对象的处理流
 
@@ -1772,14 +1808,54 @@ File: 文件和目录路径名的抽象表示形式
   `void seek(long pos)`: 将文件记录指针定位到 pos 位置
 
 - 构造器
-  public RandomAccessFile(String name, String mode)
+  `public RandomAccessFile(String name, String mode)`
+
+  `public RandomAccessFile(File file, String mode)`
 
   - mode 指定 RandomAccessFile 的访问模式:
-
+  
      ➢ **r:** 以只读方式打开
      ➢ **rw**:打开以便读取和写入
      ➢ **rwd:**打开以便读取和写入;同步文件内容的更新
      ➢ **rws:**打开以便读取和写入;同步文件内容和元数据的更新
+
+### NIO
+
+- IO支持面向缓冲区的(IO是面向流的)、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。
+
+- 提供了两套NIO，一套是针对标准输入输出NIO，另一套就是网络编程NIO。
+
+- Path
+
+    - Path可看成是File类的升级版，实际引用的资源也可以不存在。
+
+    - 提供异常信息
+
+    ```java
+    import java.nio.file.Path;
+    import java.nio.file.Paths;
+    Path path = Paths.get("index.html");    
+    ```
+    
+- Paths工具类
+
+    Paths 类提供的静态 `get()` 方法用来获取 Path 对象:
+
+    `static Path get(String first, String ... more)` : 用于将多个字符连成路径 
+
+    `static Path get(URI uri)`: 返回指定uri对应的Path路径
+
+- Files 工具类
+
+    `Path createDirectory(Path path, FileAttribute<?> ... attr)` : 创建一个目录
+
+    `Path createFile(Path path, FileAttribute<?> ... arr)` : 创建一个文件
+
+    `void deleteIfExists(Path path)` : Path对应的文件/目录如果存在，执行删除
+
+    `long size(Path path)` : 返回 path 指定文件的大小
+
+
 
 # 多线程
 
