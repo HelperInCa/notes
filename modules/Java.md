@@ -75,7 +75,8 @@
 - [反射](#%E5%8F%8D%E5%B0%84)
   - [Class类](#class%E7%B1%BB)
   - [获取Class类的对象](#%E8%8E%B7%E5%8F%96class%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1)
-  - [创建类对象并获取其完整结构](#%E5%88%9B%E5%BB%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%8E%B7%E5%8F%96%E5%85%B6%E5%AE%8C%E6%95%B4%E7%BB%93%E6%9E%84)
+  - [类加载过程与类加载器](#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%E4%B8%8E%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8)
+  - [创建运行时类对象并获取其完整结构](#%E5%88%9B%E5%BB%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%B9%B6%E8%8E%B7%E5%8F%96%E5%85%B6%E5%AE%8C%E6%95%B4%E7%BB%93%E6%9E%84)
   - [调用指定属性, 方法, 构造器](#%E8%B0%83%E7%94%A8%E6%8C%87%E5%AE%9A%E5%B1%9E%E6%80%A7-%E6%96%B9%E6%B3%95-%E6%9E%84%E9%80%A0%E5%99%A8)
   - [动态代理](#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
 - [网络编程](#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B)
@@ -2489,12 +2490,11 @@ Thread t3 = new Thread(p).start();
 
 ## Class类
 
-- java.lang.Class 本身是一个类
+- `java.lang.Class` 本身是一个类
 - 一个类在JVM中只有一个Class对象, 因为只能创建一次
-- 一个Class对象对应一个加载到JVM的一个.class文件
+
+    一个Class对象对应一个加载到JVM的一个.class文件
 - 通过Class可以完整得到一个类的结构
-
-
 
 ## 获取Class类的对象
 
@@ -2509,6 +2509,8 @@ Thread t3 = new Thread(p).start();
    ```java
    Class clazz = “hello, world”.getClass(); 
    ```
+
+   
 
 3. 已知一个类的全类名，且该类在类路径下，可通过 Class类的静态方法*forName()* 获取，可能抛`ClassNotFoundException` 
 
@@ -2525,15 +2527,50 @@ Thread t3 = new Thread(p).start();
 
    > `getResourceAsStream(String str)`:获取类路径下的指定文件的输入流
 
+## 类加载过程与类加载器
 
+- 类加载过程
 
-## 创建类对象并获取其完整结构
+    ![image-20200903113331278](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200903113331.png)
+
+- 什么时候发生类的初始化
+
+    - 类的主动引用(一定会发生类的初始化)
+        当虚拟机启动，先初始化main方法所在的类;
+         new一个类的对象;
+         调用类的静态成员(除了final常量)和静态方法;
+         使用java.lang.reflect包的方法对类进行反射调用;
+
+         当初始化一个类，如果其父类没有被初始化，则先会初始化它的父类.
+
+    - 类的被动引用(不会发生类的初始化)
+        当访问一个静态域时，只有真正声明这个域的类才会被初始化;
+
+        当通过子类引用父类的静态变量，不会导致子类初始化;
+
+        通过数组定义类引用，不会触发此类的初始化;
+
+        引用常量不会触发此类初始化(常量在链接时就存入调用类的常量池中)
+
+- 类加载器
+
+    ![image-20200903113720293](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200903113720.png)
+
+    - `getResourceAsStream(String str)`:获取类路径下的指定文件的输入流
+
+        ```java
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("exer2/test.properties");
+        ```
+
+        
+
+## 创建运行时类对象并获取其完整结构
 
 - 创建类的对象
 
   1. 调用Class对象的`newInstance()`
-     - 类必须要有一个无参的构造器
-     - 类的构造器访问权限足够
+     - 类必须要有一个*无参*的构造器
+     - 类的构造器访问权限足够, 通常为 public
   2. 若类没有无参构造器, 则先取得指定形参的构造器, 显式调用, 再实例化
 
 - 获取对应的运行时类的属性
@@ -2574,7 +2611,7 @@ Thread t3 = new Thread(p).start();
   - 泛型类型: `ParameterizedType` 
   - 获取实际的泛型类型参数数组: `getActualTypeArguments()`
 
-- 包
+- 类所在的包
 
   `Package getPackage()`
 
@@ -2584,15 +2621,14 @@ Thread t3 = new Thread(p).start();
 
 - 属性
 
-  - `public Field getField(String name)` 返回public的属性名为name的属性。
+  - `public Field getField(String name)` 返回属性名为name的public属性。
     `public Field getDeclaredField(String name)` 返回属性名为name的属性。
 
   - `public Object get(Object obj)` 取得指定对象obj上此Field的属性内容
-    `public void set(Object obj,Object value)` 设置指定对象obj上此Field的属性内
-    容
-
-    > 当类中属性设置为private，在使用set()和get()方法时，首先要使用Field类中的`setAccessible(true)`方法将需要操作的属性设置为可以被外部访问
-
+    `public void set(Object obj,Object value)` 设置指定对象obj上此Field的属性内容
+    
+> 当类中属性设置为private，在使用set()和get()方法时，首先要使用Field类中的`setAccessible(true)`方法将需要操作的属性设置为可以被外部访问
+  
 - 方法
 
   1. 通过Class类的`getMethod(String name,Class...parameterTypes)`方法取得一个Method对象，并设置此方法操作时所需要的参数类型。 
@@ -2601,7 +2637,7 @@ Thread t3 = new Thread(p).start();
 
   3. 若原方法声明为private,则需要在调用invoke()方法前， 显式调用方法对象`setAccessible(true)`方法，将可访问 private的方法。
 
-  4. 之后使用`Object invoke(Object obj, Object[] args)`进行调用，并向方法中传递要设置的obj对象的参数信息。
+  4. 使用`Object invoke(Object obj, Object[] args)`进行调用，并向方法中传递要设置的obj对象的参数信息。
 
      
 
