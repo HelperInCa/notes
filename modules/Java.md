@@ -2628,7 +2628,7 @@ Thread t3 = new Thread(p).start();
     `public void set(Object obj,Object value)` 设置指定对象obj上此Field的属性内容
     
 > 当类中属性设置为private，在使用set()和get()方法时，首先要使用Field类中的`setAccessible(true)`方法将需要操作的属性设置为可以被外部访问
-  
+
 - 方法
 
   1. 通过Class类的`getMethod(String name,Class...parameterTypes)`方法取得一个Method对象，并设置此方法操作时所需要的参数类型。 
