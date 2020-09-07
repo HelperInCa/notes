@@ -581,6 +581,8 @@ $ git config --global alias.br branch
 
 # Spring
 
+![Spring5模块](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200907155338.bmp)
+
 - Pros:
 
   - Lightweight
@@ -1004,9 +1006,9 @@ $ git config --global alias.br branch
          
 
 ## **AOP**(Aspect Oriented Programming) 
-面向切面编程: 对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提					高程序的可重用性，同时提高了开发的效率.
+面向切面编程: 对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率.
 
-​					通俗描述: 不通过修改源代码方式, 在主干功能里添加新功能
+通俗描述: 不通过修改源代码方式, 在主干功能里添加新功能
 
 - 动态代理
 
@@ -1037,9 +1039,9 @@ $ git config --global alias.br branch
 
     - 类加载器 
     - 增强方法所在的类，这个类实现的接口，支持多个接口 
-    - 实现这个接口 InvocationHandler，创建代理对象，写增强的部分
+    - 实现接口`InvocationHandler`，创建代理对象，写增强的部分
 
-  - JDK动态代理代码
+  - JDK动态代理底层代码
 
     1. 创建接口，定义方法
 
@@ -1085,8 +1087,8 @@ $ git config --global alias.br branch
        
        //创建代理对象代码
        class UserDaoProxy implements InvocationHandler { 
-           //1. 把创建的是谁的代理对象，把谁传递过来 
-           //有参数构造传递
+           // 传进来代理对象
+           // 有参数构造传递
        	private Object obj;
        	public UserDaoProxy(Object obj) { 
                this.obj = obj;
@@ -1107,12 +1109,12 @@ $ git config --global alias.br branch
 
 - 术语
 
-  - 切面 Aspect: 把增强用到切入点的过程
+  - 切面 Aspect: 把通知用到切入点的过程
   - 连接点 Join Point: 类中哪些方法可以被增强的方法, 这些方法称为连接点
   - 切入点Point cut: 实际被增强的方法
   - 通知(增强) Advice: 实际增强的逻辑部分
     - 前置 @Before
-    - 后置 @AfterReturning 返回后才通知, 所以有异常时不通知
+    - 返回 @AfterReturning 返回后才通知, 所以有异常时不通知
     - 环绕 @Around
     - 异常 @AfterThrowing
     - 最终 @After
@@ -1135,22 +1137,22 @@ $ git config --global alias.br branch
 
      1. 作用: 对哪个类里面的哪个方法进行增强
 
-     2. 语法: execution([权限修饰符] [返回类型(可省略] [类全路径].[方法名称]\([参数列表]) )
+     2. 语法: `execution([权限修饰符] [返回类型(可省略] [类全路径].[方法名称]([参数列表]) )`
 
         e.g. 
 
-        1. 对 `com.atguigu.dao.BookDao` 类里面的 add() 进行增强
+        1. 对 `com.abc.dao.BookDao` 类里面的 add() 进行增强
 
            ```java
-           execution(* com.atguigu.dao.BookDao.add(..))
+           execution(* com.abc.dao.BookDao.add(..))
            ```
 
            
 
-        2. 对 `com.atguigu.dao` 包里面所有类，类里面所有方法进行增强
+        2. 对 `com.abc.dao` 包里面所有类，类里面所有方法进行增强
 
            ```java
-           execution(* com.atguigu.dao.*.*(..))
+           execution(* com.abc.dao.*.*(..))
            ```
 
            
@@ -1184,7 +1186,9 @@ $ git config --global alias.br branch
 
         ![image-20200730165825076](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730165825.png)
 
-     2. 使用注解创建 User 和 UserProxy 对象, 在增强类上面添加注解 `@Aspect`
+     2. 使用注解创建 User 和 UserProxy 对象,
+
+        在增强类上面添加注解 `@Aspect`
 
         ![image-20200730170015464](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730170015.png)
 
@@ -1196,7 +1200,7 @@ $ git config --global alias.br branch
         <!-- 开启 Aspect 生成代理对象-->
         <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
         ```
-        
+
         
 
   4. 配置不同类型的通知
@@ -1223,10 +1227,15 @@ $ git config --global alias.br branch
      @Pointcut(value = "execution(* com.atguigu.spring5.aopanno.User.add(..))")
      public void pointdemo() {
      }
-     //前置通知
+     
+     // 调用@Pointcut
      @Before(value = "pointdemo()") 
      public void before() {
      	System.out.println("before........."); 
+     }
+     @After(value = "pointdemo()")
+     public void after() {
+         ...
      }
      ```
 
@@ -1288,6 +1297,8 @@ $ git config --global alias.br branch
 
 Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据库操作
 
+- 准备工作:
+
 1. 引入 jar 包
 
 ![image-20200730175142491](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200730175143.png)
@@ -1305,7 +1316,7 @@ Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据�
 
    
 
-3. 配置 JdbcTemplate 对象，注入 DataSource
+3. 配置 JdbcTemplate 对象，注入 dataSource
 
    ```xml
    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
@@ -1346,6 +1357,143 @@ Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据�
      }
      ```
 
-- 
+- 操作数据库(添加)
+
+    1. 实体类entities
+
+    2. service, dao
+
+        1. service 增加`add()`方法
+
+        2. 在dao进行数据库添加操作
+
+        3. 调用JdbcTemplate 对象里面 update 方法实现添加操作 `int update(String sql, Object... args)`
+
+            > 参数:
+            >
+            > 1. sql语句 
+            > 2. 设置 sql语句值
+
+            ```java
+            @Repository
+            public class BookDaoImpl implements BookDao {
+                //注入 JdbcTemplate
+            	@Autowired
+                private JdbcTemplate jdbcTemplate; 
+                //添加的方法
+                @Override
+                public void add(Book book) {
+                    // 创建 sql 语句
+                    String sql = "insert into t_book values(?,?,?)";
+                    // 调用方法实现
+                    Object[] args = {book.getUserId(), book.getUsername(),
+                    book.getUstatus()};
+                    int updatedRows = jdbcTemplate.update(sql,args);
+                    System.out.println(updatedRows);
+                }
+            }
+            ```
+
+            
+
+- 操作数据库(修改 删除)
+
+    ```java
+    // 修改
+    @Override
+    public void updateBook(Book book) {
+        String sql = "update t_book set username=?,ustatus=? where user_id=?"; 
+        Object[] args = {book.getUsername(), book.getUstatus(),book.getUserId()}; 
+        int update = jdbcTemplate.update(sql, args);
+        System.out.println(update);
+    }
+    // 删除
+    @Override
+    public void delete(String id) {
+    	String sql = "delete from t_book where user_id=?"; 
+        int update = jdbcTemplate.update(sql, id); 
+        System.out.println(update);
+    }
+    ```
+
+    
+
+- 操作数据库(查询返回某个值)
+
+    `<T> T queryForObject(String sql, Class<T> requiredType)` 
+
+    ```java
+    // 查询记录数
+    @override
+    public int selectCount() {
+        String sql = "select count(*) from t_book";
+    	Integer count = jdbcTemplate.queryForObject(sql, Integer.class); 
+        return count;
+    }
+    ```
+
+    
+
+- 操作数据库(查询返回对象)
+
+    `<T> T queryForObject(String sql, RowMapper<T> rowMapper, Object... args)`
+
+    > 参数:
+    >
+    > 1. sql
+    >
+    > 2. 针对返回的不同类型值，使用RowMappe接口里面实现类完成
+    >
+    >     数据封装
+    >
+    > 3. sql语句值
+
+    ```java
+    // 查询图书详情
+    @Override
+    public Book findBookInfo(String id) {
+        String sql = "select * from t_book where user_id=?"; 
+        //调用方法
+        Book book = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<Book>(Book.class), id); 
+        return book;
+    }
+    ```
+
+    
+
+- 操作数据库(查询返回集合)
+
+    `<T> List<T> query(String sql, RowMapper<T> rowMapper, Object[] args)`
+
+    ```java
+    // 查询图书列表
+    @Override
+    public List<Book> findAllBook() {
+        String sql = "select * from t_book";
+        // 调用方法
+        List<Book> bookList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Book>(Book.class)); 
+        return bookList;
+    }
+    ```
+
+    
+
+- 操作数据库(批量)
+
+    `int[] batchUpdate(String sql, List<Object[]> batchArgs)`
+
+    ```java
+    // 批量添加
+    @Override
+    public void batchAddBook(List<Object[]> batchArgs) { 
+        String sql = "insert into t_book values(?,?,?)"; 
+        int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+        System.out.println(Arrays.toString(ints));
+    }
+    ```
+
+## 事务
+
+
 
 - ~~SSH(Struts, Spring, Hibernate)~~ -> SSM（Spring+SpringMVC+MyBatis）
