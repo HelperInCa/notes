@@ -580,7 +580,7 @@ $ git config --global alias.br branch
 
 # Spring Boot
 
-[Spring Boot](https://github.com/HelperInCa/notes/blob/master/modules/Spring%20Boot.md)
+[Spring Boot](https://github.com/HelperInCa/notes/blob/master/modules/SpringBoot.md)
 
 # Jira
 
