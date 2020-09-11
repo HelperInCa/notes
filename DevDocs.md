@@ -32,11 +32,16 @@
 - [My Alias](#my-alias)
 - [Spring Boot](#spring-boot)
 - [Jira](#jira)
-- [Spring](#spring)
+- [Spring 5](#spring-5)
   - [IoC(Inversion of Control)](#iocinversion-of-control)
   - [Bean管理](#bean%E7%AE%A1%E7%90%86)
-  - [**AOP**(Aspect Oriented Programming)](#aopaspect-oriented-programming)
+  - [AOP(Aspect Oriented Programming)](#aopaspect-oriented-programming)
   - [JdbcTemplate](#jdbctemplate)
+  - [事务](#%E4%BA%8B%E5%8A%A1)
+  - [日志框架](#%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6)
+  - [Spring5 核心容器支持`@Nullable`, 函数式风格](#spring5-%E6%A0%B8%E5%BF%83%E5%AE%B9%E5%99%A8%E6%94%AF%E6%8C%81nullable-%E5%87%BD%E6%95%B0%E5%BC%8F%E9%A3%8E%E6%A0%BC)
+  - [Spring5 支持整合 JUnit5](#spring5-%E6%94%AF%E6%8C%81%E6%95%B4%E5%90%88-junit5)
+  - [Webflux](#webflux)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -575,11 +580,11 @@ $ git config --global alias.br branch
 
 # Spring Boot
 
-[NoteTODO]()
+[Spring Boot](https://github.com/HelperInCa/notes/blob/master/modules/Spring%20Boot.md)
 
 # Jira
 
-# Spring
+# Spring 5
 
 ![Spring5模块](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200907155338.bmp)
 
@@ -1005,7 +1010,7 @@ $ git config --global alias.br branch
 
          
 
-## **AOP**(Aspect Oriented Programming) 
+## AOP(Aspect Oriented Programming) 
 面向切面编程: 对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率.
 
 通俗描述: 不通过修改源代码方式, 在主干功能里添加新功能
@@ -1493,6 +1498,162 @@ Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据�
     ```
 
 ## 事务
+
+- 事务是数据库操作最基本单元，逻辑上的一组操作，要么都成功，如果有一个失败所有操作都失败.
+
+- 事务四个特性(**ACID**) 
+
+    (1) 原子性
+    (2) 一致性
+    (3) 隔离性
+    (4) 持久性
+
+- Spring 事务管理
+
+    - 事务添加到 JavaEE三层结构(Web, Service, Dao)里的 Service
+
+    - Spring事务管理操作(底层是 AOP): 编程式事务管理, 声明式事务管理
+
+    - 声明式事务管理
+
+        - 基于注解
+        - 基于xml
+
+    - API
+
+        ![image-20200908202553834](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200908202554.png)
+
+- 注解声明式
+
+    1. 配置事务管理器
+
+        ```xml
+        <!--创建事务管理器--> 
+        <bean id="transactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        	<!--注入数据源-->
+        	<property name="dataSource" ref="dataSource"></property>
+        </bean>
+        ```
+
+    2. 开启事务注解
+
+        1. 引入命名空间 tx
+
+            <img src="https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200909104149.png" alt="image-20200909104148895" style="zoom:50%;" />
+
+        2. 开启事务注解
+
+            ```xml
+            <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+            ```
+
+    3. 在 Service 类上面(或者 Service 类里面方法上面)添加事务注解`@Transactional`
+
+        ```java
+        @Service
+        @Transactional
+        public class UserService
+        ```
+
+    - 参数配置
+
+        - propagation 传播行为
+
+            | 事务传播行为类型 | 说明                                                         |
+            | ---------------- | ------------------------------------------------------------ |
+            | **REQUIRED**     | 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是默认的. |
+            | **REQUIRES_NEW** | 新建事务，如果当前存在事务，把当前事务挂起。                 |
+            | SUPPORTS         | 支持当前事务，如果当前没有事务，就以非事务方式执行。         |
+            | MANDATORY        | 使用当前的事务，如果当前没有事务，就抛出异常                 |
+            | NOT_SUPPORTED    | 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。   |
+            | NEVER            | 以非事务方式执行，如果当前存在事务，则抛出异常。             |
+            | NESTED           | 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。 |
+
+            
+
+        - isolation 隔离级别
+
+            - 三个读问题: 脏读, 不可重复读, 幻读
+
+                1. 脏读: 一个未提交事务读取到另一个未提交事务的数据
+                2. 不可重复读: 一个未提交事务读取到另一个提交事务修改的数据
+                3. 幻读: 一个未提交事务读取到另一个提交事务添加的数据
+
+            - 解决方案
+
+                ![事务隔离级别](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200909111707.bmp)
+
+                > MySQL 默认: 可重复读
+
+        - timeout 超时时间
+
+            - 事务需要在一定时间内进行提交，如果不提交进行回滚 
+            - 默认值是 -1 ，设置时间以秒单位进行计算
+
+        - readOnly 是否只读
+
+            - 默认值是 false. 设置为 true 后,只能查询
+
+        - rollbackFor 回滚
+
+            - 设置出现哪些异常进行事务回滚
+
+        - noRollbackFor 不回滚
+
+            - 设置出现哪些异常不进行事务回滚
+
+## 日志框架
+
+- Spring 5 移除 Log4jConfigListener, 已整合 Log4j2
+1. 引入 jar 包
+
+2. 创建 log4j2.xml 配置文件
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!--日志级别以及优先级排序: OFF < FATAL < ERROR < WARN < INFO < DEBUG < TRACE < ALL -->
+    <!--Configuration后面的status用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，可以看到log4j2内部各种详细输出-->
+    <configuration status="INFO">
+        <!--先定义所有的appender-->
+        <appenders>
+            <!--输出日志信息到控制台-->
+            <console name="Console" target="SYSTEM_OUT">
+                <!--控制日志输出的格式-->
+                <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </console>
+        </appenders>
+        <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+        <!--root：用于指定项目的根日志，如果没有单独指定Logger，则会使用root作为默认的日志输出-->
+        <loggers>
+            <root level="info">
+                <appender-ref ref="Console"/>
+            </root>
+        </loggers>
+    </configuration>
+    ```
+    
+    
+
+## Spring5 核心容器支持`@Nullable`, 函数式风格
+
+`@Nullable` 可以使用在方法, 属性, 参数上面，表示方法返回值, 属性值, 参数值可以为空.
+
+## Spring5 支持整合 JUnit5
+
+## Webflux
+
+异步非阻塞框架
+
+> 异步和同步针对调用者，调用者发送请求，如果等着对方回应之后才去做其他事情就是同步，如果发送请求之后不等着对方回应就去做其他事情就是异步
+>
+> 阻塞和非阻塞针对被调用者，被调用者受到请求之后，做完请求任务之后才给出反馈就是阻塞，受到请求之后马上给出反馈然后再去做事情就是非阻塞
+
+![1 SpringMVC和Webflux比较](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200909162616.bmp)
+
+
+
+
 
 
 
