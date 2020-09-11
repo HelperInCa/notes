@@ -32,16 +32,7 @@
 - [My Alias](#my-alias)
 - [Spring Boot](#spring-boot)
 - [Jira](#jira)
-- [Spring 5](#spring-5)
-  - [IoC(Inversion of Control)](#iocinversion-of-control)
-  - [Bean管理](#bean%E7%AE%A1%E7%90%86)
-  - [AOP(Aspect Oriented Programming)](#aopaspect-oriented-programming)
-  - [JdbcTemplate](#jdbctemplate)
-  - [事务](#%E4%BA%8B%E5%8A%A1)
-  - [日志框架](#%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6)
-  - [Spring5 核心容器支持`@Nullable`, 函数式风格](#spring5-%E6%A0%B8%E5%BF%83%E5%AE%B9%E5%99%A8%E6%94%AF%E6%8C%81nullable-%E5%87%BD%E6%95%B0%E5%BC%8F%E9%A3%8E%E6%A0%BC)
-  - [Spring5 支持整合 JUnit5](#spring5-%E6%94%AF%E6%8C%81%E6%95%B4%E5%90%88-junit5)
-  - [Webflux](#webflux)
+- [Spring5](#spring5)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
