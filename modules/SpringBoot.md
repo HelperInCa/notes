@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Contents**
 
-- [**一、**Spring Boot 入门](#%E4%B8%80spring-boot-%E5%85%A5%E9%97%A8)
+- [一、SpringBoot quick start](#%E4%B8%80springboot-quick-start)
   - [Spring Boot 简介](#spring-boot-%E7%AE%80%E4%BB%8B)
   - [Spring Boot HelloWorld](#spring-boot-helloworld)
     - [1、创建一个maven工程；（jar）](#1%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAmaven%E5%B7%A5%E7%A8%8Bjar)
@@ -41,7 +41,7 @@
   - [6、配置文件加载位置](#6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E4%BD%8D%E7%BD%AE)
   - [7、外部配置加载顺序](#7%E5%A4%96%E9%83%A8%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F)
   - [8、自动配置原理](#8%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86)
-    - [1、**自动配置原理：**](#1%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86)
+    - [1、自动配置原理](#1%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86)
     - [2、细节](#2%E7%BB%86%E8%8A%82)
       - [1、@Conditional派生注解（Spring注解版原生的@Conditional作用）](#1conditional%E6%B4%BE%E7%94%9F%E6%B3%A8%E8%A7%A3spring%E6%B3%A8%E8%A7%A3%E7%89%88%E5%8E%9F%E7%94%9F%E7%9A%84conditional%E4%BD%9C%E7%94%A8)
 - [三、日志](#%E4%B8%89%E6%97%A5%E5%BF%97)
@@ -50,7 +50,7 @@
     - [1、如何在系统中使用SLF4j   https://www.slf4j.org](#1%E5%A6%82%E4%BD%95%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BD%BF%E7%94%A8slf4j---httpswwwslf4jorg)
     - [2、遗留问题](#2%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98)
   - [3、SpringBoot日志关系](#3springboot%E6%97%A5%E5%BF%97%E5%85%B3%E7%B3%BB)
-  - [4、日志使用；](#4%E6%97%A5%E5%BF%97%E4%BD%BF%E7%94%A8)
+  - [4、日志使用](#4%E6%97%A5%E5%BF%97%E4%BD%BF%E7%94%A8)
     - [1、默认配置](#1%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE)
     - [2、指定配置](#2%E6%8C%87%E5%AE%9A%E9%85%8D%E7%BD%AE)
   - [5、切换日志框架](#5%E5%88%87%E6%8D%A2%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6)
@@ -118,7 +118,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 一、Spring Boot 入门
+# 一、SpringBoot quick start
 
 ## Spring Boot 简介
 
@@ -315,7 +315,7 @@ public @interface EnableAutoConfiguration {
 
 ​		将所有需要导入的组件以全类名的方式返回；这些组件就会被添加到容器中；
 
-​		会给容器中导入非常多的自动配置类（xxxAutoConfiguration）；就是给容器中导入这个场景需要的所有组件，并配置好这些组件；		![自动配置类](images/搜狗截图20180129224104.png)
+​		会给容器中导入非常多的自动配置类（xxxAutoConfiguration）；就是给容器中导入这个场景需要的所有组件，并配置好这些组件；		![自动配置类](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200911111948.png)
 
 有了自动配置类，免去了我们手动编写配置注入功能组件等的工作；
 
@@ -515,7 +515,7 @@ person:
 
 调整
 
-![idea配置乱码](images/搜狗截图20180130161620.png)
+![idea配置乱码](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200911112010.png)
 
 #### 2、@Value获取值和@ConfigurationProperties获取值比较
 
@@ -799,7 +799,7 @@ SpringBoot会从这四个位置全部加载主配置文件, **互补配置**；
 
 所有支持的配置加载来源；
 
-[参考官方文档](https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle/#boot-features-external-config)
+[官方文档](https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle/#boot-features-external-config)
 
 ## 8、自动配置原理
 
@@ -809,17 +809,17 @@ SpringBoot会从这四个位置全部加载主配置文件, **互补配置**；
 
 
 
-### 1、**自动配置原理：**
+### 1、自动配置原理
 
 1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能 ==@EnableAutoConfiguration==
 
-**2）、@EnableAutoConfiguration 作用：**
+2）、@EnableAutoConfiguration 作用：
 
- -  利用EnableAutoConfigurationImportSelector给容器中导入一些组件？
+ -  利用EnableAutoConfigurationImportSelector给容器中导入一些组件
 
-- 可以查看selectImports()方法的内容；
+- 查看selectImports()方法的内容就知道导入了哪些组件；
 
-- List<String> configurations = getCandidateConfigurations(annotationMetadata,      attributes);获取候选的配置
+- `List<String> configurations = getCandidateConfigurations(annotationMetadata, attributes)`获取候选的配置
 
   - ```java
     SpringFactoriesLoader.loadFactoryNames()
@@ -829,9 +829,8 @@ SpringBoot会从这四个位置全部加载主配置文件, **互补配置**；
 
     ```
 
-    
 
-**==将 类路径下  META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中；==**
+==将 类路径下  META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中；==
 
 ```properties
 # Auto Configure
@@ -944,7 +943,7 @@ org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration
 @Configuration   //表示这是一个配置类，以前编写的配置文件一样，也可以给容器中添加组件
 @EnableConfigurationProperties(HttpEncodingProperties.class)  //启动指定类的ConfigurationProperties功能；将配置文件中对应的值和HttpEncodingProperties绑定起来；并把HttpEncodingProperties加入到ioc容器中
 
-@ConditionalOnWebApplication //Spring底层@Conditional注解（Spring注解版），根据不同的条件，如果满足指定的条件，整个配置类里面的配置就会生效；    判断当前应用是否是web应用，如果是，当前配置类生效
+@ConditionalOnWebApplication //Spring底层@Conditional注解（Spring注解版），根据不同的条件，如果满足指定的条件，整个配置类里面的配置就会生效；判断当前应用是否是web应用，如果是，当前配置类生效
 
 @ConditionalOnClass(CharacterEncodingFilter.class)  //判断当前项目有没有这个类CharacterEncodingFilter；SpringMVC中进行乱码解决的过滤器；
 
@@ -961,23 +960,19 @@ public class HttpEncodingAutoConfiguration {
 	}
   
     @Bean   //给容器中添加一个组件，这个组件的某些值需要从properties中获取
-	@ConditionalOnMissingBean(CharacterEncodingFilter.class) //判断容器没有这个组件？
+	@ConditionalOnMissingBean(CharacterEncodingFilter.class) //判断容器有没有这个组件
 	public CharacterEncodingFilter characterEncodingFilter() {
 		CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
 		filter.setEncoding(this.properties.getCharset().name());
-		filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
-		filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
+        filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
+            filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE);)
 		return filter;
 	}
 ```
 
-根据当前不同的条件判断，决定这个配置类是否生效？
+根据当前不同的条件判断，决定这个配置类是否生效
 
 一但这个配置类生效；这个配置类就会给容器中添加各种组件；这些组件的属性是从对应的properties类中获取的，这些类里面的每一个属性又是和配置文件绑定的；
-
-
-
-
 
 
 
@@ -990,19 +985,15 @@ public class HttpEncodingProperties {
    public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 ```
 
+==**总结**==:
 
+​	1）、SpringBoot启动会加载大量的自动配置类
 
+​	2）、我们看我们需要的功能有没有SpringBoot默认写好的自动配置类；
 
+​	3）、我们再来看这个自动配置类中到底配置了哪些组件；（只要我们要用的组件有，我们就不需要再来配置了）
 
-**精髓：**
-
-​	**1）、SpringBoot启动会加载大量的自动配置类**
-
-​	**2）、我们看我们需要的功能有没有SpringBoot默认写好的自动配置类；**
-
-​	**3）、我们再来看这个自动配置类中到底配置了哪些组件；（只要我们要用的组件有，我们就不需要再来配置了）**
-
-​	**4）、给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这些属性的值；**
+​	4）、给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这些属性的值；
 
 
 
@@ -1039,9 +1030,9 @@ xxxxProperties:封装配置文件中相关属性；
 
 **自动配置类必须在一定的条件下才能生效；**
 
-我们怎么知道哪些自动配置类生效；
+怎么知道哪些自动配置类生效；
 
-**==我们可以通过启用  debug=true属性；来让控制台打印自动配置报告==**，这样我们就可以很方便的知道哪些自动配置类生效；
+==通过启用`debug=true`属性；来让控制台打印自动配置报告==
 
 ```java
 =========================
@@ -1072,15 +1063,13 @@ Negative matches:（没有启动，没有匹配成功的自动配置类）
 
 
 
-
-
 # 三、日志
 
 ## 1、日志框架
 
  小张；开发一个大型系统；
 
-​		1、System.out.println("")；将关键数据打印在控制台；去掉？写在一个文件？
+​		1、System.out.println("")；将关键数据打印在控制台；写在一个文件？
 
 ​		2、框架来记录系统的一些运行时信息；日志框架 ；  zhanglogging.jar；
 
@@ -1096,13 +1085,13 @@ Negative matches:（没有启动，没有匹配成功的自动配置类）
 
 
 
-**市面上的日志框架；**
+- 日志框架
 
-JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j....
+    JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j....
 
-| 日志门面  （日志的抽象层）                           | 日志实现                                     |
-| ---------------------------------------- | ---------------------------------------- |
-| ~~JCL（Jakarta  Commons Logging）~~    SLF4j（Simple  Logging Facade for Java）    **~~jboss-logging~~** | Log4j  JUL（java.util.logging）  Log4j2  **Logback** |
+| 日志门面  （日志的抽象层）                                   | 日志实现                                         |
+| ------------------------------------------------------------ | ------------------------------------------------ |
+| ~~JCL（Jakarta  Commons Logging）~~(不更新了)    SLF4j（Simple  Logging Facade for Java）    ~~jboss-logging~~(特定框架才用) | Log4j  JUL（java.util.logging）  Log4j2  Logback |
 
 左边选一个门面（抽象层）、右边来选一个实现；
 
@@ -1112,9 +1101,9 @@ JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j....
 
 
 
-SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL
 
-​	**==SpringBoot选用 SLF4j和logback；==**
+**==SpringBoot选用 SLF4j和logback；==**
 
 
 
@@ -1122,9 +1111,9 @@ SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘
 
 ### 1、如何在系统中使用SLF4j   https://www.slf4j.org
 
-以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法；
+以后开发的时候，日志记录方法的调用，不能来直接调用日志的实现类，而是*调用日志抽象层*里面的方法
 
-给系统里面导入slf4j的jar和  logback的实现jar
+导入slf4j-api.jar和  logback的jar包
 
 ```java
 import org.slf4j.Logger;
@@ -1140,17 +1129,17 @@ public class HelloWorld {
 
 图示；
 
-![images/concrete-bindings.png](images/concrete-bindings.png)
+![images/concrete-bindings.png](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200914162818.png)
 
-每一个日志的实现框架都有自己的配置文件。使用slf4j以后，**配置文件还是做成日志实现框架自己本身的配置文件；**
+每一个日志的实现框架都有自己的配置文件。使用slf4j以后，**配置文件要做成日志实现框架自己本身的配置文件；**
 
 ### 2、遗留问题
 
-a（slf4j+logback）: Spring（commons-logging）、Hibernate（jboss-logging）、MyBatis、xxxx
+某系统（slf4j+logback）依赖: Spring（commons-logging）、Hibernate（jboss-logging）、MyBatis、xxxx
 
 统一日志记录，即使是别的框架和我一起统一使用slf4j进行输出？
 
-![](images/legacy.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200914162830.png)
 
 **如何让系统中所有的日志都统一到slf4j；**
 
@@ -1165,51 +1154,48 @@ a（slf4j+logback）: Spring（commons-logging）、Hibernate（jboss-logging）
 ## 3、SpringBoot日志关系
 
 ```xml
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter</artifactId>
+</dependency>
 ```
-
-
 
 SpringBoot使用它来做日志功能；
 
 ```xml
-	<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-		</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-logging</artifactId>
+</dependency>
 ```
 
-底层依赖关系
+依赖关系
 
-![](images/搜狗截图20180131220946.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200914165341.png)
 
 总结：
 
-​	1）、SpringBoot底层也是使用slf4j+logback的方式进行日志记录
+​	1）SpringBoot底层也是使用slf4j+logback的方式进行日志记录
 
-​	2）、SpringBoot也把其他的日志都替换成了slf4j；
+​	2）SpringBoot也把其他的日志都替换成了slf4j；
 
-​	3）、中间替换包？
+​	3）中间替换包
 
 ```java
 @SuppressWarnings("rawtypes")
 public abstract class LogFactory {
 
     static String UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J = "http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j";
-
     static LogFactory logFactory = new SLF4JLogFactory();
 ```
 
-![](images/搜狗截图20180131221411.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200914165356.png)
 
 
 
-​	4）、如果我们要引入其他框架？一定要把这个框架的默认日志依赖移除掉？
+​	4）要把该框架的默认日志依赖移除
 
-​			Spring框架用的是commons-logging；
+​			Spring框架默认是commons-logging；
 
 ```xml
 		<dependency>
@@ -1224,51 +1210,35 @@ public abstract class LogFactory {
 		</dependency>
 ```
 
-**==SpringBoot能自动适配所有的日志，而且底层使用slf4j+logback的方式记录日志，引入其他框架的时候，只需要把这个框架依赖的日志框架排除掉即可；==**
+**==SpringBoot能自动适配所有的日志，底层使用slf4j+logback，引入其他框架的时候，只需把这个框架依赖的日志框架排除掉即可==**
 
-## 4、日志使用；
+## 4、日志使用
 
 ### 1、默认配置
 
-SpringBoot默认帮我们配置好了日志；
+SpringBoot默认帮我们配置好了日志
 
 ```java
 	//记录器
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Test
 	public void contextLoads() {
-		//System.out.println();
-
 		//日志的级别；
 		//由低到高   trace<debug<info<warn<error
-		//可以调整输出的日志级别；日志就只会在这个级别以以后的高级别生效
+		//可以调整输出的日志级别；日志就只会在这个级别及以后的高级别生效
 		logger.trace("这是trace日志...");
 		logger.debug("这是debug日志...");
 		//SpringBoot默认给我们使用的是info级别的，没有指定级别的就用SpringBoot默认规定的级别；root级别
 		logger.info("这是info日志...");
 		logger.warn("这是warn日志...");
 		logger.error("这是error日志...");
-
-
 	}
 ```
 
-
-
-        日志输出格式：
-    		%d表示日期时间，
-    		%thread表示线程名，
-    		%-5level：级别从左显示5个字符宽度
-    		%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
-    		%msg：日志消息，
-    		%n是换行符
-        -->
-        %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
 SpringBoot修改日志的默认配置
 
 ```properties
 logging.level.com.atguigu=trace
-
 
 #logging.path=
 # 不指定路径在当前项目下生成springboot.log日志
@@ -1290,9 +1260,19 @@ logging.pattern.file=%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} =
 | 指定文件名        | (none)       | my.log   | 输出日志到my.log文件           |
 | (none)       | 指定目录         | /var/log | 输出到指定目录的 spring.log 文件中 |
 
+- 日志输出格式：
+        `%d`表示日期时间，
+        `%thread`表示线程名，
+        `%-5level`级别从左显示5个字符宽度
+       `` %logger{50}` 表示logger名字最长50个字符，否则按照句点分割。 
+        `%msg`日志消息，
+        `%n`是换行符
+    eg.
+        `%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n`
+
 ### 2、指定配置
 
-给类路径下放上每个日志框架自己的配置文件即可；SpringBoot就不使用他默认配置的了
+给类路径下添加每个日志框架自己的配置文件即可；SpringBoot就不使用默认配置的
 
 | Logging System          | Customization                            |
 | ----------------------- | ---------------------------------------- |
@@ -1300,51 +1280,49 @@ logging.pattern.file=%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} =
 | Log4j2                  | `log4j2-spring.xml` or `log4j2.xml`      |
 | JDK (Java Util Logging) | `logging.properties`                     |
 
-logback.xml：直接就被日志框架识别了；
+- logback-spring.xml
 
-**logback-spring.xml**：日志框架就不直接加载日志的配置项，由SpringBoot解析日志配置，可以使用SpringBoot的高级Profile功能
+    若使用logback.xml：直接就被日志框架识别了；
 
-```xml
-<springProfile name="staging">
-    <!-- configuration to be enabled when the "staging" profile is active -->
-  	可以指定某段配置只在某个环境下生效
-</springProfile>
+    **logback-spring.xml**：日志框架就不直接加载日志的配置项，由SpringBoot解析日志配置，可使用SpringBoot的Profile功能
 
-```
+    ```xml
+    <springProfile name="staging">
+        <!-- configuration to be enabled when the "staging" profile is active -->
+      	可以指定某段配置只在某个环境下生效
+    </springProfile>
+    
+    ```
 
-如：
+    如：
 
-```xml
-<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <!--
-        日志输出格式：
-			%d表示日期时间，
-			%thread表示线程名，
-			%-5level：级别从左显示5个字符宽度
-			%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
-			%msg：日志消息，
-			%n是换行符
-        -->
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <springProfile name="dev">
-                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
-            </springProfile>
-            <springProfile name="!dev">
-                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>
-            </springProfile>
-        </layout>
-    </appender>
-```
+    ```xml
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+            <!--
+            日志输出格式：
+    			%d表示日期时间，
+    			%thread表示线程名，
+    			%-5level：级别从左显示5个字符宽度
+    			%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+    			%msg：日志消息，
+    			%n是换行符
+            -->
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <springProfile name="dev">
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
+                </springProfile>
+                <springProfile name="!dev">
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>
+                </springProfile>
+            </layout>
+        </appender>
+    ```
 
-
-
-如果使用logback.xml作为日志配置文件，还要使用profile功能，会有以下错误
-
- `no applicable action for [springProfile]`
+    如果用logback.xml作为日志配置文件，还有profile功能，会有错误:  `no applicable action for [springProfile]`
 
 ## 5、切换日志框架
 
-可以按照slf4j的日志适配图，进行相关的切换；
+按照slf4j的日志适配图，进行相关的切换；
 
 slf4j+log4j的方式；
 
@@ -1370,10 +1348,6 @@ slf4j+log4j的方式；
 </dependency>
 
 ```
-
-
-
-
 
 切换为log4j2
 
