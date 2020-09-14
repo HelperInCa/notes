@@ -78,6 +78,16 @@
 
 ## git init
 
+### git clone
+
+- 拉取指定分支
+
+    ```shell
+    git clone -b [分支名] [clone URL]
+    ```
+
+    
+
 ## git status
 
 ## git add
