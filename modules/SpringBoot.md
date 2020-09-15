@@ -1379,25 +1379,18 @@ slf4j+log4j的方式；
 
 使用SpringBoot；
 
-**1）、创建SpringBoot应用，选中我们需要的模块；**
+1. 创建SpringBoot应用，选中需要的模块
 
-**2）、SpringBoot已经默认将这些场景配置好了，只需要在配置文件中指定少量配置就可以运行起来**
+2. SpringBoot默认将这些场景配置好，只需要在配置文件中指定少量配置就可以运行起来
 
-**3）、自己编写业务代码；**
-
-
+3. 写业务代码
 
 **自动配置原理？**
 
-这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？xxx
+这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？
 
-```
-xxxxAutoConfiguration：帮我们给容器中自动配置组件；
-xxxxProperties:配置类来封装配置文件的内容；
-
-```
-
-
+`xxxxAutoConfiguration`：帮我们给容器中自动配置组件；
+`xxxxProperties`: 配置类来封装配置文件的内容；
 
 ## 2、SpringBoot对静态资源的映射规则；
 
@@ -1406,8 +1399,6 @@ xxxxProperties:配置类来封装配置文件的内容；
 public class ResourceProperties implements ResourceLoaderAware {
   //可以设置和静态资源有关的参数，缓存时间等
 ```
-
-
 
 ```java
 	WebMvcAuotConfiguration：
@@ -1479,15 +1470,13 @@ public class ResourceProperties implements ResourceLoaderAware {
 
 
 
-==1）、所有 /webjars/** ，都去 classpath:/META-INF/resources/webjars/ 找资源；==
+1. 所有 /webjars/** ，都去 classpath:/META-INF/resources/webjars/ 找资源；
 
-​	webjars：以jar包的方式引入静态资源；
+    ​	[webjars](http://www.webjars.org/)：以jar包的方式引入静态资源
 
-http://www.webjars.org/
+    ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200915100950.png)
 
-![](images/搜狗截图20180203181751.png)
-
-localhost:8080/webjars/jquery/3.3.1/jquery.js
+    localhost:8080/webjars/jquery/3.3.1/jquery.js
 
 ```xml
 <!--引入jquery-webjar-->在访问的时候只需要写webjars下面资源的名称即可
@@ -1500,7 +1489,7 @@ localhost:8080/webjars/jquery/3.3.1/jquery.js
 
 
 
-==2）、"/**" 访问当前项目的任何资源，都去（静态资源的文件夹）找映射==
+2. "/**" 访问当前项目的任何资源，都去（静态资源的文件夹）找映射
 
 ```
 "classpath:/META-INF/resources/", 
@@ -1510,27 +1499,23 @@ localhost:8080/webjars/jquery/3.3.1/jquery.js
 "/"：当前项目的根路径
 ```
 
-localhost:8080/abc ===  去静态资源文件夹里面找abc
+​	localhost:8080/abc ->  去静态资源文件夹里面找abc
 
-==3）、欢迎页； 静态资源文件夹下的所有index.html页面；被"/**"映射；==
+3. 欢迎页； 静态资源文件夹下的所有index.html页面；被"/**"映射
 
 ​	localhost:8080/   找index页面
 
-==4）、所有的 **/favicon.ico  都是在静态资源文件下找；==
-
-
+4. 所有的 **/favicon.ico (图标) 都是在静态资源文件下找
 
 ## 3、模板引擎
 
 JSP、Velocity、Freemarker、Thymeleaf
 
-![](images/template-engine.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200915101646.png)
 
 
 
-SpringBoot推荐的Thymeleaf；
-
-语法更简单，功能更强大；
+SpringBoot推荐Thymeleaf: 语法更简单，功能更强大
 
 
 
@@ -1542,11 +1527,11 @@ SpringBoot推荐的Thymeleaf；
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
           	2.1.6
 		</dependency>
-切换thymeleaf版本
+<!-- 切换thymeleaf版本-->
 <properties>
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
-		<!-- 布局功能的支持程序  thymeleaf3主程序  layout2以上版本 -->
-		<!-- thymeleaf2   layout1-->
+		<!-- thymeleaf3主程序,需要布局功能的支持程序layout2以上版本 -->
+		<!-- thymeleaf2 -> layout1-->
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
   </properties>
 ```
@@ -1569,7 +1554,7 @@ public class ThymeleafProperties {
   	//
 ```
 
-只要我们把HTML页面放在classpath:/templates/，thymeleaf就能自动渲染；
+**把HTML页面放在classpath:/templates/，thymeleaf就能自动渲染**
 
 使用：
 
@@ -1598,15 +1583,15 @@ public class ThymeleafProperties {
 
 ### 3、语法规则
 
-1）、th:text；改变当前元素里面的文本内容；
+1. `th:text`改变当前元素里面的文本内容
 
-​	th：任意html属性；来替换原生属性的值
+    `th：任意html属性`来替换原生属性的值
 
-![](images/2018-02-04_123955.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200915104317.png)
 
 
 
-2）、表达式？
+2. 表达式
 
 ```properties
 Simple expressions:（表达式语法）
@@ -1646,7 +1631,7 @@ Simple expressions:（表达式语法）
     <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
     <p>Surname: <span th:text="*{lastName}">Pepper</span>.</p>
     <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
-    </div>
+   </div>
     
     Message Expressions: #{...}：获取国际化内容
     Link URL Expressions: @{...}：定义URL；
