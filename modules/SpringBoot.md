@@ -1519,7 +1519,7 @@ SpringBoot推荐Thymeleaf: 语法更简单，功能更强大
 
 
 
-### 1、引入thymeleaf；
+### 1、引入thymeleaf
 
 ```xml
 		<dependency>
@@ -1667,13 +1667,15 @@ Special tokens:
 
 ## 4、SpringMVC自动配置
 
-https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications
+> [Spring MVC概述](https://www.jianshu.com/p/91a2d0a1e45a)
+
+[doc](https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
 
 ### 1. Spring MVC auto-configuration
 
 Spring Boot 自动配置好了SpringMVC
 
-以下是SpringBoot对SpringMVC的默认配置:**==（WebMvcAutoConfiguration）==**
+以下是SpringBoot对SpringMVC的默认配置:==（WebMvcAutoConfiguration）==
 
 - Inclusion of `ContentNegotiatingViewResolver` and `BeanNameViewResolver` beans.
   - 自动配置了ViewResolver（视图解析器：根据方法的返回值得到视图对象（View），视图对象决定如何渲染（转发？重定向？））
@@ -1691,14 +1693,14 @@ Spring Boot 自动配置好了SpringMVC
 - 自动注册了 of `Converter`, `GenericConverter`, `Formatter` beans.
 
   - Converter：转换器；  public String hello(User user)：类型转换使用Converter
-  - `Formatter`  格式化器；  2017.12.17===Date；
+  - `Formatter`  格式化器；  2017.12.17 -> Date
 
 ```java
-		@Bean
-		@ConditionalOnProperty(prefix = "spring.mvc", name = "date-format")//在文件中配置日期格式化的规则
-		public Formatter<Date> dateFormatter() {
-			return new DateFormatter(this.mvcProperties.getDateFormat());//日期格式化组件
-		}
+@Bean
+@ConditionalOnProperty(prefix = "spring.mvc", name = "date-format")//在文件中配置日期格式化的规则
+public Formatter<Date> dateFormatter() {
+	return new DateFormatter(this.mvcProperties.getDateFormat());//日期格式化组件
+}
 ```
 
 ​	==自己添加的格式化器转换器，我们只需要放在容器中即可==
@@ -1719,12 +1721,10 @@ Spring Boot 自动配置好了SpringMVC
 
   ==我们可以配置一个ConfigurableWebBindingInitializer来替换默认的；（添加到容器）==
 
-  ```
-  初始化WebDataBinder；
-  请求数据=====JavaBean；
-  ```
+  初始化WebDataBinder
+  请求数据 -> JavaBean
 
-**org.springframework.boot.autoconfigure.web：web的所有自动场景；**
+`org.springframework.boot.autoconfigure.web`：web的所有自动场景
 
 If you want to keep Spring Boot MVC features, and you just want to add additional [MVC configuration](https://docs.spring.io/spring/docs/4.3.14.RELEASE/spring-framework-reference/htmlsingle#mvc) (interceptors, formatters, view controllers etc.) you can add your own `@Configuration` class of type `WebMvcConfigurerAdapter`, but **without** `@EnableWebMvc`. If you wish to provide custom instances of `RequestMappingHandlerMapping`, `RequestMappingHandlerAdapter` or `ExceptionHandlerExceptionResolver` you can declare a `WebMvcRegistrationsAdapter` instance providing such components.
 
@@ -1733,13 +1733,13 @@ If you want to take complete control of Spring MVC, you can add your own `@Confi
 ### 2、扩展SpringMVC
 
 ```xml
-    <mvc:view-controller path="/hello" view-name="success"/>
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/hello"/>
-            <bean></bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
+<mvc:view-controller path="/hello" view-name="success"/>
+<mvc:interceptors>
+    <mvc:interceptor>
+        <mvc:mapping path="/hello"/>
+        <bean></bean>
+    </mvc:interceptor>
+</mvc:interceptors>
 ```
 
 **==编写一个配置类（@Configuration），是WebMvcConfigurerAdapter类型；不能标注@EnableWebMvc==**;
@@ -1793,9 +1793,9 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
 ​	效果：SpringMVC的自动配置和我们的扩展配置都会起作用；
 
-### 3、全面接管SpringMVC；
+### 3、全面接管SpringMVC
 
-SpringBoot对SpringMVC的自动配置不需要了，所有都是我们自己配置；所有的SpringMVC的自动配置都失效了
+所有的SpringMVC的自动配置都失效了
 
 **我们需要在配置类中添加@EnableWebMvc即可；**
 
@@ -1816,8 +1816,6 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
 原理：
 
-为什么@EnableWebMvc自动配置就失效了；
-
 1）@EnableWebMvc的核心
 
 ```java
@@ -1825,14 +1823,14 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 public @interface EnableWebMvc {
 ```
 
-2）、
+2）
 
 ```java
 @Configuration
 public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {
 ```
 
-3）、
+3）
 
 ```java
 @Configuration
@@ -1899,11 +1897,11 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
 ### 2）、国际化
 
-**1）、编写国际化配置文件；**
+1. 编写国际化配置文件
 
-2）、使用ResourceBundleMessageSource管理国际化资源文件
+2. 使用ResourceBundleMessageSource管理国际化资源文件
 
-3）、在页面使用fmt:message取出国际化内容
+3. 在页面使用fmt:message取出国际化内容
 
 
 
@@ -1911,7 +1909,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
 1）、编写国际化配置文件，抽取页面需要显示的国际化消息
 
-![](images/搜狗截图20180211130721.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200917154035.png)
 
 
 
@@ -1950,11 +1948,11 @@ public class MessageSourceAutoConfiguration {
 
 
 
-3）、去页面获取国际化的值；
+3）、去页面获取国际化的值
 
-![](images/搜狗截图20180211134506.png)
+设置编码为 utf8,且自动转为ascii
 
-
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200917154159.png)
 
 ```html
 <!DOCTYPE html>
@@ -2004,19 +2002,20 @@ public class MessageSourceAutoConfiguration {
 ​	国际化Locale（区域信息对象）；LocaleResolver（获取区域信息对象）；
 
 ```java
-		@Bean
-		@ConditionalOnMissingBean
-		@ConditionalOnProperty(prefix = "spring.mvc", name = "locale")
-		public LocaleResolver localeResolver() {
-			if (this.mvcProperties
-					.getLocaleResolver() == WebMvcProperties.LocaleResolver.FIXED) {
-				return new FixedLocaleResolver(this.mvcProperties.getLocale());
-			}
-			AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-			localeResolver.setDefaultLocale(this.mvcProperties.getLocale());
-			return localeResolver;
-		}
-默认的就是根据请求头带来的区域信息获取Locale进行国际化
+@Bean
+@ConditionalOnMissingBean
+@ConditionalOnProperty(prefix = "spring.mvc", name = "locale")
+public LocaleResolver localeResolver() {
+    if (this.mvcProperties
+        .getLocaleResolver() == WebMvcProperties.LocaleResolver.FIXED) {
+        return new FixedLocaleResolver(this.mvcProperties.getLocale());
+    }
+    // 默认的就是根据请求头带来的区域信息获取Locale进行国际化
+    AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+    localeResolver.setDefaultLocale(this.mvcProperties.getLocale());
+    return localeResolver;
+}
+
 ```
 
 4）、点击链接切换国际化
@@ -2058,31 +2057,28 @@ public class MyLocaleResolver implements LocaleResolver {
 
 开发期间模板引擎页面修改以后，要实时生效
 
-1）、禁用模板引擎的缓存
+1. 禁用模板引擎的缓存
 
-```
-# 禁用缓存
-spring.thymeleaf.cache=false 
-```
+    ```properties
+    # 禁用缓存
+    spring.thymeleaf.cache=false 
+    ```
 
-2）、页面修改完成以后ctrl+f9：重新编译；
+2. 页面修改完成以后`⌘+f9`：重新编译；
 
+    登陆错误消息的显示
 
+    ```html
+    <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    ```
 
-登陆错误消息的显示
-
-```html
-<p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
-```
-
-
+    
 
 ### 4）、拦截器进行登陆检查
 
 拦截器
 
 ```java
-
 /**
  * 登陆检查，
  */
@@ -2100,7 +2096,6 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             //已登陆，放行请求
             return true;
         }
-
     }
 
     @Override
@@ -2113,7 +2108,6 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
     }
 }
-
 ```
 
 
@@ -2148,7 +2142,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 ### 5）、CRUD-员工列表
 
-实验要求：
+要求：
 
 1）、RestfulCRUD：CRUD满足Rest风格；
 
@@ -2161,7 +2155,7 @@ URI：  /资源名称/资源标识       HTTP请求方式区分对资源CRUD操�
 | 修改 | updateEmp?id=xxx&xxx=xx   | emp/{id}---PUT    |
 | 删除 | deleteEmp?id=1            | emp/{id}---DELETE |
 
-2）、实验的请求架构;
+2）请求架构;
 
 | 实验功能                             | 请求URI | 请求方式 |
 | ------------------------------------ | ------- | -------- |
@@ -2173,7 +2167,7 @@ URI：  /资源名称/资源标识       HTTP请求方式区分对资源CRUD操�
 | 修改员工                             | emp     | PUT      |
 | 删除员工                             | emp/1   | DELETE   |
 
-3）、员工列表：
+3）员工列表：
 
 #### thymeleaf公共页面元素抽取
 
@@ -2211,12 +2205,12 @@ insert的公共片段在div标签中
 &copy; 2011 The Good Thymes Virtual Grocery
 </footer>
 
-引入方式
+<!--3种引入方式-->
 <div th:insert="footer :: copy"></div>
 <div th:replace="footer :: copy"></div>
 <div th:include="footer :: copy"></div>
 
-效果
+<!--效果-->
 <div>
     <footer>
     &copy; 2011 The Good Thymes Virtual Grocery
@@ -2231,8 +2225,6 @@ insert的公共片段在div标签中
 &copy; 2011 The Good Thymes Virtual Grocery
 </div>
 ```
-
-
 
 引入片段的时候传入参数： 
 
