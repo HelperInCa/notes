@@ -2292,15 +2292,15 @@ insert的公共片段在div标签中
 </form>
 ```
 
-提交的数据格式不对：生日：日期；
+提交的数据格式不对：日期(生日)
 
 2017-12-12；2017/12/12；2017.12.12；
 
 日期的格式化；SpringMVC将页面提交的值需要转换为指定的类型;
 
-2017-12-12---Date； 类型转换，格式化;
+2017-12-12 -> Date； 类型转换，格式化;
 
-默认日期是按照/的方式；
+默认日期是按照 / 的方式；
 
 ### 7）、CRUD-员工修改
 
@@ -2379,31 +2379,31 @@ insert的公共片段在div标签中
 
 
 
-## 7、错误处理机制
+## 7 错误处理机制
 
-### 1）、SpringBoot默认的错误处理机制
+### 1）SpringBoot默认的错误处理机制
 
 默认效果：
 
-​		1）、浏览器，返回一个默认的错误页面
+​		1）浏览器，返回一个默认的错误页面
 
-![](images/搜狗截图20180226173408.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200922171239.png)
 
-  浏览器发送请求的请求头：
+  浏览器发送的请求头：
 
-![](images/搜狗截图20180226180347.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200922171253.png)
 
-​		2）、如果是其他客户端，默认响应一个json数据
+​		2）如果是其他客户端，默认响应一个json数据
 
-![](images/搜狗截图20180226173527.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200923140201.png)
 
-​		![](images/搜狗截图20180226180504.png)
+​		![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200922171446.png)
 
 原理：
 
-​	可以参照ErrorMvcAutoConfiguration；错误处理的自动配置；
+​	可以参照ErrorMvcAutoConfiguration 错误处理的自动配置
 
-  	给容器中添加了以下组件
+​	给容器中添加了以下组件
 
 ​	1、DefaultErrorAttributes：
 
@@ -2430,7 +2430,7 @@ insert的公共片段在div标签中
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class BasicErrorController extends AbstractErrorController {
     
-    @RequestMapping(produces = "text/html")//产生html类型的数据；浏览器发送的请求来到这个方法处理
+    @RequestMapping(produces = "text/html")//产生html类型的数据；浏览器发送的请求到这个方法处理
 	public ModelAndView errorHtml(HttpServletRequest request,
 			HttpServletResponse response) {
 		HttpStatus status = getStatus(request);
@@ -2458,8 +2458,9 @@ public class BasicErrorController extends AbstractErrorController {
 ​	3、ErrorPageCustomizer：
 
 ```java
-	@Value("${error.path:/error}")
-	private String path = "/error";  系统出现错误以后来到error请求进行处理；（web.xml注册的错误页面规则）
+@Value("${error.path:/error}")
+private String path = "/error";
+系统出现错误以后来到error请求进行处理；（类似web.xml注册的错误页面规则）
 ```
 
 
@@ -2478,7 +2479,7 @@ public class BasicErrorController extends AbstractErrorController {
 	}
 
 	private ModelAndView resolve(String viewName, Map<String, Object> model) {
-        //默认SpringBoot可以去找到一个页面？  error/404
+        //默认SpringBoot可以去找到页面  error/404
 		String errorViewName = "error/" + viewName;
         
         //模板引擎可以解析这个页面地址就用模板引擎解析
@@ -2488,7 +2489,7 @@ public class BasicErrorController extends AbstractErrorController {
             //模板引擎可用的情况下返回到errorViewName指定的视图地址
 			return new ModelAndView(errorViewName, model);
 		}
-        //模板引擎不可用，就在静态资源文件夹下找errorViewName对应的页面   error/404.html
+        //模板引擎不可用，就在静态资源文件夹下找errorViewName对应的页面 error/404.html
 		return resolveResource(errorViewName, model);
 	}
 ```
@@ -2497,7 +2498,7 @@ public class BasicErrorController extends AbstractErrorController {
 
 ​	步骤：
 
-​		一但系统出现4xx或者5xx之类的错误；ErrorPageCustomizer就会生效（定制错误的响应规则）；就会来到/error请求；就会被**BasicErrorController**处理；
+​		一但系统出现4xx或者5xx之类的错误；ErrorPageCustomizer就会生效（定制错误的响应规则）；就会来到/error请求；就会被`BasicErrorController`处理
 
 ​		1）响应页面；去哪个页面是由**DefaultErrorViewResolver**解析得到的；
 
@@ -2515,13 +2516,13 @@ protected ModelAndView resolveErrorView(HttpServletRequest request,
 }
 ```
 
-### 2）、如果定制错误响应：
+### 2）如果定制错误响应：
 
-#### 	**1）、如何定制错误的页面；**
+#### 	**1）如何定制错误的页面；**
 
-​			**1）、有模板引擎的情况下；error/状态码;** 【将错误页面命名为  错误状态码.html 放在模板引擎文件夹里面的 error文件夹下】，发生此状态码的错误就会来到  对应的页面；
+​			**1）有模板引擎的情况下；error/状态码;** 【将错误页面命名为  错误状态码.html 放在模板引擎文件夹里面的 error文件夹下】，发生此状态码的错误就会来到对应的页面；
 
-​			我们可以使用4xx和5xx作为错误页面的文件名来匹配这种类型的所有错误，精确优先（优先寻找精确的状态码.html）；		
+​			我们可以使用4xx和5xx作为错误页面的文件名来匹配这种类型的所有错误，优先寻找精确的状态码.html
 
 ​			页面能获取的信息；
 
@@ -2535,17 +2536,17 @@ protected ModelAndView resolveErrorView(HttpServletRequest request,
 
 ​				message：异常消息
 
-​				errors：JSR303数据校验的错误都在这里
+​				errors：JSR303数据校验的错误
 
-​			2）、没有模板引擎（模板引擎找不到这个错误页面），静态资源文件夹下找；
+​			2）没有模板引擎（模板引擎找不到这个错误页面），静态资源文件夹下找
 
-​			3）、以上都没有错误页面，就是默认来到SpringBoot默认的错误提示页面；
+​			3）以上都没有错误页面，默认到SpringBoot默认的错误提示页面
 
 
 
-#### 	2）、如何定制错误的json数据；
+#### 	2）如何定制错误的json数据；
 
-​		1）、自定义异常处理&返回定制json数据；
+​		1）自定义异常处理&返回定制json数据；
 
 ```java
 @ControllerAdvice
@@ -2560,44 +2561,43 @@ public class MyExceptionHandler {
         return map;
     }
 }
-//没有自适应效果...
+// 缺点: 浏览器 客户端返回的都是 json
 ```
 
 
 
-​		2）、转发到/error进行自适应响应效果处理
+​		2）转发到/error进行自适应响应效果处理
 
 ```java
- @ExceptionHandler(UserNotExistException.class)
-    public String handleException(Exception e, HttpServletRequest request){
-        Map<String,Object> map = new HashMap<>();
-        //传入我们自己的错误状态码  4xx 5xx，否则就不会进入定制错误页面的解析流程
-        /**
-         * Integer statusCode = (Integer) request
-         .getAttribute("javax.servlet.error.status_code");
+@ExceptionHandler(UserNotExistException.class)
+public String handleException(Exception e, HttpServletRequest request){
+    Map<String,Object> map = new HashMap<>();
+    //传入自己的错误状态码  4xx 5xx，否则就不会进入定制错误页面的解析流程
+    /**
+         * Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
          */
-        request.setAttribute("javax.servlet.error.status_code",500);
-        map.put("code","user.notexist");
-        map.put("message",e.getMessage());
-        //转发到/error
-        return "forward:/error";
-    }
+    request.setAttribute("javax.servlet.error.status_code",500);
+    map.put("code","user.notexist");
+    map.put("message",e.getMessage());
+    //转发到/error
+    return "forward:/error";
+}
 ```
 
-#### 	3）、将我们的定制数据携带出去；
+#### 	3）将我们的定制数据携带出去；
 
 出现错误以后，会来到/error请求，会被BasicErrorController处理，响应出去可以获取的数据是由getErrorAttributes得到的（是AbstractErrorController（ErrorController）规定的方法）；
 
-​	1、完全来编写一个ErrorController的实现类【或者是编写AbstractErrorController的子类】，放在容器中；
+​	1、完全来编写一个ErrorController的实现类【或者是编写AbstractErrorController的子类】，放在容器中
 
 ​	2、页面上能用的数据，或者是json返回能用的数据都是通过errorAttributes.getErrorAttributes得到；
 
-​			容器中DefaultErrorAttributes.getErrorAttributes()；默认进行数据处理的；
+​			容器中DefaultErrorAttributes.getErrorAttributes() 默认进行数据处理的；
 
 自定义ErrorAttributes
 
 ```java
-//给容器中加入我们自己定义的ErrorAttributes
+//给容器中加自定义的ErrorAttributes
 @Component
 public class MyErrorAttributes extends DefaultErrorAttributes {
 
@@ -2610,25 +2610,21 @@ public class MyErrorAttributes extends DefaultErrorAttributes {
 }
 ```
 
-最终的效果：响应是自适应的，可以通过定制ErrorAttributes改变需要返回的内容，
+最终的效果：响应是自适应的，可以通过定制ErrorAttributes改变需要返回的内容
 
-![](images/搜狗截图20180228135513.png)
-
-
-
-## 8、配置嵌入式Servlet容器
-
-SpringBoot默认使用Tomcat作为嵌入式的Servlet容器；
-
-![](images/搜狗截图20180301142915.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200923140146.png)
 
 
 
-问题？
+## 8 配置嵌入式Servlet容器
 
-### 1）、如何定制和修改Servlet容器的相关配置；
+SpringBoot默认使用Tomcat作为嵌入式的Servlet容器
 
-1、修改和server有关的配置（ServerProperties【也是EmbeddedServletContainerCustomizer】）；
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200923140140.png)
+
+### 1）如何定制和修改Servlet容器的相关配置；
+
+- 第一种方法: 修改和server有关的配置（`ServerProperties` implements `EmbeddedServletContainerCustomizer`, 因此如果两种方法有冲突, 以第二种为准）
 
 ```properties
 server.port=8081
@@ -2642,10 +2638,10 @@ server.xxx
 server.tomcat.xxx
 ```
 
-2、编写一个**EmbeddedServletContainerCustomizer**：嵌入式的Servlet容器的定制器；来修改Servlet容器的配置
+- 第二种方法: 写一个`EmbeddedServletContainerCustomizer`：嵌入式的Servlet容器的定制器, 来修改Servlet容器的配置. 
 
 ```java
-@Bean  //一定要将这个定制器加入到容器中
+@Bean  //将这个定制器加入到容器中
 public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer(){
     return new EmbeddedServletContainerCustomizer() {
 
@@ -2658,16 +2654,15 @@ public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer(){
 }
 ```
 
-### 2）、注册Servlet三大组件【Servlet、Filter、Listener】
+### 2）注册Servlet三大组件【Servlet、Filter、Listener】
 
 由于SpringBoot默认是以jar包的方式启动嵌入式的Servlet容器来启动SpringBoot的web应用，没有web.xml文件。
 
 注册三大组件用以下方式
 
-ServletRegistrationBean
+`ServletRegistrationBean`
 
 ```java
-//注册三大组件
 @Bean
 public ServletRegistrationBean myServlet(){
     ServletRegistrationBean registrationBean = new ServletRegistrationBean(new MyServlet(),"/myServlet");
@@ -2676,7 +2671,7 @@ public ServletRegistrationBean myServlet(){
 
 ```
 
-FilterRegistrationBean
+`FilterRegistrationBean`
 
 ```java
 @Bean
@@ -2688,7 +2683,7 @@ public FilterRegistrationBean myFilter(){
 }
 ```
 
-ServletListenerRegistrationBean
+`ServletListenerRegistrationBean`
 
 ```java
 @Bean
@@ -2702,7 +2697,7 @@ public ServletListenerRegistrationBean myListener(){
 
 SpringBoot帮我们自动SpringMVC的时候，自动的注册SpringMVC的前端控制器；DIspatcherServlet；
 
-DispatcherServletAutoConfiguration中：
+`DispatcherServletAutoConfiguration`中：
 
 ```java
 @Bean(name = DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME)
@@ -2725,11 +2720,11 @@ public ServletRegistrationBean dispatcherServletRegistration(
 
 ```
 
-2）、SpringBoot能不能支持其他的Servlet容器；
+2）SpringBoot能不能支持其他的Servlet容器；
 
-### 3）、替换为其他嵌入式Servlet容器
+### 3）替换为其他嵌入式Servlet容器
 
-![](images/搜狗截图20180302114401.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200923180053.png)
 
 默认支持：
 
@@ -2743,7 +2738,7 @@ Tomcat（默认使用）
 </dependency>
 ```
 
-Jetty
+Jetty(长连接)
 
 ```xml
 <!-- 引入web模块 -->
@@ -2765,7 +2760,7 @@ Jetty
 </dependency>
 ```
 
-Undertow
+Undertow(不支持 JSP)
 
 ```xml
 <!-- 引入web模块 -->
@@ -2787,18 +2782,18 @@ Undertow
 </dependency>
 ```
 
-### 4）、嵌入式Servlet容器自动配置原理；
+### 4）嵌入式Servlet容器自动配置原理；
 
 
 
-EmbeddedServletContainerAutoConfiguration：嵌入式的Servlet容器自动配置？
+EmbeddedServletContainerAutoConfiguration：嵌入式的Servlet容器自动配置
 
 ```java
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
 @ConditionalOnWebApplication
 @Import(BeanPostProcessorsRegistrar.class)
-//导入BeanPostProcessorsRegistrar：Spring注解版；给容器中导入一些组件
+//导入BeanPostProcessorsRegistrar；给容器中导入一些组件
 //导入了EmbeddedServletContainerCustomizerBeanPostProcessor：
 //后置处理器：bean初始化前后（创建完对象，还没赋值赋值）执行初始化工作
 public class EmbeddedServletContainerAutoConfiguration {
@@ -2954,7 +2949,7 @@ ServerProperties也是定制器
 
 1）、SpringBoot根据导入的依赖情况，给容器中添加相应的EmbeddedServletContainerFactory【TomcatEmbeddedServletContainerFactory】
 
-2）、容器中某个组件要创建对象就会惊动后置处理器；EmbeddedServletContainerCustomizerBeanPostProcessor；
+2）、容器中某个组件要创建对象就会触发后置处理器；EmbeddedServletContainerCustomizerBeanPostProcessor；
 
 只要是嵌入式的Servlet容器工厂，后置处理器就工作；
 
@@ -2962,7 +2957,7 @@ ServerProperties也是定制器
 
 
 
-###5）、嵌入式Servlet容器启动原理；
+### 5）、嵌入式Servlet容器启动原理；
 
 什么时候创建嵌入式的Servlet容器工厂？什么时候获取嵌入式的Servlet容器并启动Tomcat；
 
@@ -3066,7 +3061,7 @@ EmbeddedServletContainerFactory containerFactory = getEmbeddedServletContainerFa
 
 ​		优点：简单、便携；
 
-​		缺点：默认不支持JSP、优化定制比较复杂（使用定制器【ServerProperties、自定义EmbeddedServletContainerCustomizer】，自己编写嵌入式Servlet容器的创建工厂【EmbeddedServletContainerFactory】）；
+​		缺点：默认不支持JSP、优化定制比较复杂（使用定制器【ServerProperties、自定义EmbeddedServletContainerCustomizer】，自己编写嵌入式Servlet容器的创建工厂【EmbeddedServletContainerFactory】）
 
 
 
