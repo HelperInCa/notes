@@ -76,6 +76,12 @@
 
 ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-14-git%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png)
 
+## 常用命令
+
+- 回滚
+
+    ![image-20200927175807654](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200927175807.png)
+
 ## git init
 
 ### git clone
@@ -276,7 +282,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
   `~/.gitignore_global`
 
-## alias
+## 本机alias
 
 如: `st`表示`status`
 
