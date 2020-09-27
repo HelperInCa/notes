@@ -105,8 +105,6 @@
   - [1、JDBC](#1jdbc)
   - [2、整合Druid数据源](#2%E6%95%B4%E5%90%88druid%E6%95%B0%E6%8D%AE%E6%BA%90)
   - [3、整合MyBatis](#3%E6%95%B4%E5%90%88mybatis)
-    - [4）、注解版](#4%E6%B3%A8%E8%A7%A3%E7%89%88)
-    - [5）、配置文件版](#5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%89%88)
   - [4、整合SpringData JPA](#4%E6%95%B4%E5%90%88springdata-jpa)
     - [1）、SpringData简介](#1springdata%E7%AE%80%E4%BB%8B)
     - [2）、整合SpringData JPA](#2%E6%95%B4%E5%90%88springdata-jpa)
@@ -115,7 +113,6 @@
   - [2、运行run方法](#2%E8%BF%90%E8%A1%8Crun%E6%96%B9%E6%B3%95)
   - [3、事件监听机制](#3%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%9C%BA%E5%88%B6)
 - [八、自定义starter](#%E5%85%AB%E8%87%AA%E5%AE%9A%E4%B9%89starter)
-- [更多SpringBoot整合示例](#%E6%9B%B4%E5%A4%9Aspringboot%E6%95%B4%E5%90%88%E7%A4%BA%E4%BE%8B)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -3442,27 +3439,25 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.15.22:3306/jdbc
+    url: jdbc:mysql://localhost:3307/jdbc
     driver-class-name: com.mysql.jdbc.Driver
 ```
 
 效果：
 
-​	默认是用org.apache.tomcat.jdbc.pool.DataSource作为数据源；
+​	默认是用`org.apache.tomcat.jdbc.pool.DataSource`作为数据源
 
-​	数据源的相关配置都在DataSourceProperties里面；
+​	数据源的相关配置都在`DataSourceProperties`里面
 
 自动配置原理：
 
-org.springframework.boot.autoconfigure.jdbc：
+`org.springframework.boot.autoconfigure.jdbc`
 
-1、参考DataSourceConfiguration，根据配置创建数据源，默认使用Tomcat连接池；可以使用spring.datasource.type指定自定义的数据源类型；
+1、参考`DataSourceConfiguration`，根据配置创建数据源，默认使用Tomcat连接池；可以使用`spring.datasource.type`指定自定义的数据源类型
 
-2、SpringBoot默认可以支持；
+2、SpringBoot默认可以支持:
 
-```
-org.apache.tomcat.jdbc.pool.DataSource、HikariDataSource、BasicDataSource、
-```
+`org.apache.tomcat.jdbc.pool.DataSource` `HikariDataSource`  `BasicDataSource`
 
 3、自定义数据源类型
 
@@ -3483,31 +3478,31 @@ static class Generic {
 }
 ```
 
-4、**DataSourceInitializer：ApplicationListener**；
+4、**DataSourceInitializer：ApplicationListener**
 
 ​	作用：
 
-​		1）、runSchemaScripts();运行建表语句；
+​		1）、`runSchemaScripts()`运行建表语句；
 
-​		2）、runDataScripts();运行插入数据的sql语句；
+​		2）、`runDataScripts()`运行插入数据的sql语句；
 
 默认只需要将文件命名为：
 
 ```properties
 schema-*.sql、data-*.sql
 默认规则：schema.sql，schema-all.sql；
-可以使用   
+也可以在配置文件里指定   
 	schema:
       - classpath:department.sql
-      指定位置
 ```
 
 5、操作数据库：自动配置了JdbcTemplate操作数据库
 
 ## 2、整合Druid数据源
 
-```java
 导入druid数据源
+
+```java
 @Configuration
 public class DruidConfig {
 
@@ -3518,7 +3513,7 @@ public class DruidConfig {
     }
 
     //配置Druid的监控
-    //1、配置一个管理后台的Servlet
+    //1、配置管理后台的Servlet
     @Bean
     public ServletRegistrationBean statViewServlet(){
         ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
@@ -3526,7 +3521,7 @@ public class DruidConfig {
 
         initParams.put("loginUsername","admin");
         initParams.put("loginPassword","123456");
-        initParams.put("allow","");//默认就是允许所有访问
+        initParams.put("allow","");//默认允许所有访问
         initParams.put("deny","192.168.15.21");
 
         bean.setInitParameters(initParams);
@@ -3534,7 +3529,7 @@ public class DruidConfig {
     }
 
 
-    //2、配置一个web监控的filter
+    //2、配置web监控的filter
     @Bean
     public FilterRegistrationBean webStatFilter(){
         FilterRegistrationBean bean = new FilterRegistrationBean();
@@ -3556,14 +3551,14 @@ public class DruidConfig {
 ## 3、整合MyBatis
 
 ```xml
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>1.3.1</version>
-		</dependency>
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>1.3.1</version>
+</dependency>
 ```
 
-![](images/搜狗截图20180305194443.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200925145237.png)
 
 步骤：
 
@@ -3573,7 +3568,7 @@ public class DruidConfig {
 
 ​	3）、创建JavaBean
 
-### 	4）、注解版
+​	4）    注解方式
 
 ```java
 //指定这是一个操作数据库的mapper
@@ -3616,8 +3611,6 @@ public class MyBatisConfig {
 }
 ```
 
-
-
 ```java
 使用MapperScan批量扫描所有的Mapper接口；
 @MapperScan(value = "com.atguigu.springboot.mapper")
@@ -3630,7 +3623,7 @@ public class SpringBoot06DataMybatisApplication {
 }
 ```
 
-### 5）、配置文件版
+5）、配置文件方式
 
 ```yaml
 mybatis:
@@ -3638,37 +3631,33 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml  指定sql映射文件的位置
 ```
 
-更多使用参照
-
-http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/
-
-
+[更多参考](http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 
 ## 4、整合SpringData JPA
 
 ### 1）、SpringData简介
 
-![](images/搜狗截图20180306105412.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200927091530.png)
 
 ### 2）、整合SpringData JPA
 
-JPA:ORM（Object Relational Mapping）；
+JPA:ORM（Object Relational Mapping）
 
-1）、编写一个实体类（bean）和数据表进行映射，并且配置好映射关系；
+1）、编写一个实体类（bean）和数据表进行映射，并且配置好映射关系
 
 ```java
 //使用JPA注解配置映射关系
 @Entity //告诉JPA这是一个实体类（和数据表映射的类）
-@Table(name = "tbl_user") //@Table来指定和哪个数据表对应;如果省略默认表名就是user；
+@Table(name = "tbl_user") //@Table来指定和哪个数据表对应.如果省略, 默认表名是类名小写(user)
 public class User {
 
-    @Id //这是一个主键
+    @Id //主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增主键
     private Integer id;
 
-    @Column(name = "last_name",length = 50) //这是和数据表对应的一个列
+    @Column(name = "last_name",length = 50) //和数据表对应的一列
     private String lastName;
-    @Column //省略默认列名就是属性名
+    @Column //省略,默认列名就是属性名
     private String email;
 ```
 
@@ -3676,6 +3665,7 @@ public class User {
 
 ```java
 //继承JpaRepository来完成对数据库的操作
+// 泛型<[entity],[主键类型]>
 public interface UserRepository extends JpaRepository<User,Integer> {
 }
 
@@ -3699,7 +3689,7 @@ spring:
 
 几个重要的事件回调机制
 
-配置在META-INF/spring.factories
+配置在`META-INF/spring.factories`
 
 **ApplicationContextInitializer**
 
@@ -3707,7 +3697,7 @@ spring:
 
 
 
-只需要放在ioc容器中
+放在IOC容器中
 
 **ApplicationRunner**
 
@@ -3728,7 +3718,7 @@ private void initialize(Object[] sources) {
     }
     //判断当前是否一个web应用
     this.webEnvironment = deduceWebEnvironment();
-    //从类路径下找到META-INF/spring.factories配置的所有ApplicationContextInitializer；然后保存起来
+    //从类路径下找到META-INF/spring.factories配置的所有ApplicationContextInitializer. 然后保存起来
     setInitializers((Collection) getSpringFactoriesInstances(
         ApplicationContextInitializer.class));
     //从类路径下找到ETA-INF/spring.factories配置的所有ApplicationListener
@@ -3738,9 +3728,9 @@ private void initialize(Object[] sources) {
 }
 ```
 
-![](images/搜狗截图20180306145727.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200927111234.png)	
 
-![](images/搜狗截图20180306145855.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200927111240.png)
 
 ## 2、运行run方法
 
@@ -3754,7 +3744,7 @@ public ConfigurableApplicationContext run(String... args) {
     
    //获取SpringApplicationRunListeners；从类路径下META-INF/spring.factories
    SpringApplicationRunListeners listeners = getRunListeners(args);
-    //回调所有的获取SpringApplicationRunListener.starting()方法
+    //回调所有的获取SpringApplicationRunListener.starting()
    listeners.starting();
    try {
        //封装命令行参数
@@ -3762,8 +3752,8 @@ public ConfigurableApplicationContext run(String... args) {
             args);
       //准备环境
       ConfigurableEnvironment environment = prepareEnvironment(listeners,
-            applicationArguments);
-       		//创建环境完成后回调SpringApplicationRunListener.environmentPrepared()；表示环境准备完成
+    applicationArguments);
+       		//创建环境完成后回调SpringApplicationRunListener.environmentPrepared() 表示环境准备完成
        
       Banner printedBanner = printBanner(environment);
        
@@ -3771,7 +3761,7 @@ public ConfigurableApplicationContext run(String... args) {
       context = createApplicationContext();
        
       analyzers = new FailureAnalyzers(context);
-       //准备上下文环境;将environment保存到ioc中；而且applyInitializers()；
+       //准备上下文环境;将environment保存到ioc中, 而且applyInitializers()
        //applyInitializers()：回调之前保存的所有的ApplicationContextInitializer的initialize方法
        //回调所有的SpringApplicationRunListener的contextPrepared()；
        //
@@ -3779,7 +3769,7 @@ public ConfigurableApplicationContext run(String... args) {
             printedBanner);
        //prepareContext运行完成以后回调所有的SpringApplicationRunListener的contextLoaded（）；
        
-       //s刷新容器；ioc容器初始化（如果是web应用还会创建嵌入式的Tomcat）；Spring注解版
+       //刷新容器；ioc容器初始化（如果是web应用还会创建嵌入式的Tomcat）
        //扫描，创建，加载所有组件的地方；（配置类，组件，自动配置）
       refreshContext(context);
        //从ioc容器中获取所有的ApplicationRunner和CommandLineRunner进行回调
@@ -3792,7 +3782,7 @@ public ConfigurableApplicationContext run(String... args) {
          new StartupInfoLogger(this.mainApplicationClass)
                .logStarted(getApplicationLog(), stopWatch);
       }
-       //整个SpringBoot应用启动完成以后返回启动的ioc容器；
+       //整个SpringBoot应用启动完成以后返回启动的ioc容器
       return context;
    }
    catch (Throwable ex) {
@@ -3869,8 +3859,6 @@ com.atguigu.springboot.listener.HelloSpringApplicationRunListener
 
 
 
-
-
 只需要放在ioc容器中
 
 **ApplicationRunner**
@@ -3884,8 +3872,6 @@ public class HelloApplicationRunner implements ApplicationRunner {
     }
 }
 ```
-
-
 
 **CommandLineRunner**
 
@@ -3917,9 +3903,11 @@ starter：
 
 @ConfigurationPropertie结合相关xxxProperties类来绑定相关的配置
 @EnableConfigurationProperties //让xxxProperties生效加入到容器中
-
-自动配置类要能加载
+```
+自动配置类要能加载:
 将需要启动就加载的自动配置类，配置在META-INF/spring.factories
+
+```factories
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
 org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
@@ -3927,9 +3915,11 @@ org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
 
 ​	3、模式：
 
-启动器只用来做依赖导入；
+![image-20200927151220260](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200927151220.png)
 
-专门来写一个自动配置模块；
+启动器只用来做依赖导入
+
+专门来写一个自动配置模块
 
 启动器依赖自动配置；别人只需要引入启动器（starter）
 
@@ -3954,7 +3944,6 @@ mybatis-spring-boot-starter；自定义启动器名-spring-boot-starter
 
     <!--启动器-->
     <dependencies>
-
         <!--引入自动配置模块-->
         <dependency>
             <groupId>com.atguigu.starter</groupId>
@@ -4088,14 +4077,7 @@ public class HelloServiceAutoConfiguration {
         return service;
     }
 }
-
 ```
-
-# 更多SpringBoot整合示例
-
-https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples
-
-
 
 
 
