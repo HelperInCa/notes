@@ -83,6 +83,13 @@
 - 回滚
 
     ![image-20200927175807654](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200927175807.png)
+    
+- 本地配置信息(公司的应**单独**配置)
+
+    ```shell
+    $ git config --local user.name xxx
+    $ git config --local user.name xxx@xxx.com
+    ```
 
 ## git init
 
