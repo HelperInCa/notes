@@ -4081,11 +4081,34 @@ public class HelloServiceAutoConfiguration {
 
 
 
+# 九.缓存
 
+JSR107规范:
 
+![image-20200928104007757](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200928104039.png)
 
+## Spring 缓存抽象
 
+![image-20200928151643844](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200928151644.png)
 
+Spring从3.1开始定义了`org.springframework.cache.Cache` 和`org.springframework.cache.CacheManager`接口来统一不同的缓存技术, 并支持使用JCache(JSR-107)注解简化开发
 
+## 概念和注解
 
+| Cache          | 缓存接口，定义缓存操作。实现 有:RedisCache、EhCacheCache、ConcurrentMapCache等 |
+| -------------- | ------------------------------------------------------------ |
+| CacheManager   | 缓存管理器，管理各种缓存组件                                 |
+| @Cacheable     | 主要针对方法配置，能够根据方法的请求参数对其结果进行缓存     |
+| @CacheEvict    | 清空缓存                                                     |
+| @CachePut      | 保证方法被调用，又希望结果被缓存。                           |
+| @EnableCaching | 开启基于注解的缓存                                           |
+| keyGenerator   | 缓存数据时 key生成策略                                       |
+| serialize      | 缓存数据时 value 序列化策略                                  |
+
+- 参数
+
+    ![image-20200928160556089](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200928160556.png)
+
+    - `@CachePut`：先调用方法，再将结果缓存起来. 同步更新缓存: 查询和更新的 key设置一样
+    - `@Cacheable`: 先查 Cache有没有这个数据, 默认按照的值作为 key 去查. 如果没有就运行方法并将结果存入缓存, 以后再来调用就直接用 
 
