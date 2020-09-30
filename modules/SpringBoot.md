@@ -113,6 +113,12 @@
   - [2、运行run方法](#2%E8%BF%90%E8%A1%8Crun%E6%96%B9%E6%B3%95)
   - [3、事件监听机制](#3%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%9C%BA%E5%88%B6)
 - [八、自定义starter](#%E5%85%AB%E8%87%AA%E5%AE%9A%E4%B9%89starter)
+- [九.缓存](#%E4%B9%9D%E7%BC%93%E5%AD%98)
+  - [Spring 缓存抽象](#spring-%E7%BC%93%E5%AD%98%E6%8A%BD%E8%B1%A1)
+  - [概念和注解](#%E6%A6%82%E5%BF%B5%E5%92%8C%E6%B3%A8%E8%A7%A3)
+  - [整合 Redis](#%E6%95%B4%E5%90%88-redis)
+- [十.消息](#%E5%8D%81%E6%B6%88%E6%81%AF)
+  - [RabbitMQ](#rabbitmq)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -4109,6 +4115,138 @@ Spring从3.1开始定义了`org.springframework.cache.Cache` 和`org.springframe
 
     ![image-20200928160556089](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200928160556.png)
 
+- 注解
+
     - `@CachePut`：先调用方法，再将结果缓存起来. 同步更新缓存: 查询和更新的 key设置一样
+
     - `@Cacheable`: 先查 Cache有没有这个数据, 默认按照的值作为 key 去查. 如果没有就运行方法并将结果存入缓存, 以后再来调用就直接用 
+
+    - `@CacheEvict` 缓存清除
+
+        `key`：指定要清除的数据
+        `allEntries = true`：指定清除这个缓存中所有的数据
+        `beforeInvocation = false`：默认, 代表缓存清除操作是在方法执行之后执行;如果出现异常缓存就不会清除;
+
+        `beforeInvocation = true`：代表清除缓存操作是在方法运行之前执行，无论方法是否出现异常，缓存都清除
+
+    - `@Caching` 定义复杂的缓存规则
+
+    - `@CacheConfig` 抽取缓存公共配置
+
+## 整合 Redis
+
+- 步骤:
+
+1. 引入spring-boot-starter-data-redis
+
+2. application.yml配置redis连接地址
+
+3. 使用ReditTemplate操作redis
+
+    redisTemplate.opsForValue();//操作string   	redisTemplate.opsForHash();//hash 
+    redisTemplate.opsForList();//list 
+    redisTemplate.opsForSet();//set 
+    redisTemplate.opsForZSet();//有序set
+
+4. 配置缓存、CacheManagerCustomizers
+
+# 十.消息
+
+使用消息服务中间件来提升系统*异步通信、扩展解耦*能力
+
+
+
+消息服务中两个重要概念:
+
+**消息代理**(message broker)和**目的地**(destination) 
+
+当消息发送者发送消息以后，将由消息代理接管，消息代理保证消息传递到指定目的地。
+
+消息队列主要有两种形式的目的地: 
+
+- 队列(queue):点对点消息通信(point-to-point)
+
+    消息发送者发送消息，消息代理将其放入一个队列中，消息接收者从队列中获取消息内容，消息读取后即被移出队列
+
+- 主题(topic):发布(publish)/订阅(subscribe)消息通信
+
+    发送者(发布者)发送消息到主题，多个接收者(订阅者)监听(订阅)这个主题，就会在消息到达时同时收到消息
+
+JMS(Java Message Service)JAVA消息服务: 基于JVM消息代理的规范. ActiveMQ、HornetMQ是JMS实现
+
+AMQP(Advanced Message Queuing Protocol) 高级消息队列协议，也是消息代理的规范，兼容JMS. RabbitMQ是 AMQP实现. 跨平台,语言.
+
+## RabbitMQ
+
+- 概念
+
+    ![image-20200929162356112](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200929162356.png)
+
+    - Message
+
+        消息由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing- key(路由键)、priority(相对于其他消息的优先权)、delivery-mode(该消息是否需要持久性存储)等
+
+    - Publisher
+
+        生产者. 向交换器发布消息的程序
+
+    - Exchange
+
+        交换器. 接受生产者发送的消息并将消息路由给服务器中的队列
+
+        四种类型: direct(默认), fanout, topic, headers
+
+    - Consumer
+
+        消费者. 从消息队列中获得消息的程序
+
+    - Queue
+
+        消息队列，用来保存消息直到发送给消费者。它是消息的容器，也是消息的终点。一个消息可投入一个或多个队列。消息一直在队列里面，等待消费者连接到这个队列将其取走
+
+    - Binding
+
+        绑定. 用于消息队列和交换器之间的关联。一个绑定就是基于路由键将交换器和消息队列连接起来的路由规则. 
+
+        Exchange和 Queue绑定可以是多对多关系
+
+    - Connection
+
+        网络连接, 如一个 TCP连接
+
+    - Channel
+
+        信道. 多路复用连接的一条独立的双向数据流通道. 信道是建立在真实 TCP 连接内的虚拟连接, AMQP 命令都是通过信道传输.
+
+    - Virtual Host
+
+        虚拟主机. 表示一批交换器, 消息队列等. 虚拟主机是共享相同的身份认证和加密环境的独立服务器域。每个 vhost 本质上就是一个 迷你 RabbitMQ 服务器，拥有自己的队列、交换器、绑定和权限机制。vhost 是 AMQP 概念的基础，必须在连接时指定，RabbitMQ 默认的 vhost 是 / 
+
+    - Broker
+
+        MQ服务器实体
+
+- 机制
+
+    Exchange分发消息时根据类型的不同分发策略有区别，目前共四
+
+    种类型:direct、fanout、topic、headers. 常用的是前三个.
+
+    - direct 单播
+
+        消息中的路由键 (routing key) 和Binding 中的 binding key一致, 则交换器就将消息发到对应的队列中
+
+    - fanout 广播
+
+        每个发到 fanout 类型交换器的消息都会分到所有绑定的队列上. fanout 类型转发消息是最快的
+
+    - topic 
+
+        交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列需要绑定到一个模式上。它将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。它同样也会识别两个通配符: “#”和“\*”。#匹配0个或多个单词，*匹配一个单词
+
+        ![image-20200929164942243](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200929164942.png)
+
+- 整合 RabbitMQ
+
+    
 
