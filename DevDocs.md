@@ -4,6 +4,7 @@
 
 - [Basics](#basics)
   - [Java](#java)
+  - [Kotlin TODO](#kotlin-todo)
   - [Python3](#python3)
     - [(TBD)](#tbd)
   - [Golang](#golang)
@@ -43,6 +44,10 @@
 ## Java
 
 [notes](https://github.com/HelperInCa/notes/blob/master/modules/Java.md)
+
+## Kotlin TODO
+
+[note]()
 
 ## Python3
 
