@@ -47,7 +47,7 @@
 
 ## Kotlin TODO
 
-[note]()
+[note](https://github.com/HelperInCa/notes/blob/master/modules/Kotlin.md)
 
 ## Python3
 
