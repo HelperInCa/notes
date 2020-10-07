@@ -4248,5 +4248,13 @@ AMQP(Advanced Message Queuing Protocol) 高级消息队列协议，也是消息�
 
 - 整合 RabbitMQ
 
-    
+  1. 引入 spring-boot-starter-amqp
+  
+  2. application.yml配置
+  
+  3. 测试RabbitMQ:
+  
+      AmqpAdmin:管理组件 Queue Exchange Binding
+  
+      RabbitTemplate:消息发送处理组件
 
