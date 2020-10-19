@@ -29,6 +29,7 @@
 - [Tools](#tools)
   - [Gist](#gist)
   - [Zsh](#zsh)
+  - [Vim](#vim)
 - [Docker](#docker)
   - [脑图](#%E8%84%91%E5%9B%BE)
 - [Bash](#bash)
@@ -36,6 +37,7 @@
 - [Spring Boot](#spring-boot)
 - [Jira](#jira)
 - [Spring5](#spring5)
+- [Spring Cloud](#spring-cloud)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -554,7 +556,11 @@ $ git config --global alias.br branch
 
   - [syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
+## Vim
 
+`A`命令模式: 从行尾插入
+
+`I`命令模式: 从行首插入
 
 # Docker
 
@@ -616,4 +622,6 @@ $ git config --global alias.br branch
 # Spring5
 
 [Spring5](https://github.com/HelperInCa/notes/blob/master/modules/Spring.md)
+
+# Spring Cloud
 

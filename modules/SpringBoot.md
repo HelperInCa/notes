@@ -119,6 +119,9 @@
   - [整合 Redis](#%E6%95%B4%E5%90%88-redis)
 - [十.消息](#%E5%8D%81%E6%B6%88%E6%81%AF)
   - [RabbitMQ](#rabbitmq)
+- [十一. 检索](#%E5%8D%81%E4%B8%80-%E6%A3%80%E7%B4%A2)
+  - [ElasticSearch](#elasticsearch)
+  - [整合 ES](#%E6%95%B4%E5%90%88-es)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -4257,4 +4260,117 @@ AMQP(Advanced Message Queuing Protocol) 高级消息队列协议，也是消息�
       AmqpAdmin:管理组件 Queue Exchange Binding
   
       RabbitTemplate:消息发送处理组件
+
+# 十一. 检索
+
+## ElasticSearch
+
+分布式搜索服务，提供Restful API，底层基于Lucene，采用多shard(分片)的方式保证数据安全，并且提供自动resharding功能
+
+> [指南](https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html)
+
+ ![image-20201007124951825](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201007124952.png)
+
+对比MySQL:
+
+- 索引-数据库
+
+- 类型-表
+
+- 文档-行 
+
+- 属性-列
+
+索引:
+
+- 每个员工索引一个文档，文档包含该员工的所有信息。
+- 每个文档都将是 `employee` *类型* 。
+- 该类型位于 *索引* `megacorp` 内。
+- 该索引保存在我们的 Elasticsearch 集群中。
+
+```json
+PUT /megacorp/employee/1
+{
+    "first_name" : "John",
+    "last_name" :  "Smith",
+    "age" :        25,
+    "about" :      "I love to go rock climbing",
+    "interests": [ "sports", "music" ]
+}
+```
+
+检索:
+
+```json
+GET /megacorp/employee/1
+返回:
+{
+  "_index" :   "megacorp",
+  "_type" :    "employee",
+  "_id" :      "1",
+  "_version" : 1,
+  "found" :    true,
+  "_source" :  {
+      "first_name" :  "John",
+      "last_name" :   "Smith",
+      "age" :         25,
+      "about" :       "I love to go rock climbing",
+      "interests":  [ "sports", "music" ]
+  }
+}
+```
+
+可以使用 `DELETE` 命令来删除文档，以及使用 `HEAD` 指令来检查文档是否存在。如果想更新已存在的文档，只需再次 `PUT`
+
+搜索所有雇员:
+
+```json
+GET /megacorp/employee/_search
+```
+
+返回结果包括了所有文档，放在数组 hits 中。一个搜索默认返回十条结果
+
+*高亮* 搜索:
+
+```
+GET /megacorp/employee/_search?q=last_name:Smith
+```
+
+全文搜索:
+
+```json
+GET /megacorp/employee/_search
+{
+    "query" : {
+        "match" : {
+            "about" : "rock climbing"
+        }
+    }
+}
+```
+
+ES返回相关性最强的结果, 而不是关系型数据库里要么匹配要么不匹配
+
+## 整合 ES
+
+ * SpringBoot默认支持两种技术来和ES交互；
+
+    1、Jest（默认不生效）
+
+    需要导入jest的工具包（io.searchbox.client.JestClient）
+
+    2、SpringData ElasticSearch【ES版本有可能不合适】
+
+    1）、Client 节点信息clusterNodes；clusterName
+
+    2）、ElasticsearchTemplate 操作 ES
+
+    3）、编写一个 ElasticsearchRepository 的子接口来操作 ES；
+
+    版本适配说明：https://github.com/spring-projects/spring-data-elasticsearch
+
+    如果版本不适配：2.4.6
+
+     	1. 升级SpringBoot版本
+     	2. 安装对应版本的ES 
 

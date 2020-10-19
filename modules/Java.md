@@ -194,10 +194,8 @@ public static void main(String[] args) {
     b = null;
     System.out.println(b[0]);
     ```
-  ```
   
   
-  ```
   
 - 第二种:
   
@@ -214,10 +212,8 @@ public static void main(String[] args) {
   int[][] j = new int[3][];
     j[2][0] = 33;
     ```
-  ```
+  
     
-    
-  ```
 
 ### 复制
 

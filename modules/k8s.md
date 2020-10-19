@@ -1,4 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Contents**
+
+- [组件](#%E7%BB%84%E4%BB%B6)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 组件
+
+![image-20201012140205562](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201012140205.png)
 
 API SERVER：所有服务访问统一入口
 CrontrollerManager：维持副本期望数目
@@ -66,3 +76,6 @@ ELK：提供 K8S 集群日志统一分析介入平台
         Opaque
     
     - PersistentVolume & PersistentVolumeClaim
+
+![11-Pod](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201014140415.png)
+
