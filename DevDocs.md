@@ -96,6 +96,7 @@
     ```shell
     $ git config --local user.name xxx
     $ git config --local user.name xxx@xxx.com
+    $ git config commit.template [filepath]
     ```
 
 ## git init
