@@ -404,8 +404,8 @@
              3. `@Resource` 可以根据类型或名称注入
 
                  ```java
-                 //@Resource //根据类型进行注入
-                 @Resource(name = "userDaoImpl1") //根据名称进行注入 
+                 //@Resource 默认根据类型进行注入
+                 @Resource(name = "userDaoImpl1") //找不到匹配才会根据名称进行注入 
                  private UserDao userDao;
                  ```
 
