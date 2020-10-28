@@ -30,7 +30,7 @@
 
 - Type checks and automatic casts
 
-    The *is* operator checks if an expression is an instance of a type. If an immutable local variable or property is checked for a specific type, there's no need to cast it explicitly:
+    `is` 检测一个表达式是否某类型的一个实例。 如果一个不可变的局部变量或属性已经判断出为某类型，那么检测后的分支中可以直接当作该类型使用，无需显式转换
 
     ```kotlin
     fun getStringLength(obj: Any): Int? {
@@ -134,4 +134,27 @@
     }
     ```
 
-    
+- 方法
+
+    ```kotlin
+    fun sum(a: Int, b: Int): Int {
+        return a + b
+    }
+    ```
+
+- null检测
+
+    当某个变量的值可以为 *null* 的时候，必须在声明处的类型后添加 `?` 来标识该引用可为空
+
+    [Doc](https://www.kotlincn.net/docs/reference/null-safety.html)
+
+- 习惯用法
+
+    [Refer](https://www.kotlincn.net/docs/reference/idioms.html) 
+
+- 关键字
+
+    - `open`
+
+        kotlin中所有的类默认都是final, 方法也是 final, 增加`open`, 就可以被继承/重写
+
