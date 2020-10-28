@@ -1095,3 +1095,133 @@ Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据�
 
 - ~~SSH(Struts, Spring, Hibernate)~~ -> SSM（Spring+SpringMVC+MyBatis）
 
+## @RequestMapping
+
+[参考](https://www.oschina.net/translate/using-the-spring-requestmapping-annotation) 
+
+- 处理多个 URI: 添加一个带有请求路径值列表
+
+    ```java
+    @RestController
+    @RequestMapping("/home")
+    public class IndexController {
+        @RequestMapping(value = {
+            "",
+            "/page",
+            "page*",
+            "view/*,**/msg"
+        })
+        String indexMultipleMapping() {
+            return "Hello from index multiple mapping.";
+        }
+    }
+    ```
+
+- @RequestParam
+
+    指定一个值(或省略)为被映射到方法的请求参数
+
+    ```java
+    @RestController
+    @RequestMapping("/home")
+    public class IndexController {
+    
+        @RequestMapping(value = "/id")
+        String getIdByValue(@RequestParam("personId") String personId) {
+            System.out.println("ID is " + personId);
+            return "Get ID from query string of URL with value element";
+        }
+        
+        @RequestMapping(value = "/personId")
+        String getId(@RequestParam String personId) {
+            System.out.println("ID is " + personId);
+            return "Get ID from query string of URL without value element";
+        }
+        
+        @RequestMapping(value = "/name")
+        String getName(@RequestParam(value = "person", required = false) String personName) {
+            return "Required element of request param";
+        }
+        
+        @RequestMapping(value = "/nameWithDefault")
+        String getNameWithDefault(@RequestParam(value = "person", defaultValue = "John") String personName) {
+            return "Required element of request param with default value";
+        }
+    }
+    ```
+    
+- 如代码的第11行所示, 如果请求参数和处理方法参数的名称一样的话，@RequestParam 注解的 value 这个参数就可省略.
+    
+- 如第 18 行所示, `required` 这个参数定义了参数值是否是必须要传的. 因为是`false`, 所以会处理如下两个 URL: `/home/name?person=x`, `/home/name`
+    
+- defaultValue 给取值为空的请求参数提供一个默认值。
+    
+- 处理 HTTP 各种方法
+
+    默认`HTTP GET`
+
+    `@RequestMapping(method = RequestMethod.GET)`等效于`@GetMapping`
+
+- 处理消息头
+
+    指定 header的值,同样也可以指定多个 header
+
+    ```java
+    @RestController
+    @RequestMapping("/home")
+    public class IndexController {
+        @RequestMapping(value = "/head", headers = {
+            "content-type=text/plain"
+        })
+        String post() {
+            return "Mapping applied along with headers";
+        }
+    }
+    ```
+
+- 处理请求参数
+
+    使用 `params` 元素，可以让多个处理方法处理到同一个URL 的请求, 而这些请求的参数是不一样的
+
+    ```java
+    @RestController
+    @RequestMapping("/home")
+    public class IndexController {
+        @RequestMapping(value = "/fetch", params = {
+            "personId=10"
+        })
+        String getParams(@RequestParam("personId") String id) {
+            return "Fetched parameter using params attribute = " + id;
+        }
+        @RequestMapping(value = "/fetch", params = {
+            "personId=20"
+        })
+        String getParams2(@RequestParam("personId") String id) {
+            return "Fetched parameter using params attribute = " + id;
+        }
+    }
+    ```
+
+- @PathVariable 处理动态 URI
+
+    ```java
+    @RestController
+    @RequestMapping("/home")
+    public class IndexController {
+        @GetMapping(value = "/fetch/{id}")
+        String getDynamicUriValue(@PathVariable String id) {
+            System.out.println("ID is " + id);
+            return "Dynamic URI parameter fetched";
+        }
+        @GetMapping(value = "/fetch/{id:[a-z]+}/{name}")
+        String getDynamicUriValueRegex(@PathVariable("name") String name) {
+            System.out.println("Name is " + name);
+            return "Dynamic URI parameter fetched using regex";
+        }
+    }
+    ```
+
+    `getDynamicUriValue()` 会在发起到 `/home/fetch/10` 的请求时执行。这里 getDynamicUriValue() 方法 id 参数也会动态地被填充为 10 这个值
+
+
+​    
