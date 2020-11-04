@@ -297,7 +297,10 @@ Use the `git remote rm` command to remove a remote URL from your repository.
 
 - 全局
 
-  `~/.gitignore_global`
+  ```shell
+  vim ~/.gitignore_global
+  git config --global core.excludesfile ~/.gitignore_global
+  ```
 
 ## 本机alias
 
