@@ -35,6 +35,7 @@
 - [Bash](#bash)
 - [My Alias](#my-alias)
 - [Spring Boot](#spring-boot)
+- [线上问题排查](#%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5)
 - [Jira](#jira)
 - [Spring5](#spring5)
 - [Spring Cloud](#spring-cloud)
@@ -620,6 +621,10 @@ $ git config --global alias.br branch
 # Spring Boot
 
 [Spring Boot](https://github.com/HelperInCa/notes/blob/master/modules/SpringBoot.md)
+
+# 线上问题排查
+
+[来源](https://mp.weixin.qq.com/s/tG1kOGtAJzHc37XGlsfAPQ) 
 
 # Jira
 
