@@ -1453,6 +1453,8 @@ public class TestIterator {
 
 # 泛型 generics
 
+[参考](https://blog.csdn.net/briblue/article/details/76736356)
+
 ## 集合中的泛型
 
 ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-19-193547.png)
@@ -1504,7 +1506,7 @@ class person<T> {
 
 ## 通配符
 
-- `?`, 如 `List<?>`, `Map<?>`
+- `?`, 如 `List<?>`, `Map<?>`代表涉及的操作与类型无关
 - `List<?>`是`List<String>`、`List<Object>`等各种泛型List的父类
   - *读取* `List<?>`中元素是*安全*的, 因为返回的总是Object
   - *写入* `List<?>`中元素是*不允许*的, 除了null, 因为null是所有类型的成员
