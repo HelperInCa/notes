@@ -39,6 +39,7 @@
 - [Jira](#jira)
 - [Spring5](#spring5)
 - [Spring Cloud](#spring-cloud)
+- [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -633,4 +634,22 @@ $ git config --global alias.br branch
 [Spring5](https://github.com/HelperInCa/notes/blob/master/modules/Spring.md)
 
 # Spring Cloud
+
+
+
+# 多个入参: 重载构造器 / JavaBeans / Builder
+
+[参考](https://www.jianshu.com/p/5b6bdf298727)
+
+- Builder 优点: 
+
+    如果类的构造器或者静态工厂中具有多个参数，设计这种类时，Builder模式就是不错的选择，特别是当大多数参数都是可选的时候。
+    与重载构造器相比，builder模式的客户端更易与阅读和编写.
+    与JavaBeans相比，线程安全.
+
+- 缺点: 
+
+    创建对象就必须创建Builder, 有开销.
+
+    比重载构造器模式更加的冗长，因此它会在参数多的时候使用。但如果知道，我们可能会在设计之后还要添加参数，所以已开始就用Builder比较好。
 

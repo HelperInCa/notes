@@ -137,6 +137,8 @@
   | [Refactor This...](https://www.jetbrains.com/help/rider/Refactor_This.html?keymap=mac_os_x_10.5) | ⌃+T         |
   | [Inspect This...](https://www.jetbrains.com/help/rider/Code_Analysis__Inspect_This.html?keymap=mac_os_x_10.5) | ⌘+⌥+⇧+A     |
 
+  - `⇧ + enter `光标移到新建的下一行
+
 - Editing（编辑）
 
   - `⌘ + ⇧ + 上/下` 上下移动当前行代码. 若光标在方法前, 则移动整个方法
