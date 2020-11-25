@@ -69,6 +69,7 @@
     - [动态规划](#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92)
     - [KMP](#kmp)
     - [贪心](#%E8%B4%AA%E5%BF%83)
+    - [普里姆](#%E6%99%AE%E9%87%8C%E5%A7%86)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
