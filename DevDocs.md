@@ -39,7 +39,9 @@
 - [Jira](#jira)
 - [Spring5](#spring5)
 - [Spring Cloud](#spring-cloud)
-- [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
+- [Misc](#misc)
+  - [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
+  - [Java 中 Object 转 String 的几种方法](#java-%E4%B8%AD-object-%E8%BD%AC-string-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -637,7 +639,9 @@ $ git config --global alias.br branch
 
 
 
-# 多个入参: 重载构造器 / JavaBeans / Builder
+# Misc
+
+## 多个入参: 重载构造器 / JavaBeans / Builder
 
 [参考](https://www.jianshu.com/p/5b6bdf298727)
 
@@ -652,4 +656,22 @@ $ git config --global alias.br branch
     创建对象就必须创建Builder, 有开销.
 
     比重载构造器模式更加的冗长，因此它会在参数多的时候使用。但如果知道，我们可能会在设计之后还要添加参数，所以已开始就用Builder比较好。
+
+## Java 中 Object 转 String 的几种方法
+
+**1.object.toString()方法**
+
+  这种方法要注意的是object不能为null,否则会报NullPointException，
+
+**2.String.valueOf(object)方法**
+
+  这种方法不必担心object为null的问题，若为null，会将其转换为"null"字符串，而不是null。这一点要特别注意。"null"和null不是一个概念。
+
+**3.“”+object方法**
+
+  这种方法也不必担心object为null的问题。但若object为null,会返回"null"字符串，和String.valueOf(object)一样。
+
+**4.(String)(object)方法**
+
+  这种方法也不必担心object为null的问题。但是，object要是能转换为String的对象。若Object object = 1,再(String)1，会报类转换异常。
 
