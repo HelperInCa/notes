@@ -329,7 +329,7 @@ $ git config --global alias.br branch
 
     2. 部署 一个 BS项目最终运行的并不是动态 Web 工程本身, 而是它编译后的结果
 
-       ![image-20200804111750030](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804111750.png)
+       ![image-20200804111750030](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201126135506.png)
 
     3. 搭建
 
@@ -373,7 +373,7 @@ $ git config --global alias.br branch
 
 - Maven 命令
 
-  ![image-20200804142937006](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200804142939.png)
+  ![image-20200804142937006](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201126135455.png)
 
 - POM
 
@@ -574,7 +574,7 @@ $ git config --global alias.br branch
 
 ## 脑图
 
-![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-09-071113.png)
+![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201126135433.png)
 
 > [脑图网盘](https://pan.baidu.com/s/1DF_ms43e5Qvvrfr2mdcfAg) 提取码: 9e7f
 >
