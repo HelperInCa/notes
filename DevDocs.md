@@ -42,6 +42,13 @@
 - [Misc](#misc)
   - [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
   - [Java 中 Object 转 String 的几种方法](#java-%E4%B8%AD-object-%E8%BD%AC-string-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95)
+- [单元测试](#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95)
+  - [Junit](#junit)
+    - [测试依赖组件(DOC)](#%E6%B5%8B%E8%AF%95%E4%BE%9D%E8%B5%96%E7%BB%84%E4%BB%B6doc)
+    - [测试替身(Test Double)](#%E6%B5%8B%E8%AF%95%E6%9B%BF%E8%BA%ABtest-double)
+    - [Test fixture](#test-fixture)
+    - [测试套件](#%E6%B5%8B%E8%AF%95%E5%A5%97%E4%BB%B6)
+  - [Mockito](#mockito)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -674,4 +681,77 @@ $ git config --global alias.br branch
 **4.(String)(object)方法**
 
   这种方法也不必担心object为null的问题。但是，object要是能转换为String的对象。若Object object = 1,再(String)1，会报类转换异常。
+
+# 单元测试
+
+在单元测试中, 我们需要保证被测系统是独立的(SUT 没有任何的 DOC), 即当被测系统通过测试时, 那么它在任何环境下都是能够正常工作的. **编写单元测试时, 仅仅需要关注单个类就可以了.** 而不需要关注例如数据库服务, Web 服务等组件.
+
+## Junit
+
+### 测试依赖组件(DOC)
+
+被测系统所依赖的组件, 例如进程 UserService 的单元测试时, UserService 会依赖 UserDao, 因此 UserDao 就是 DOC.
+
+### 测试替身(Test Double)
+
+一个实际的系统会依赖多个外部对象, 但是在进行单元测试时, 我们会用一些功能较为简单的并且其行为和实际对象类似的假对象来作为 SUT 的依赖对象, 以此来降低单元测试的复杂性和可实现性. 在这里, 这些假对象就被称为 **测试替身**
+
+测试替身有如下 5 种类型:
+
+- Test stub, 为 SUT 提供数据的假对象.
+    我们举一个例子来展示什么是 Test stub.
+
+假设我们的一个模块需要从 HTTP 接口中获取商品价格数据, 这个获取数据的接口被封装为 getPrice 方法. 在对这个模块进行测试时, 我们显然不太可能专门开一个 HTTP 服务器来提供此接口, 而是提供一个带有 getPrice 方法的假对象, 从这个假对象中获取数据.
+在这个例子中, 提供数据的假对象就叫做 Test stub.
+
+- Fake object
+    实现了简单功能的一个假对象. Fake object 和 Test stub 的主要区别就是 Test stub 侧重于用于提供数据的假对象, 而 Fake object 没有这层含义.
+
+使用 Fake object 的最主要的原因就是在测试时某些组件不可用或运行速度太慢, 因而使用 Fake object 来代替它们.
+
+- Mock object
+    用于模拟实际的对象, 并且能够校验对这个 Mock object 的方法调用是否符合预期.
+
+实际上, Mock object 是 Test stub 或 Fake object 一种, 但是 Mock object 有 Test stub/Fake object 没有的特性, Mock object 可以很灵活地配置所调用的方法所产生的行为, 并且它可以追踪方法调用, 例如一个 Mock Object 方法调用时传递了哪些参数, 方法调用了几次等.
+
+- Dummy object: 在测试中并不使用的, 但是为了测试代码能够正常编译/运行而添加的对象. 例如我们调用一个 Test Double 对象的一个方法, 这个方法需要传递几个参数, 但是其中某个参数无论是什么值都不会影响测试的结果, 那么这个参数就是一个 Dummy object.
+    Dummy object 可以是一个空引用, 一个空对象或者是一个常量等.
+
+简单的说, Dummy object 就是那些没有使用到的, 仅仅是为了填充参数列表的对象.
+
+- Test Spy
+    可以包装一个真实的 Java 对象, 并返回一个包装后的新对象. 若没有特别配置的话, 对这个新对象的所有方法调用, 都会委派给实际的 Java 对象.
+
+mock 和 spy 的区别是: mock 是无中生有地生出一个完全虚拟的对象, 它的所有方法都是虚拟的; 而 spy 是在现有类的基础上包装了一个对象, 即如果我们没有重写 spy 的方法, 那么这些方法的实现其实都是调用的被包装的对象的方法.
+
+### Test fixture
+
+运行测试程序所需要的先决条件(precondition). 即对被测对象进行测试时锁需要的一切东西. 
+
+这个 **东西** 不单单指的是数据, 同时包括对被测对象的配置, 被测对象所需要的依赖对象等.
+
+在 JUnit4, 
+
+`@Before` 在每个测试方法运行前都会被调用, `@After` 在每个测试方法运行后都会被调用.
+
+因为 @Before 和 @After 会在每个测试方法前后都会被调用, 而有时我们仅仅需要在测试前进行一次初始化, 这样的情况下, 可以使用`@BeforeClass` 和`@AfterClass` 注解.
+
+### 测试套件
+
+通过`@RunWith` 和`@SuiteClass` 两个注解, 我们可以创建一个测试套件`RunAllTest`, 批量运行测试类.
+
+```java
+@RunWith(Suite.class)
+@SuiteClasses({
+        CountTest.class,
+        TestFixture.class,
+        AssertTest.class,
+        TestRunSequence.class,
+})
+public class RunAllTest {
+
+}
+```
+
+## Mockito
 
