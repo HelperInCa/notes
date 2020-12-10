@@ -699,7 +699,7 @@ $ git config --global alias.br branch
 
 > `spring validation`是对`hibernate validator`的二次封装
 >
-> hibernate validator 使用: [refer1](https://www.cnblogs.com/mr-yang-localhost/p/7812038.html#_lab2_3_3) [refer2](https://segmentfault.com/a/1190000020087859) 
+> hibernate validator 使用: [refer](https://www.jianshu.com/p/0bfe2318814f)  [getting starter](https://docs.jboss.org/hibernate/validator/7.0/reference/en-US/html_single/#validator-gettingstarted)  
 
 ## Jackson
 
