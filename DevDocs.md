@@ -42,6 +42,9 @@
 - [Misc](#misc)
   - [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
   - [Java 中 Object 转 String 的几种方法](#java-%E4%B8%AD-object-%E8%BD%AC-string-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95)
+  - [ApiParam](#apiparam)
+  - [Spring validation框架](#spring-validation%E6%A1%86%E6%9E%B6)
+  - [Jackson](#jackson)
 - [单元测试](#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95)
   - [Junit](#junit)
     - [测试依赖组件(DOC)](#%E6%B5%8B%E8%AF%95%E4%BE%9D%E8%B5%96%E7%BB%84%E4%BB%B6doc)
@@ -681,6 +684,44 @@ $ git config --global alias.br branch
 **4.(String)(object)方法**
 
   这种方法也不必担心object为null的问题。但是，object要是能转换为String的对象。若Object object = 1,再(String)1，会报类转换异常。
+
+## ApiParam
+
+用于swagger提供开发者文档，文档中生成的注释内容
+
+## Spring validation框架
+
+[总结](https://blog.csdn.net/u012373815/article/details/72049796) 
+
+[@Valid vs @Validated](https://blog.csdn.net/qq_27680317/article/details/79970590) 
+
+`@Validated`只能用在类、方法和参数上，而`@Valid`可用于方法、字段、构造器和参数上, 且能嵌套验证
+
+> `spring validation`是对`hibernate validator`的二次封装
+>
+> hibernate validator 使用: [refer1](https://www.cnblogs.com/mr-yang-localhost/p/7812038.html#_lab2_3_3) [refer2](https://segmentfault.com/a/1190000020087859) 
+
+## Jackson
+
+[refer](https://developer.ibm.com/zh/articles/jackson-advanced-application/)
+
+1. 注解方式
+
+2. ObjectMapper
+
+    - 可配置序列化/反序列化过程
+
+        `objectMapper.configure(DeserializationFeature.XXX, true)` 
+
+    - Jackson反序列时，将LinkedHashMap转成对象（Object类型转成实体）
+
+    - `TypeFactory.constructParametricType()`
+
+    - `convertValue`(): map -> 自定义类型
+
+3. 将部分字段解析为日期格式
+
+4. 自定义序列化/反序列化
 
 # 单元测试
 
