@@ -1453,7 +1453,7 @@ public class TestIterator {
 
 # 泛型 generics
 
-[参考](https://blog.csdn.net/briblue/article/details/76736356)
+[泛型与类型擦除](https://blog.csdn.net/briblue/article/details/76736356)
 
 ## 集合中的泛型
 

@@ -713,11 +713,9 @@ $ git config --global alias.br branch
 
         `objectMapper.configure(DeserializationFeature.XXX, true)` 
 
-    - Jackson反序列时，将LinkedHashMap转成对象（Object类型转成实体）
+    - Jackson反序列时，将LinkedHashMap转成对象convertValue`(): map -> 自定义类型
 
     - `TypeFactory.constructParametricType()`
-
-    - `convertValue`(): map -> 自定义类型
 
 3. 将部分字段解析为日期格式
 

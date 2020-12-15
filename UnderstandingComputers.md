@@ -6,6 +6,7 @@
 - [Design pattern](#design-pattern)
   - [单例 (Singleton)](#%E5%8D%95%E4%BE%8B-singleton)
   - [模板方法(TemplateMethod)](#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95templatemethod)
+  - [装饰器(Decorator)](#%E8%A3%85%E9%A5%B0%E5%99%A8decorator)
 - [Computer network](#computer-network)
   - [网络体系](#%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB)
   - [IP地址(TODO)](#ip%E5%9C%B0%E5%9D%80todo)
@@ -192,6 +193,10 @@
 
 # Design pattern
 
+[refer](https://refactoringguru.cn/design-patterns/catalog)
+
+图文并茂讲设计模式!
+
 ## 单例 (Singleton)
 
 - 某个类只能存在一个对象实例, 并且该类只提供一个取得其对象实例的方法
@@ -285,6 +290,32 @@
   - JavaWeb的Servlet中关于doGet/doPost方法调用  
   - Hibernate中模板程序
   - Spring中JDBCTemlate、HibernateTemplate等
+
+## 装饰器(Decorator)
+
+**装饰模式**是一种结构型设计模式，允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。
+
+![image-20201215163032675](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201215163032.png)
+
+- 应用场景:
+
+    1. 无需修改代码的情况下即可使用对象，且希望**在运行时**为对象新增额外的行为
+    2. 继承难以实现或不可行(比如`final`限制了扩展)
+
+- 优缺点
+
+    优: 
+
+    -  无需创建新子类即可扩展对象的行为。
+    -  可以在运行时添加或删除对象的功能。
+    -  可以用多个装饰封装对象来组合几种行为。
+    -  *单一职责原则*。 可以将实现了许多不同行为的一个大类拆分为多个较小的类。
+
+    缺:
+
+    -  在封装器栈中删除特定封装器困难。
+    -  实现行为不受装饰栈顺序影响的装饰困难。
+    -  各层的初始化配置代码看上去可能会很糟糕。
 
 # Computer network
 
