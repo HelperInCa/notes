@@ -685,9 +685,9 @@ $ git config --global alias.br branch
 
   这种方法也不必担心object为null的问题。但是，object要是能转换为String的对象。若Object object = 1,再(String)1，会报类转换异常。
 
-## ApiParam
+## Swagger
 
-用于swagger提供开发者文档，文档中生成的注释内容
+`@ApiParam`用于swagger提供API文档，文档中生成的注释内容
 
 ## Spring validation框架
 
