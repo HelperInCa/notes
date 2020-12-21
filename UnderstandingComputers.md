@@ -481,6 +481,34 @@ Network = IP & Mask = 101.202.99.0
    - 所谓 安全的 意味着该操作用于获取信息而非修改信息。换句话说，GET请求一般不应产生副作用。就是说，它仅仅是获取资源信息，就像数据库查询一样，不会修改，增加数据，不会影响资源的状态。
    - *幂等* 意味着对同一URL的多个请求应该返回同样的结果。
 
+## SSL/TSL
+
+[refer](http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html) [refer2](http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html)
+
+SSL/TLS协议的基本过程是这样的：
+
+（1） 客户端向服务器端索要并验证公钥。
+
+（2） 双方协商生成"对话密钥"。
+
+（3） 双方采用"对话密钥"进行加密通信。
+
+前两步称为"握手"(handshake)
+
+详细过程:
+
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20201221094942.png)
+
+第一步，Client(以下简写为 C)给出协议版本号、一个客户端生成的随机数（Client random），以及客户端支持的加密方法。
+
+第二步，Server(以下简写为 S)确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。
+
+第三步，C确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给S。
+
+第四步，S使用自己的私钥，获取C发来的随机数（即Premaster secret）。
+
+第五步，C和S根据约定的加密方法，使用前面的三个随机数，生成"对话密钥"（session key），用来加密接下来的整个对话过程。
+
 ## RESTful(Representational State Transfer)
 
 > [refer](https://www.ruanyifeng.com/blog/2011/09/restful.html)
