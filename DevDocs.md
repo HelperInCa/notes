@@ -42,7 +42,7 @@
 - [Misc](#misc)
   - [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
   - [Java 中 Object 转 String 的几种方法](#java-%E4%B8%AD-object-%E8%BD%AC-string-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95)
-  - [ApiParam](#apiparam)
+  - [Swagger](#swagger)
   - [Spring validation框架](#spring-validation%E6%A1%86%E6%9E%B6)
   - [Jackson](#jackson)
 - [单元测试](#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95)
@@ -51,6 +51,7 @@
     - [测试替身(Test Double)](#%E6%B5%8B%E8%AF%95%E6%9B%BF%E8%BA%ABtest-double)
     - [Test fixture](#test-fixture)
     - [测试套件](#%E6%B5%8B%E8%AF%95%E5%A5%97%E4%BB%B6)
+    - [测试异常](#%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8)
   - [Mockito](#mockito)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -791,6 +792,35 @@ public class RunAllTest {
 
 }
 ```
+
+### 测试异常
+
+```java
+public class MyClass {
+	// 被测试方法
+    public static int divide(int a, int b) {
+    	if (b != 0) {
+    		return a/b;
+    	} else throw new IllegalArgumentException("b 不能为 0");    
+    }
+}
+```
+
+```java
+public class MyTest {
+    @Rule
+    public ExpectedException ee = ExpectedException.none();
+	
+    @Test
+    public void test() throws Exception {
+        ee.expect(IllegalArgumentException.class);
+        ee.expectMessage("b 不能为 0");
+        MyClass.divide(1, 0);
+    }
+}
+```
+
+被测试方法写在 expectedEx.expectXxx() 方法**后面**!
 
 ## Mockito
 
