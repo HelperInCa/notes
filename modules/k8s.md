@@ -3,6 +3,11 @@
 **Contents**
 
 - [组件](#%E7%BB%84%E4%BB%B6)
+- [v1.13-1.18](#v113-118)
+  - [1.13 -> 1.16](#113---116)
+  - [1.16](#116)
+  - [1.17](#117)
+  - [1.18](#118)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -112,3 +117,145 @@ ADD-ons:
 
     - 查看 Pod 内部某个 container 打印的日志：`kubectl log ${POD_NAME} -c ${CONTAINER_NAME}`。
     - 进入 Pod 内部某个 container：`kubectl exec -it [options] ${POD_NAME} -c ${CONTAINER_NAME} [args]`，嗯，这个命令的作用是通过 kubectl 执行了`docker exec xxx`进入到容器实例内部。之后，就是用户检查自己服务的日志来定位问题。 
+
+
+
+
+
+# v1.13-1.18
+
+## 1.13 -> 1.16
+
+fabric8升版
+
+fabric8: 开源微服务管理平台
+
+`public IngressBackend(serviceName, servicePort)` 两个参数顺序调换
+
+----
+
+Deployment in the **extensions/v1beta1**, **apps/v1beta1**, and **apps/v1beta2** API versions is no longer served
+
+use the **apps/v1** 
+
+- `spec.selector` is now required and immutable after creation; use the existing template labels as the selector for seamless upgrades
+
+---
+
+StatefulSet in the **apps/v1beta1** and **apps/v1beta2** API versions is no longer served
+
+- Migrate to use the **apps/v1** API version
+
+- Notable changes:
+    `spec.selector` is now required and immutable after creation; use the existing template labels as the selector for seamless upgrades
+
+    > selector定义一个`Service`指向一组 pods 
+    >
+    > ```yaml
+    > selector:
+    > 	app: eureka-server
+    > ```
+    >
+    > 对于[`Job`](https://kubernetes.io/zh/docs/concepts/workloads/controllers/job/)、 [`Deployment`](https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/)、 [`Replica Set`](https://kubernetes.io/zh/docs/concepts/workloads/controllers/replicaset/) 和 [`DaemonSet`](https://kubernetes.io/zh/docs/concepts/workloads/controllers/daemonset/) ,支持基于集合
+    >
+    > ```yaml
+    > selector:
+    > 	matchLabels:
+    > 		app: bdp-spring-cloud-config-server
+    > ```
+
+## 1.16
+
+- 旧API 废弃
+
+- 双栈
+
+    IPv4 和 IPv6 地址分配给 Pods 和service
+
+    1.17 设置 IPv6 网络掩码
+
+    1.18 对 ipv6 的支持升至 beta
+
+- 调度框架
+
+    1.15alpha 向现有的调度器增加了一组新的“插件” API, 解决定制化调度需求
+
+- Windows 节点生产可用
+
+## 1.17
+
+- 卷快照升至 beta 版本
+
+    快照表示卷的时间点副本。快照可用于设置新卷（预填充快照数据）或将现有卷还原到先前状态（由快照表示）
+
+- CSI迁移升至 Beta 版本
+
+    CSI:容器存储接口
+
+    k8s 本身提供了 存储卷in-tree插件, 因此要随核心Kubernetes二进制代码一同发布. CSI接口降低k8s 维护人员和厂商沟通的成本以及安全的隐患
+
+    CSI迁移，用于辅助使用CSI方式替代现有的In-tree存储插件
+
+- 条件化的污点升至正式版
+
+    控制器自动根据条件为节点创建对应的污点。调度器则不去检查 Node conditions，而是检查节点的污点
+
+## 1.18
+
+- 配置HPA速率
+
+    Horizontal Pod Autoscaler（HPA）可以使你的Kubernetes集群对高/低流量自动伸缩. 目前该功能仅在集群级别可以配置.
+
+    ![img](https://pic4.zhimg.com/80/v2-fb22646abd2dc8c31eeb9670f16ea5c3_720w.jpg)
+
+    例子:
+
+    在典型的微服务应用程序中，你经常拥有一些比其他服务更重要的服务。假设你在Kubernetes上托管一个Web应用程序，该程序执行以下任务：
+
+    
+
+    1. 响应最终客户的请求（前端）
+    2. 处理客户端提供的数据（包括执行大量CPU操作，例如map-reduce）。
+    3. 处理不太重要的数据（例如，存档、清理等）
+
+    
+
+    从上述内容明显看出，任务1要求pod更快地扩展，以便应用程序可以快速有效地处理增加的客户端流量。此外，它们应该非常缓慢地缩小规模，以防再次出现流量高峰。
+
+    
+
+    任务2需要pod也可以非常快地扩展以响应增加的数据量。在关键任务应用程序中，不应延迟数据处理。但是，它们也应该非常迅速地缩减规模，因为一旦不再需要，它们会消耗大量地资源，而无法将这些资源用于其他服务。
+
+    
+
+    由于它们的重要性，我们可以在一定程度上容忍属于任务1和2的pod对误报做出响应。毕竟，浪费一些资源比失去客户要更好。
+
+    
+
+    服务于任务3的pod不需要特别地安排，因为它们按照常规的方式扩展和缩小即可。
+
+- `Kubectl alpha debug`提供更多故障排除功能
+
+    以前: 查看正在运行的Pod时, `kubectl exec`
+
+    新: 将临时容器部署到正在运行的Pod。临时容器声明周期短，它们通常包含必要的调试工具。由于它们是在同一Pod中启动的，因此它们可以访问具有相同网络和文件系统的其他容器。这在极大程度上可以帮助你解决问题或跟踪问题。
+
+- 增加Secret和ConfigMap不可变属性
+
+    保护集群不受意外的坏更新的影响，Kubelet也不用定期检查更新.
+
+    以前当对ConfigMap或Secret进行更改时，此更改将会立刻传递到安装了该配置文件的所有pod. 而一旦资源被标记为不可变，就无法恢复更改。只能删除和重建Secret/ConfigMaps，并且需要重建使用已删除Secret/ConfigMaps的pod
+
+    > 使用ConfigMap来将配置数据注入到我们的容器中。如果数据十分敏感，那么则会使用Secret。将数据呈现给容器最常见的方式是通过挂载一个包含数据的文件
+
+- OIDC发现
+
+    将Service Account Token作为通用身份验证方法
+
+    使API server提供OpenID Connect发现文档，该文档包含Token的公共密钥以及其他元数据。OIDC身份验证器可以使用此数据对token进行身份验证，而不必先引用API server。
+
+- 在同一集群中支持RuntimeClass和多个Windows版本的标签
+
+    允许在同一集群上混合Windows和Linux工作负载
+
+**有些是Alpha 版本** 
