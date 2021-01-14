@@ -3,6 +3,7 @@
 **Contents**
 
 - [Basics](#basics)
+  - [k8s](#k8s)
   - [Java](#java)
   - [Kotlin TODO](#kotlin-todo)
   - [Python3](#python3)
@@ -60,7 +61,7 @@
 
 ## k8s
 
-[notes]()
+[notes](https://github.com/HelperInCa/notes/blob/master/modules/k8s.md)
 
 ## Java
 
