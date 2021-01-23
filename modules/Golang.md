@@ -38,6 +38,8 @@
   - [select 语句](#select-%E8%AF%AD%E5%8F%A5)
   - [默认选择](#%E9%BB%98%E8%AE%A4%E9%80%89%E6%8B%A9)
   - [sync.Mutex](#syncmutex)
+- [Misc](#misc)
+  - [struct里 Tag 用法: 反引号](#struct%E9%87%8C-tag-%E7%94%A8%E6%B3%95-%E5%8F%8D%E5%BC%95%E5%8F%B7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -122,11 +124,11 @@ func main() {
 }
 ```
 
-> ## 短变量声明
->
-> 在函数中，简洁赋值语句 `:=` 可在类型明确的地方代替 `var` 声明。
->
-> 函数外的每个语句都必须以关键字开始（`var`, `func` 等等），因此 `:=` 结构不能在函数外使用。
+- 短变量声明
+
+    在函数中，简洁赋值语句 `:=` 可在类型明确的地方代替 `var` 声明。
+
+    函数外的每个语句都必须以关键字开始（`var`, `func` 等等），因此 `:=` 结构不能在函数外使用。
 
 ```go
 package main
@@ -143,9 +145,49 @@ func main() {
 
 ```
 
-## 基本类型
+- `new(T)`
 
-Go 的基本类型有
+    创建一个T类型的匿名变量, 返回类型为*T
+
+    ```go
+    p := new(int)   // p, *int 类型, 指向匿名的 int 变量
+    fmt.Println(*p) // "0"
+    *p = 2          // 设置 int 匿名变量的值为 2
+    fmt.Println(*p) // "2"
+    ```
+
+- 变量的生命周期
+
+    编译器会根据**逃逸分析**在栈还是堆上分配局部变量的存储空间, 并不是由用var还是new声明变量的方式决定的。
+
+    ```go
+    var global *int
+    
+    func f() {
+        var x int
+        x = 1
+        global = &x// x 必须要分配在堆上:它在函数退出后依然可以通过包一级的global变量找到. 
+    }
+    
+    func g() {
+        y := new(int)
+        *y = 1// 优先在栈上. 也可能在堆上,比如申请的内存过大
+    }
+    ```
+
+    > 尽量写出少一些逃逸的代码，提升程序的运行效率
+
+## 类型
+
+- 用来分隔不同概念的类型，这样即使它们底层类型相同也是不兼容的。
+
+    ```go
+    type 类型名字 底层类型
+    ```
+
+    类型声明语句一般出现在包一级，因此如果新创建的类型名字的首字符大写，则在包外部也可以使用
+
+- Go 的基本类型有
 
 ```
 bool
@@ -205,7 +247,7 @@ func main() {
 > ```
 > *普通占位符*
 > 占位符     说明                           举例                   输出
-> %v      相应值的默认格式。            Printf("%v", people)   {zhangsan}，
+> %v      相应值的默认格式。            Printf("%v", people)   {zhangsan}
 > %+v     打印结构体时，会添加字段名     Printf("%+v", people)  {Name:zhangsan}
 > %#v     相应值的Go语法表示           Printf("%#v", people)   main.Human{Name:"zhangsan"}
 > %T      相应值的类型的Go语法表示       Printf("%T", people)   main.Human
@@ -326,7 +368,7 @@ func main() {
 	var x, y int = 3, 4
 	var f float64 = math.Sqrt(float64(x*x + y*y))
 	var z uint = uint(f)
-	fmt.Println(x, y, z)
+	fmt.Println(x, y, z)// 3 4 5
 }
 ```
 
@@ -491,7 +533,7 @@ defer 语句会将函数推迟到外层函数返回之后执行。
 
 推迟调用的函数其参数会立即求值，但直到外层函数返回前该函数都不会被调用。
 
-推迟的函数调用会被压入一个栈中。当外层函数返回时，被推迟的函数会按照**先进后出**的顺序调用
+推迟的函数调用会被压入一个**栈**中。当外层函数返回时，被推迟的函数会按照**先进后出**的顺序调用
 
 ```go
 package main
@@ -502,11 +544,14 @@ func main() {
 	fmt.Println("counting")
 
 	for i := 0; i < 10; i++ {
-		defer fmt.Println(i)
+		defer fmt.Print(i)
 	}
 
 	fmt.Println("done")
 }
+//counting
+//done
+//9876543210
 ```
 
 ## 指针
@@ -551,7 +596,7 @@ func main() {
 	v := Vertex{1, 2}
 	v.X = 4
 	fmt.Println(v.X)
-}
+}// 4
 
 ```
 
@@ -572,7 +617,7 @@ type Vertex struct {
 func main() {
 	v := Vertex{1, 2}
 	p := &v
-  p.X = 1e9 // (*p).X = 1e9, 此处隐式间接引用
+  p.X = 1e9 // 此处隐式间接引用, 等价于(*p).X = 1e9
 	fmt.Println(v)
 }
 
@@ -650,13 +695,11 @@ q := []int{2, 3, 5, 7, 11, 13}
 	fmt.Println(q)//[2 3 5 7 11 13]
 ```
 
-> ## 切片就像数组的引用
+> 切片就像数组的**引用**, 但不是**纯粹**的引用类型
 >
-> 切片并不存储任何数据，它只是描述了底层数组中的一段。
+> - 更改切片的元素会修改其底层数组中对应的元素
 >
-> 更改切片的元素会修改其底层数组中对应的元素。
->
-> 与它共享底层数组的切片都会观测到这些修改。
+> - slice对应结构体本身的指针、长度和容量部分是直接访问的
 
 ### 切片的默认行为
 
@@ -700,7 +743,7 @@ func main() {
 
 	// 截取切片使其长度为 0
 	s = s[:0]
-	printSlice(s)
+	printSlice(s)// []
 
 	// 拓展其长度
 	s = s[:4] // s = s[:7]  silce bounds out of range
@@ -753,7 +796,7 @@ b := make([]int, 0, 5) // len(b)=0, cap(b)=5
   ```go
   a := []string{"John", "Paul"}
   b := []string{"George", "Ringo", "Pete"}
-  a = append(a, b...) // equivalent to "append(a, b[0], b[1], b[2])"
+  a = append(a, b...) // 等价于 append(a, b[0], b[1], b[2])
   ```
 
 
@@ -781,7 +824,7 @@ for i := range pow
 func main() {
 	pow := make([]int, 10)
 	for i := range pow {
-		pow[i] = 1 << uint(i) // == 2**i
+		pow[i] = 1 << uint(i) // 等价 2**i
 	}
 	for _, value := range pow {
 		fmt.Printf("%d\n", value)
@@ -826,25 +869,6 @@ func main() {
 
 ## 方法与指针重定向
 
-比较前两个程序，你大概会注意到带指针参数的函数必须接受一个指针：
-
-```
-var v Vertex
-ScaleFunc(v, 5)  // 编译错误！
-ScaleFunc(&v, 5) // OK
-```
-
-而以指针为接收者的方法被调用时，接收者既能为值又能为指针：
-
-```
-var v Vertex
-v.Scale(5)  // OK
-p := &v
-p.Scale(10) // OK
-```
-
-对于语句 `v.Scale(5)`，即便 `v` 是个值而非指针，带指针接收者的方法也能被直接调用。 也就是说，由于 `Scale` 方法有一个指针接收者，为方便起见，Go 会将语句 `v.Scale(5)` 解释为 `(&v).Scale(5)`。
-
 ```go
 package main
 
@@ -863,17 +887,49 @@ func ScaleFunc(v *Vertex, f float64) {
 	v.X = v.X * f
 	v.Y = v.Y * f
 }
+```
 
-func main() {
-	v := Vertex{3, 4}
-	v.Scale(2)
-	ScaleFunc(&v, 10)
 
-	p := &Vertex{4, 3}
-	p.Scale(3)
-	ScaleFunc(p, 8)
 
-	fmt.Println(v, p)
+比较前两个程序，你大概会注意到带指针参数的函数必须接受一个指针：
+
+```go
+var v Vertex
+ScaleFunc(v, 5)  // 编译错误！
+ScaleFunc(&v, 5) // OK
+```
+
+而以指针为接收者的方法被调用时，接收者既能为值又能为指针：
+
+```go
+var v Vertex
+v.Scale(5)  // OK
+p := &v
+p.Scale(10) // OK
+```
+
+对于语句 `v.Scale(5)`，即便 `v` 是个值而非指针，带指针接收者的方法也能被直接调用。 也就是说，由于 `Scale` 方法有一个指针接收者，为方便起见，Go 会将语句 `v.Scale(5)` 解释为 `(&v).Scale(5)`。
+
+
+
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type Vertex struct {
+	X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func AbsFunc(v Vertex) float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 ```
 
@@ -906,38 +962,11 @@ fmt.Println(p.Abs()) // OK
 
 其次，这样可以避免在每次调用方法时复制该值。若值的类型为大型结构体时，这样做会更加高效
 
-```go
-package main
 
-import (
-	"fmt"
-	"math"
-)
-
-type Vertex struct {
-	X, Y float64
-}
-
-func (v *Vertex) Scale(f float64) {
-	v.X = v.X * f
-	v.Y = v.Y * f
-}
-
-func (v *Vertex) Abs() float64 {
-	return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
-
-func main() {
-	v := &Vertex{3, 4}
-	fmt.Printf("Before scaling: %+v, Abs: %v\n", v, v.Abs())//Before scaling: &{X:3 Y:4}, Abs: 5
-	v.Scale(5)
-	fmt.Printf("After scaling: %+v, Abs: %v\n", v, v.Abs())//After scaling: &{X:15 Y:20}, Abs: 25
-}
-```
 
 ##  接口与隐式实现
 
-类型通过实现一个接口的所有方法来实现该接口。既然无需专门显式声明，也就没有“implements”关键字。
+类型通过实现一个接口的所有方法来实现该接口。既然无需专门显式声明，也就没有`implements`关键字。
 
 隐式接口从接口的实现中解耦了定义，这样接口的实现可以出现在任何包中，无需提前准备。
 
@@ -1358,4 +1387,44 @@ func main() {
 ```
 
 
+
+# Misc
+
+## struct里 Tag 用法: 反引号
+
+```go
+`key01:"value01" key02:"value02"`
+```
+
+例子
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+type Person struct {
+    Name string `json:"name"`
+    Age  int    `json:"age"`
+    Addr string `json:"addr,omitempty"`
+}
+
+func main() {
+    p1 := Person{
+        Name: "Jack",
+        Age:  22,
+    }
+    	
+    data1, err := json.Marshal(p1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s\n", data1)// {"name":"Jack","age":22}
+
+}    
+```
 

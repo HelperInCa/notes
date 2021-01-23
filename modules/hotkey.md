@@ -136,6 +136,7 @@
   | [VCS Operations Popup...](https://www.jetbrains.com/help/rider/Version_Control_Integration.html?keymap=mac_os_x_10.5) | ⌃+V         |
   | [Refactor This...](https://www.jetbrains.com/help/rider/Refactor_This.html?keymap=mac_os_x_10.5) | ⌃+T         |
   | [Inspect This...](https://www.jetbrains.com/help/rider/Code_Analysis__Inspect_This.html?keymap=mac_os_x_10.5) | ⌘+⌥+⇧+A     |
+  | 移动光标到上一次/下一次位置                                  | ⌘+[ or ⌘+]  |
 
   - `⇧ + enter `光标移到新建的下一行
 
@@ -260,7 +261,6 @@
   - `Control + Shift + B` 跳转到类型声明处
   - `Command + U` 前往当前光标所在方法的父类的方法 / 接口定义
   - `Control + 方向键下 / Control + 方向键上` 当前光标跳转到当前文件的前一个/后一个方法名位置
-  - `Command + ] / Command + [` 移动光标到当前所在代码的花括号开始/结束位置
   - `Command + F12` 弹出当前文件结构层，可以在弹出的层上直接输入进行筛选（可用于搜索类中的方法）
   - `Control + H` 显示当前类的层次结构
   - `Command + Shift + H` 显示方法层次结构
@@ -272,7 +272,7 @@
   - `Option + F3` 选中文件/文件夹/代码行，使用助记符添加/取消书签
   - `Control + 0...Control + 9` 定位到对应数值的书签位置
   - `Command + F3` 显示所有书签
-
+  
 - Refactoring（重构）
   - `F5` 复制文件到指定目录
   - `F6` 移动文件到指定目录
