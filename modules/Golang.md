@@ -578,7 +578,9 @@ fmt.Println(*p) // 通过指针 p 读取 i
 
 
 
-## 结构体字段
+## 结构体
+
+### 字段
 
 结构体字段使用点号来访问。
 
@@ -600,7 +602,7 @@ func main() {
 
 ```
 
-## 结构体指针
+### 指针
 
 结构体字段可以通过结构体指针来访问
 
@@ -623,9 +625,10 @@ func main() {
 
 ```
 
+- 结构体成员的输入顺序不同, 结构体也不同
+- 一个命名为S的结构体类型将不能再包含S类型的成员：因为一个聚合的值不能包含它自身。（该限制同样适用于数组。）但是S类型的结构体可以包含`*S`指针类型的成员，这可以让我们创建递归的数据结构, 比如二叉树
 
-
-## 结构体文法
+### 字面值
 
 ```go
 package main
@@ -637,7 +640,7 @@ type Vertex struct {
 }
 
 var (
-	v1 = Vertex{1, 2}  // 创建一个 Vertex 类型的结构体
+	v1 = Vertex{1, 2}  // 创建一个 Vertex 类型的结构体, 字段顺序要对应. 一般只用在定义结构体的包内 或者 较小的结构体中.
 	v2 = Vertex{X: 1}  // Y:0 被隐式地赋予
 	v3 = Vertex{}      // X:0 Y:0
 	p  = &Vertex{1, 2} // 创建一个 *Vertex 类型的结构体（指针）
@@ -649,7 +652,39 @@ func main() {
 
 ```
 
+### 匿名成员
 
+通过简单的点运算符x.f来访问匿名成员链中嵌套的x.d.e.f成员
+
+```go
+type Point struct {
+    X, Y int
+}
+
+type Circle struct {
+    Center Point
+    Radius int
+}
+
+var c Circle
+c.Center.X = 8
+```
+
+```go
+type Point struct {
+    X, Y int
+}
+
+type Circle struct {
+    Point // 匿名成员
+    Radius int
+}
+
+var c Circle
+c.X = 8// 也可以c.Center.X = 8
+```
+
+外层的结构体不仅仅是获得了匿名成员类型的所有成员，而且也获得了**该类型导出的全部的方法**。这个机制可以用于将一些有简单行为的对象组合成有复杂行为的对象。
 
 ## 数组
 
@@ -833,7 +868,90 @@ func main() {
 
 ```
 
+## 错误
 
+首先是一系列的初始检查，防止错误发生，之后是函数的实际逻辑.
+
+处理策略(5种)
+
+- 传播错误
+
+    最常用
+
+    ```go
+    resp, err := http.Get(url)
+    if err != nil{
+        return nil, err
+    }
+    ```
+    
+    添加额外的上下文`fmt.Errorf()`
+    
+    ```go
+    doc, err := html.Parse(resp.Body)
+    resp.Body.Close()
+    if err != nil {
+        return nil, fmt.Errorf("parsing %s as HTML: %v", url,err)
+    }
+    ```
+    
+- 重试
+
+    *限制重试的时间间隔或次数*
+
+    ```go
+    // WaitForServer attempts to contact the server of a URL.
+    // It tries for one minute using exponential back-off.
+    // It reports an error if all attempts fail.
+    func WaitForServer(url string) error {
+        const timeout = 1 * time.Minute
+        deadline := time.Now().Add(timeout)
+        for tries := 0; time.Now().Before(deadline); tries++ {
+            _, err := http.Head(url)
+            if err == nil {
+                return nil // success
+            }
+            log.Printf("server not responding (%s);retrying…", err)
+            time.Sleep(time.Second << uint(tries)) // exponential back-off
+        }
+        return fmt.Errorf("server %s failed to respond after %s", url, timeout)
+    }
+    ```
+
+- 输出error并结束程序
+
+    如果错误发生后，程序无法继续运行.
+
+    *需要注意的是，这种策略只应在**main**中执行。对库函数而言，应仅向上传播错误，除非该错误意味着程序内部包含不一致性，即遇到了bug，才能在库函数中结束程序。*
+
+    ```go
+    if err := WaitForServer(url); err != nil {
+        log.Fatalf("Site is down: %v\n", err)
+    }
+    ```
+
+    ```go
+    // 设置log的前缀
+    log.SetPrefix("wait: ")
+    // 设置抬头
+    log.SetFlags(0)// log.Ldate = 1 << iota
+    ```
+
+- 输出error, 不中断程序
+
+    ```go
+    if err := Ping(); err != nil {
+        log.Printf("ping failed: %v; networking disabled",err)
+    }
+    ```
+
+- 忽略
+
+    应写出忽略的原因
+
+>   **文件结尾错误（EOF）**
+>
+>   任何由文件结束引起的读取失败都返回同一个错误io.EOF
 
 ##  方法
 
