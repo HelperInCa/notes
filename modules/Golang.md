@@ -5,6 +5,9 @@
 - [入门](#%E5%85%A5%E9%97%A8)
   - [导出名](#%E5%AF%BC%E5%87%BA%E5%90%8D)
   - [函数](#%E5%87%BD%E6%95%B0)
+    - [错误](#%E9%94%99%E8%AF%AF)
+    - [匿名函数](#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0)
+    - [可变参数](#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0)
   - [变量](#%E5%8F%98%E9%87%8F)
   - [类型](#%E7%B1%BB%E5%9E%8B)
   - [类型转换](#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2)
@@ -14,7 +17,7 @@
   - [for](#for)
   - [if 的简短语句](#if-%E7%9A%84%E7%AE%80%E7%9F%AD%E8%AF%AD%E5%8F%A5)
   - [switch](#switch)
-  - [defer 栈](#defer-%E6%A0%88)
+  - [defer](#defer)
   - [指针](#%E6%8C%87%E9%92%88)
   - [结构体](#%E7%BB%93%E6%9E%84%E4%BD%93)
     - [字段](#%E5%AD%97%E6%AE%B5)
@@ -28,12 +31,10 @@
     - [用 make 创建切片](#%E7%94%A8-make-%E5%88%9B%E5%BB%BA%E5%88%87%E7%89%87)
     - [append函数](#append%E5%87%BD%E6%95%B0)
   - [Range](#range)
-  - [错误](#%E9%94%99%E8%AF%AF)
   - [方法](#%E6%96%B9%E6%B3%95)
   - [方法与指针重定向](#%E6%96%B9%E6%B3%95%E4%B8%8E%E6%8C%87%E9%92%88%E9%87%8D%E5%AE%9A%E5%90%91)
   - [选择值或指针作为接收者](#%E9%80%89%E6%8B%A9%E5%80%BC%E6%88%96%E6%8C%87%E9%92%88%E4%BD%9C%E4%B8%BA%E6%8E%A5%E6%94%B6%E8%80%85)
   - [接口与隐式实现](#%E6%8E%A5%E5%8F%A3%E4%B8%8E%E9%9A%90%E5%BC%8F%E5%AE%9E%E7%8E%B0)
-  - [错误](#%E9%94%99%E8%AF%AF-1)
   - [Reader](#reader)
   - [goroutine](#goroutine)
   - [信道](#%E4%BF%A1%E9%81%93)
@@ -88,18 +89,14 @@ func main() {
 
 ## 函数
 
-函数可以没有参数或接受多个参数。
-
-在本例中，`add` 接受两个 `int` 类型的参数。
-
-注意类型在变量名 **之后**。
+注意: 类型在变量名 **之后**。
 
 ```go
 package main
 
 import "fmt"
 
-func add(x int, y int) int {
+func add(x, y int) int {
 	return x + y
 }
 
@@ -107,6 +104,126 @@ func main() {
 	fmt.Println(add(42, 13))
 }
 ```
+
+### 错误
+
+首先是一系列的初始检查，防止错误发生，之后是函数的实际逻辑.
+
+处理策略(5种)
+
+- 传播错误
+
+    最常用
+
+    ```go
+    resp, err := http.Get(url)
+    if err != nil{
+        return nil, err
+    }
+    ```
+
+    添加额外的上下文`fmt.Errorf()`
+
+    ```go
+    doc, err := html.Parse(resp.Body)
+    resp.Body.Close()
+    if err != nil {
+        return nil, fmt.Errorf("parsing %s as HTML: %v", url,err)
+    }
+    ```
+
+- 重试
+
+    *限制重试的时间间隔或次数*
+
+    ```go
+    // WaitForServer attempts to contact the server of a URL.
+    // It tries for one minute using exponential back-off.
+    // It reports an error if all attempts fail.
+    func WaitForServer(url string) error {
+        const timeout = 1 * time.Minute
+        deadline := time.Now().Add(timeout)
+        for tries := 0; time.Now().Before(deadline); tries++ {
+            _, err := http.Head(url)
+            if err == nil {
+                return nil // success
+            }
+            log.Printf("server not responding (%s);retrying…", err)
+            time.Sleep(time.Second << uint(tries)) // exponential back-off
+        }
+        return fmt.Errorf("server %s failed to respond after %s", url, timeout)
+    }
+    ```
+
+- 输出error并结束程序
+
+    如果错误发生后，程序无法继续运行.
+
+    *需要注意的是，这种策略只应在**main**中执行。对库函数而言，应仅向上传播错误，除非该错误意味着程序内部包含不一致性，即遇到了bug，才能在库函数中结束程序。*
+
+    ```go
+    if err := WaitForServer(url); err != nil {
+        log.Fatalf("Site is down: %v\n", err)
+    }
+    ```
+
+    ```go
+    // 设置log的前缀
+    log.SetPrefix("wait: ")
+    // 设置抬头
+    log.SetFlags(0)// log.Ldate = 1 << iota
+    ```
+
+- 输出error, 不中断程序
+
+    ```go
+    if err := Ping(); err != nil {
+        log.Printf("ping failed: %v; networking disabled",err)
+    }
+    ```
+
+- 忽略
+
+    应写出忽略的原因
+
+>   **文件结尾错误（EOF）**
+>
+>   任何由文件结束引起的读取失败都返回同一个错误io.EOF
+
+### 匿名函数
+
+[捕获迭代变量](https://books.studygolang.com/gopl-zh/ch5/ch5-06.html) 
+
+​	循环中生成的所有函数值都共享相同的循环变量.
+
+​	为了解决这个问题，通常引入一个与循环变量同名的局部变量，作为循环变量的副本
+
+```go
+for _, dir := range tempDirs() {
+    dir := dir // declares inner dir, initialized to outer dir
+    // ...
+}
+```
+
+### 可变参数
+
+```go
+func sum(vals ...int) int {
+    total := 0
+    for _, val := range vals {
+        total += val
+    }
+    return total
+}
+```
+
+```go
+fmt.Println(sum(1, 2, 3, 4))
+```
+
+
+
+
 
 ## 变量
 
@@ -530,7 +647,7 @@ func main() {
 
 ```
 
-##  defer 栈
+##  defer
 
 defer 语句会将函数推迟到外层函数返回之后执行。
 
@@ -871,90 +988,7 @@ func main() {
 
 ```
 
-## 错误
 
-首先是一系列的初始检查，防止错误发生，之后是函数的实际逻辑.
-
-处理策略(5种)
-
-- 传播错误
-
-    最常用
-
-    ```go
-    resp, err := http.Get(url)
-    if err != nil{
-        return nil, err
-    }
-    ```
-    
-    添加额外的上下文`fmt.Errorf()`
-    
-    ```go
-    doc, err := html.Parse(resp.Body)
-    resp.Body.Close()
-    if err != nil {
-        return nil, fmt.Errorf("parsing %s as HTML: %v", url,err)
-    }
-    ```
-    
-- 重试
-
-    *限制重试的时间间隔或次数*
-
-    ```go
-    // WaitForServer attempts to contact the server of a URL.
-    // It tries for one minute using exponential back-off.
-    // It reports an error if all attempts fail.
-    func WaitForServer(url string) error {
-        const timeout = 1 * time.Minute
-        deadline := time.Now().Add(timeout)
-        for tries := 0; time.Now().Before(deadline); tries++ {
-            _, err := http.Head(url)
-            if err == nil {
-                return nil // success
-            }
-            log.Printf("server not responding (%s);retrying…", err)
-            time.Sleep(time.Second << uint(tries)) // exponential back-off
-        }
-        return fmt.Errorf("server %s failed to respond after %s", url, timeout)
-    }
-    ```
-
-- 输出error并结束程序
-
-    如果错误发生后，程序无法继续运行.
-
-    *需要注意的是，这种策略只应在**main**中执行。对库函数而言，应仅向上传播错误，除非该错误意味着程序内部包含不一致性，即遇到了bug，才能在库函数中结束程序。*
-
-    ```go
-    if err := WaitForServer(url); err != nil {
-        log.Fatalf("Site is down: %v\n", err)
-    }
-    ```
-
-    ```go
-    // 设置log的前缀
-    log.SetPrefix("wait: ")
-    // 设置抬头
-    log.SetFlags(0)// log.Ldate = 1 << iota
-    ```
-
-- 输出error, 不中断程序
-
-    ```go
-    if err := Ping(); err != nil {
-        log.Printf("ping failed: %v; networking disabled",err)
-    }
-    ```
-
-- 忽略
-
-    应写出忽略的原因
-
->   **文件结尾错误（EOF）**
->
->   任何由文件结束引起的读取失败都返回同一个错误io.EOF
 
 ##  方法
 
@@ -1116,30 +1150,6 @@ func main() {
 	i.M()
 }
 ```
-
-
-
-## 错误
-
-通常函数会返回一个 `error` 值，调用的它的代码应当判断这个错误是否等于 `nil`来进行错误处理。
-
-```go
-package main
-
-import (
-	"fmt"
-  "strconv"
-)
-i, err := strconv.Atoi("42")
-if err != nil {
-    fmt.Printf("couldn't convert number: %v\n", err)
-    return
-}
-
-fmt.Println("Converted integer:", i)
-```
-
-`error` 为 nil 时表示成功；非 nil 的 `error` 表示失败。
 
 
 
