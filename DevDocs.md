@@ -598,10 +598,18 @@ $ git config --global alias.br branch
 
 - Docker 容器后台运行时, 必须要有一个前台进程, 否则会自动停止
 
-- Docker 1.13之后, 支持prune命令，快速删除已退出的容器
+- Docker v1.13之后, 支持prune命令，快速删除已退出的容器
 
     ```shell
-    $ docker container prune
+    docker container prune
+    ```
+
+- 本地镜像导出/导入
+
+    ```shell
+    docker images
+    docker save [image ID] > xxx.tar
+    docker load < xxx.tar
     ```
 
     
