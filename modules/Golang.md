@@ -8,6 +8,8 @@
     - [错误](#%E9%94%99%E8%AF%AF)
     - [匿名函数](#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0)
     - [可变参数](#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0)
+    - [defer](#defer)
+    - [Panic](#panic)
   - [变量](#%E5%8F%98%E9%87%8F)
   - [类型](#%E7%B1%BB%E5%9E%8B)
   - [类型转换](#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2)
@@ -17,7 +19,6 @@
   - [for](#for)
   - [if 的简短语句](#if-%E7%9A%84%E7%AE%80%E7%9F%AD%E8%AF%AD%E5%8F%A5)
   - [switch](#switch)
-  - [defer](#defer)
   - [指针](#%E6%8C%87%E9%92%88)
   - [结构体](#%E7%BB%93%E6%9E%84%E4%BD%93)
     - [字段](#%E5%AD%97%E6%AE%B5)
@@ -32,10 +33,10 @@
     - [append函数](#append%E5%87%BD%E6%95%B0)
   - [Range](#range)
   - [方法](#%E6%96%B9%E6%B3%95)
-  - [方法与指针重定向](#%E6%96%B9%E6%B3%95%E4%B8%8E%E6%8C%87%E9%92%88%E9%87%8D%E5%AE%9A%E5%90%91)
-  - [选择值或指针作为接收者](#%E9%80%89%E6%8B%A9%E5%80%BC%E6%88%96%E6%8C%87%E9%92%88%E4%BD%9C%E4%B8%BA%E6%8E%A5%E6%94%B6%E8%80%85)
+    - [方法与指针重定向](#%E6%96%B9%E6%B3%95%E4%B8%8E%E6%8C%87%E9%92%88%E9%87%8D%E5%AE%9A%E5%90%91)
+    - [选择值或指针作为接收者](#%E9%80%89%E6%8B%A9%E5%80%BC%E6%88%96%E6%8C%87%E9%92%88%E4%BD%9C%E4%B8%BA%E6%8E%A5%E6%94%B6%E8%80%85)
   - [接口与隐式实现](#%E6%8E%A5%E5%8F%A3%E4%B8%8E%E9%9A%90%E5%BC%8F%E5%AE%9E%E7%8E%B0)
-  - [Reader](#reader)
+    - [Reader](#reader)
   - [goroutine](#goroutine)
   - [信道](#%E4%BF%A1%E9%81%93)
   - [range 和 close](#range-%E5%92%8C-close)
@@ -48,6 +49,8 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # 入门
+
+[Go语言圣经](https://books.studygolang.com/gopl-zh/)
 
 ## 导出名
 
@@ -221,9 +224,40 @@ func sum(vals ...int) int {
 fmt.Println(sum(1, 2, 3, 4))
 ```
 
+###  defer
 
+defer 语句会将函数推迟到外层函数返回之后执行。
 
+推迟调用的函数其参数会立即求值，但直到外层函数返回前该函数都不会被调用。
 
+推迟的函数调用会被压入一个**栈**中。当外层函数返回时，被推迟的函数会按照**先进后出**的顺序调用
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("counting")
+
+	for i := 0; i < 10; i++ {
+		defer fmt.Print(i)
+	}
+
+	fmt.Println("done")
+}
+//counting
+//done
+//9876543210
+```
+
+defer语句经常被用于处理**成对**的操作，如打开、关闭、连接、断开连接、加锁、释放锁。通过defer机制，不论函数逻辑多复杂，都能保证在任何执行路径下，资源被释放。**释放资源的defer应该直接跟在请求资源的语句后**
+
+### Panic
+
+panic一般用于严重错误，如程序内部的逻辑不一致. **尽量使用错误机制**
+
+当panic异常发生时，程序会中断运行，并立即执行在该goroutine中被延迟的函数（defer 机制）。随后，程序崩溃并输出日志信息。日志信息包括panic value和函数调用的堆栈跟踪信息。
 
 ## 变量
 
@@ -647,33 +681,6 @@ func main() {
 
 ```
 
-##  defer
-
-defer 语句会将函数推迟到外层函数返回之后执行。
-
-推迟调用的函数其参数会立即求值，但直到外层函数返回前该函数都不会被调用。
-
-推迟的函数调用会被压入一个**栈**中。当外层函数返回时，被推迟的函数会按照**先进后出**的顺序调用
-
-```go
-package main
-
-import "fmt"
-
-func main() {
-	fmt.Println("counting")
-
-	for i := 0; i < 10; i++ {
-		defer fmt.Print(i)
-	}
-
-	fmt.Println("done")
-}
-//counting
-//done
-//9876543210
-```
-
 ## 指针
 
 类型 `*T` 是指向 `T` 类型值的指针。其零值为 `nil`。
@@ -1022,7 +1029,7 @@ func main() {
 }
 ```
 
-## 方法与指针重定向
+### 方法与指针重定向
 
 ```go
 package main
@@ -1109,7 +1116,7 @@ fmt.Println(p.Abs()) // OK
 
 这种情况下，方法调用 `p.Abs()` 会被解释为 `(*p).Abs()`。
 
-##  选择值或指针作为接收者
+### 选择值或指针作为接收者
 
 使用指针接收者的原因有二：
 
@@ -1153,7 +1160,7 @@ func main() {
 
 
 
-## Reader
+### Reader
 
 `io` 包指定了 `io.Reader` 接口，它表示从数据流的末尾进行读取。
 
@@ -1214,15 +1221,11 @@ goroutine是由 Go 运行时管理的轻量级线程。
 go f(x, y, z)
 ```
 
-会启动一个新的 Go 程并执行
-
-```
-f(x, y, z)
-```
+会启动一个新的 Goroutine并迅速执行`f(x, y, z)`
 
 `f`, `x`, `y` 和 `z` 的求值发生在当前的 Go 程中，而 `f` 的执行发生在新的 Go 程中。
 
-Go 程在相同的地址空间中运行，因此在访问共享的内存时必须进行同步。[`sync`](https://go-zh.org/pkg/sync/) 包提供了这种能力，不过在 Go 中并不经常用到，因为还有其它的办法.
+Goroutine在相同的地址空间中运行，因此在访问共享的内存时必须进行同步。[`sync`](https://go-zh.org/pkg/sync/) 包提供了这种能力，不过在 Go 中并不经常用到，因为还有其它的办法.
 
 ```go
 package main
@@ -1234,7 +1237,7 @@ import (
 
 func say(s string) {
 	for i := 0; i < 5; i++ {
-    time.Sleep(100 * time.Millisecond)//如果没有Sleep(), 输出会是5个hello.因为还没来得及启动goroutine.
+        time.Sleep(100 * time.Millisecond)//如果没有Sleep(), 输出会是5个hello.因为还没来得及启动新goroutine来执行 say("world").
 		fmt.Println(s)
 	}
 }
@@ -1255,8 +1258,6 @@ world
 world
 hello
 */
-
-
 ```
 
 
