@@ -39,9 +39,8 @@
     - [Reader](#reader)
   - [goroutine](#goroutine)
   - [信道](#%E4%BF%A1%E9%81%93)
-  - [range 和 close](#range-%E5%92%8C-close)
-  - [select 语句](#select-%E8%AF%AD%E5%8F%A5)
-  - [默认选择](#%E9%BB%98%E8%AE%A4%E9%80%89%E6%8B%A9)
+    - [range 和 close](#range-%E5%92%8C-close)
+    - [select 语句](#select-%E8%AF%AD%E5%8F%A5)
   - [sync.Mutex](#syncmutex)
 - [Misc](#misc)
   - [struct里 Tag 用法: 反引号](#struct%E9%87%8C-tag-%E7%94%A8%E6%B3%95-%E5%8F%8D%E5%BC%95%E5%8F%B7)
@@ -1223,7 +1222,7 @@ go f(x, y, z)
 
 会启动一个新的 Goroutine并迅速执行`f(x, y, z)`
 
-`f`, `x`, `y` 和 `z` 的求值发生在当前的 Go 程中，而 `f` 的执行发生在新的 Go 程中。
+`f`, `x`, `y` 和 `z` 的求值发生在当前的 Goroutine中，而 `f` 的执行发生在新的 Goroutine中。
 
 Goroutine在相同的地址空间中运行，因此在访问共享的内存时必须进行同步。[`sync`](https://go-zh.org/pkg/sync/) 包提供了这种能力，不过在 Go 中并不经常用到，因为还有其它的办法.
 
@@ -1266,22 +1265,21 @@ hello
 
 信道是带有类型的管道，你可以通过它用信道操作符 `<-` 来发送或者接收值。
 
-```
+```go
 ch <- v    // 将 v 发送至信道 ch。
 v := <-ch  // 从 ch 接收值并赋予 v。
+<-ch       // 从 ch 接收值并抛弃
 ```
 
-（“箭头”就是数据流的方向。）
+和map与slice一样，信道在使用前必须创建：
 
-和映射与切片一样，信道在使用前必须创建：
-
-```
+```go
 ch := make(chan int)
 ```
 
-默认情况下，发送和接收操作在另一端准备好之前都会阻塞。这使得 Go 程可以在没有显式的锁或竞态变量的情况下进行同步。
+无缓存信道(也被称为同步信道)情况下，发送和接收者 goroutine在另一端准备好之前都会**阻塞**。这使得 Goroutine可以在没有显式的锁或竞态变量的情况下进行同步。
 
-以下示例对切片中的数进行求和，将任务分配给两个 Go 程。一旦两个 Go 程完成了它们的计算，它就能算出最终的结果。
+以下示例对切片中的数进行求和，将任务分配给两个 Goroutine。一旦两个 Goroutine完成了它们的计算，它就能算出最终的结果。
 
 ```go
 package main
@@ -1304,30 +1302,29 @@ func main() {
 	go sum(s[len(s)/2:], c)
 	x, y := <-c, <-c // 从 c 中接收
 
-	fmt.Println(x, y, x+y)
+	fmt.Println(x, y)
 }
-/*
--5 17 12
-*/
 ```
 
 
 
-## range 和 close
+### range 和 close
 
-发送者可通过 `close` 关闭一个信道来表示没有需要发送的值了。接收者可以通过为接收表达式分配第二个参数来测试信道是否被关闭：若没有值可以接收且信道已被关闭，那么在执行完
+发送者可通过 `close` 关闭一个信道来表示没有需要发送的值了。接收者可以通过为接收表达式分配第二个参数来测试信道是否被关闭：若没有值可以接收且信道已被关闭，那么在执行完之后 `ok` 会被设置为 `false`。
 
-```
+```go
 v, ok := <-ch
 ```
 
-之后 `ok` 会被设置为 `false`。
+对一个已经被close过的channel进行接收操作依然可以接受到之前已经成功发送的数据；如果channel中已经没有数据的话将产生一个零值的数据。
 
 循环 `for i := range c` 会不断从信道接收值，直到它被关闭。
 
-*注意：* 只有发送者才能关闭信道，而接收者不能。向一个已经关闭的信道发送数据会引发程序恐慌（panic）。
+*注意：* 
 
-*还要注意：* 信道与文件不同，通常情况下无需关闭它们。只有在必须告诉接收者不再有需要发送的值时才有必要关闭，例如终止一个 `range` 循环。
+只有**发送者**才能关闭信道，而接收者不能。向一个已经关闭的信道发送数据, 试图重复关闭一个channel，试图关闭一个nil值的channel都将导致panic异常
+
+信道与文件不同，通常情况下无需关闭它们。只有在必须告诉接收者不再有需要发送的值时才有必要关闭，例如终止一个 `range` 循环。
 
 ```go
 package main
@@ -1347,7 +1344,7 @@ func fibonacci(n int, c chan int) {
 
 func main() {
 	c := make(chan int, 10)
-  go fibonacci(cap(c), c)// cap()查看capacity
+    go fibonacci(cap(c), c)// cap()查看capacity
 	for i := range c {
 		fmt.Println(i)
 	}
@@ -1355,11 +1352,9 @@ func main() {
 
 ```
 
+### select 语句
 
-
-## select 语句
-
-`select` 语句使一个 Go 程可以等待多个通信操作。
+`select` 语句使一个 Goroutine可以等待多个通信操作。
 
 `select` 会阻塞到某个分支可以继续执行为止，这时就会执行该分支。当多个分支都准备好时会随机选择一个执行。
 
@@ -1372,11 +1367,11 @@ func fibonacci(c, quit chan int) {
 	x, y := 0, 1
 	for {
 		select {
-		case c <- x:
-			x, y = y, x+y
-		case <-quit:
-			fmt.Println("quit")
-			return
+			case c <- x:
+				x, y = y, x+y
+			case <-quit:
+				fmt.Println("quit")
+				return
 		}
 	}
 }
@@ -1397,7 +1392,7 @@ func main() {
 
 
 
-## 默认选择
+- 默认选择
 
 当 `select` 中的其它分支都没有准备好时，`default` 分支就会执行。
 
@@ -1460,11 +1455,13 @@ BOOM!
 
 ## sync.Mutex
 
-我们已经看到信道非常适合在各个 Go 程间进行通信。
+信道非常适合在各个 Goroutine间进行通信。
 
-但是如果我们并不需要通信呢？比如说，若我们只是想保证每次只有一个 Go 程能够访问一个共享的变量，从而避免冲突？
+> "不要使用共享数据来通信；使用通信来共享数据." 除了互斥锁之外, 这也是一种避免数据竞争方法
 
-这里涉及的概念叫做 *互斥（mutual*exclusion）* ，我们通常使用 *互斥锁（Mutex）* 这一数据结构来提供这种机制。
+但是如果我们并不需要通信呢？比如说，若我们只是想保证同一时刻只有一个 goroutine能够访问一个共享的变量，从而避免冲突？
+
+这里涉及的概念叫做 *互斥（mutual exclusion）* ，我们通常使用 *互斥锁（Mutex）* 这一数据结构来提供这种机制。
 
 Go 标准库中提供了 [`sync.Mutex`](https://go-zh.org/pkg/sync/#Mutex) 互斥锁类型及其两个方法：
 
