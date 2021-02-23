@@ -21,6 +21,7 @@
   - [SSL/TSL](#ssltsl)
   - [RESTful(Representational State Transfer)](#restfulrepresentational-state-transfer)
   - [举例](#%E4%B8%BE%E4%BE%8B)
+  - [弹性公网 IP/浮动 IP/虚拟 IP/私有 IP](#%E5%BC%B9%E6%80%A7%E5%85%AC%E7%BD%91-ip%E6%B5%AE%E5%8A%A8-ip%E8%99%9A%E6%8B%9F-ip%E7%A7%81%E6%9C%89-ip)
 - [容错/高可用/灾备](#%E5%AE%B9%E9%94%99%E9%AB%98%E5%8F%AF%E7%94%A8%E7%81%BE%E5%A4%87)
 - [CAP定理](#cap%E5%AE%9A%E7%90%86)
 - [Important flow charts](#important-flow-charts)
@@ -568,6 +569,7 @@ SSL/TLS协议的基本过程是这样的：
 - [设计细节](https://www.ruanyifeng.com/blog/2018/10/restful-api-best-practices.html)
 
 ## 举例
+
 在浏览器中输入 www.baidu.com  后执行的全部过程
 1）客户端浏览器通过DNS解析到 www.baidu.com 的IP地址220.181.38.148，通过这个IP地址找到客户端到服务器的路径。客户端浏览器发起一个HTTP会话到220.181.38.148，然后通过TCP进行封装数据包，输入到网络层。
 
@@ -578,8 +580,12 @@ SSL/TLS协议的基本过程是这样的：
 　　4）客户端的链路层，包通过链路层发送到路由器，通过邻居协议查找给定IP地址的MAC地址，然后发送ARP请求查找目的地址，如果得到回应后就可以使用ARP的请求应答交换的IP数据包现在就可以传输了，然后发送IP数据包到达服务器的地址。
 　　![20200628mkCSAo](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200628mkCSAo.jpg)
 
+## 弹性公网 IP/浮动 IP/虚拟 IP/私有 IP
 
-
+- **弹性公网IP**(Elastic IP，简称EIP)是可以直接访问Internet的IP地址。一个弹性公网IP只能给一个云资源使用
+- **私有IP**是公有云内网所使用的IP地址，用于内网通信，私有IP不能访问Internet
+- **浮动IP**与弹性公网IP功能类似，都是公网IP
+- **虚拟 IP**（即VIP）是一个未分配给真实弹性云服务器网卡的IP地址。主要用在弹性云服务器的主备切换，达到高可用性HA（High Availability）的目的。当主服务器发生故障无法对外提供服务时，动态将虚拟IP切换到备服务器，继续对外提供服务
 
 # 容错/高可用/灾备
 
