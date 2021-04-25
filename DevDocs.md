@@ -586,6 +586,10 @@ $ git config --global alias.br branch
 
 `I`命令模式: 从行首插入
 
+## ntpd
+
+[ntpd](http://xstarcd.github.io/wiki/sysadmin/ntpd.html)
+
 # Docker
 
 ## 脑图
