@@ -74,6 +74,14 @@
     - [KMP](#kmp)
     - [贪心](#%E8%B4%AA%E5%BF%83)
     - [普里姆](#%E6%99%AE%E9%87%8C%E5%A7%86)
+- [RAID](#raid)
+  - [RAID 0](#raid-0)
+  - [RAID 1](#raid-1)
+  - [RAID 5](#raid-5)
+  - [RAID 6](#raid-6)
+  - [RAID 10](#raid-10)
+- [数据库](#%E6%95%B0%E6%8D%AE%E5%BA%93)
+  - [MVCC](#mvcc)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
