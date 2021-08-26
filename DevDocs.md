@@ -31,6 +31,7 @@
   - [Gist](#gist)
   - [Zsh](#zsh)
   - [Vim](#vim)
+  - [ntpd](#ntpd)
 - [Docker](#docker)
   - [脑图](#%E8%84%91%E5%9B%BE)
 - [Bash](#bash)
@@ -54,6 +55,7 @@
     - [测试套件](#%E6%B5%8B%E8%AF%95%E5%A5%97%E4%BB%B6)
     - [测试异常](#%E6%B5%8B%E8%AF%95%E5%BC%82%E5%B8%B8)
   - [Mockito](#mockito)
+- [Linux 工具](#linux-%E5%B7%A5%E5%85%B7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -640,7 +642,7 @@ $ git config --global alias.br branch
   
   - `gz`=`tar -xzvf`
     `tgz`=`tar -xzvf`
-  `zip`=`unzip`
+    `zip`=`unzip`
     `bz2`=`tar -xjvf`
 
   - `toc` MD生成目录
@@ -841,3 +843,41 @@ public class MyTest {
 
 ## Mockito
 
+# Linux 工具
+
+- ```shell
+    # journalctl 日志用量
+    journalctl --disk-usage
+    # 磁盘用量
+    df -h [目录]
+    ```
+
+- strace
+
+    跟踪进程中系统调用
+
+    [refer](https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/strace.html)
+
+    ```shell
+    sudo strace -p $pid
+    ```
+
+- nc
+
+    监听端口
+
+    ```shell
+    # 安装nc
+    yum -y install nc
+    # 监听 tcp 端口(比如 12345)
+    nc -lv 12345
+    # 向 tcp 12345 端口发消息
+    nc localhost 12345 # OR 使用 Telnet
+    
+    # 监听 udp 端口(比如 12345)
+    nc -lvu 12345
+    # 向 udp 12345 端口发消息
+    nc -uv localhost 12345
+    ```
+
+    

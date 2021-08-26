@@ -209,7 +209,7 @@ public static void main(String[] args) {
   - 第三种:
   
     ```java
-  int[][] j = new int[3][];
+    int[][] j = new int[3][];
     j[2][0] = 33;
     ```
   
@@ -1397,7 +1397,6 @@ public class TestIterator {
         - String, 包装类已重写. 升序(小 -> 大, a -> z)
       - 定制
         - 实现Comparator接口的compare()
-    
 
 ## Map接口
 
@@ -1951,7 +1950,6 @@ class person<T> {
     - `getPriority()` :返回线程优先值
   
     - `setPriority(int newPriority)` :改变线程的优先级 
-  
 2. `java.lang.Runnable`接口
 
   创建线程第二种方法: 实现Runnable接口. **优先选择此方式**
@@ -1988,7 +1986,6 @@ Thread t3 = new Thread(p).start();
   - 优点:
     - 避免了单继承的局限性
     - 多个线程可以共享同一个接口实现类的对象，非常适合多个相同线程来处理同一份资源。
-  
 3. `java.util.concurrent.Callable`接口
 
    - 相比run()方法，可以有返回值
@@ -2624,7 +2621,6 @@ Thread t3 = new Thread(p).start();
 
   - `public Object get(Object obj)` 取得指定对象obj上此Field的属性内容
     `public void set(Object obj,Object value)` 设置指定对象obj上此Field的属性内容
-    
 > 当类中属性设置为private，在使用set()和get()方法时，首先要使用Field类中的`setAccessible(true)`方法将需要操作的属性设置为可以被外部访问
 
 - 方法

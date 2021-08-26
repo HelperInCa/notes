@@ -654,7 +654,13 @@ func pow(x, n, lim float64) float64 {
 
 `switch` 是编写一连串 `if - else` 语句的简便方法。它运行第一个值等于条件表达式的 case 语句。
 
-Go  只运行选定的 case，而非之后所有的 case。 实际上，Go 自动提供了在这些语言中每个 case 后面所需的 `break` 语句。 除非以 `fallthrough` 语句结束，否则分支会自动终止。 Go 的另一点重要的不同在于 switch 的 case 无需为常量，且取值不必为整数。
+Go  只运行选定的 case，而非之后所有的 case。 实际上，Go 自动提供了每个 case 后面所需的 `break` 语句。
+
+ `fallthrough`强制执行下一层 
+
+case可以出现多个结果选项，通过逗号分隔
+
+switch 的 case 无需为常量，且取值不必为整数。
 
 ```go
 package main
@@ -688,18 +694,20 @@ func main() {
 var p *int
 ```
 
-`&` 操作符会生成一个指向其操作数的指针。
-
-```go
-i := 42
-p = &i
-```
-
 `*` 操作符表示指针指向的底层值。
 
 ```go
 fmt.Println(*p) // 通过指针 p 读取 i
 *p = 21         // 通过指针 p 设置 i
+```
+
+
+
+`&` 操作符会生成一个指向其操作数的指针。
+
+```go
+i := 42
+p = &i
 ```
 
 
@@ -817,10 +825,6 @@ c.X = 8// 也可以c.Center.X = 8
 类型 `[n]T` 表示拥有 `n` 个 `T` 类型的值的数组。
 
 ```go
-package main
-
-import "fmt"
-
 func main() {
 	var a [2]string
 	a[0] = "Hello"
@@ -1356,7 +1360,7 @@ func main() {
 
 `select` 语句使一个 Goroutine可以等待多个通信操作。
 
-`select` 会阻塞到某个分支可以继续执行为止，这时就会执行该分支。当多个分支都准备好时会随机选择一个执行。
+`select` 会阻塞到某个分支可以继续执行为止，这时就会执行该分支。当多个分支都准备好时会**随机**选择一个执行。
 
 ```go
 package main
@@ -1556,4 +1560,8 @@ func main() {
 
 }    
 ```
+
+# Gin
+
+[refer1](https://geektutu.com/post/quick-go-gin.html)
 
