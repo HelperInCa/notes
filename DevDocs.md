@@ -120,6 +120,8 @@
     $ git config --local user.email xxx@xxx.com
     $ git config commit.template [filepath]
     ```
+    
+    git push origin HEAD:refs/for/{branchname} **我们采用这种方式提交代码，表示将本地分支修改提交到gerrit上，自动生成patch，此时会在gerrit上生成review request**
 
 ## git init
 
@@ -614,8 +616,8 @@ $ git config --global alias.br branch
 
     ```shell
     docker images
-    docker save [image ID] > xxx.tar
-    docker load < xxx.tar
+    docker save -o xxx.tar [image name]
+    docker load -i xxx.tar
     ```
 
     

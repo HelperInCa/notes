@@ -1332,5 +1332,14 @@ RAID （ Redundant Array of Independent Disks ）即独立磁盘冗余阵列，�
 
 ## MVCC
 
+## Binlog
 
+[1](https://zhuanlan.zhihu.com/p/33504555)
 
+binlog是Mysql sever层维护的一种二进制日志.
+
+作用:
+
+- 复制：MySQL Replication在Master端开启binlog，Master把它的二进制日志传递给slaves并回放来达到master-slave数据一致的目的
+- 数据恢复：通过mysqlbinlog工具恢复数据
+- 增量备份
