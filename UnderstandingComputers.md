@@ -82,6 +82,7 @@
   - [RAID 10](#raid-10)
 - [数据库](#%E6%95%B0%E6%8D%AE%E5%BA%93)
   - [MVCC](#mvcc)
+  - [Binlog](#binlog)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
