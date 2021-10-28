@@ -42,6 +42,7 @@
 - [Spring5](#spring5)
 - [Spring Cloud](#spring-cloud)
 - [Misc](#misc)
+  - [Gorm](#gorm)
   - [多个入参: 重载构造器 / JavaBeans / Builder](#%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%82-%E9%87%8D%E8%BD%BD%E6%9E%84%E9%80%A0%E5%99%A8--javabeans--builder)
   - [Java 中 Object 转 String 的几种方法](#java-%E4%B8%AD-object-%E8%BD%AC-string-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95)
   - [Swagger](#swagger)
@@ -616,11 +617,26 @@ $ git config --global alias.br branch
 
     ```shell
     docker images
-    docker save -o xxx.tar [image name]
+    docker save myimage:latest | gzip > myimage_latest.tar.gz
     docker load -i xxx.tar
     ```
 
-    
+- 重命名 image
+
+    ```shell
+    docker tag olderImageName:oldVersion newImagesName:newVersion
+    docker rmi olderImageName:oldVersion
+    ```
+
+- `docker system` 管理 docker
+
+    - `docker system df` show disk usage
+
+        ![image-20211012100400860](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20211012100401.png)
+
+    - `docker builder prune` clean build cache
+
+        Docker 18.09 引入了 BuildKit ，提升了构建过程的性能、安全、存储管理等能力。
 
 # Bash
 
@@ -672,6 +688,20 @@ $ git config --global alias.br branch
 
 
 # Misc
+
+## Gorm
+
+Golang ORM
+
+- `Next()` 之后最好手动 `close()` 
+
+    [refer](https://learnku.com/articles/39382)
+
+    rows.Next () 在获取到最后一条记录之后，会调用 rows.Close () 将连接放回连接池或交给其他等待的请求方，所以不需要手动调用 rows.Close ()，
+
+    而出问题的 demo 中，由于 rows.Next () 没有执行到最后一条记录处，也没有调用 rows.Close ()
+
+    
 
 ## 多个入参: 重载构造器 / JavaBeans / Builder
 
