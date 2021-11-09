@@ -83,6 +83,9 @@
 - [数据库](#%E6%95%B0%E6%8D%AE%E5%BA%93)
   - [MVCC](#mvcc)
   - [Binlog](#binlog)
+  - [事务隔离](#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB)
+  - [故障恢复](#%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D)
+    - [发展历程](#%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1344,3 +1347,42 @@ binlog是Mysql sever层维护的一种二进制日志.
 - 复制：MySQL Replication在Master端开启binlog，Master把它的二进制日志传递给slaves并回放来达到master-slave数据一致的目的
 - 数据恢复：通过mysqlbinlog工具恢复数据
 - 增量备份
+
+## 事务隔离
+
+- 发展历程:
+
+    [参考 1](http://catkang.github.io/2018/08/31/isolation-level.html)
+
+
+
+- 并发控制:
+
+    [参考 2](http://catkang.github.io/2018/09/19/concurrency-control.html)
+
+## 故障恢复
+
+### 发展历程
+
+[refer1](http://catkang.github.io/2019/01/16/crash-recovery.html)
+
+- 为了故障恢复,需要保证的特性:
+    1. Durability of Updates：已经Commit的事务的修改，故障恢复后仍然存在；
+    2. Failure Atomic：失败事务的所有修改都不可见。
+
+- shadow paging -> WAL(Write Ahead Log) -> **ARIES**
+
+    上述发展围绕着两个主题: 减少同步写以及尽量用顺序写代替随机写。而这些正是由于磁盘性能远小于内存，且磁盘顺序访问远好于随机访问
+
+- NVM磁盘相比 HDD和 SSD的优点
+
+    - 接近内存的高性能
+    - 顺序访问和随机访问差距不大
+    - 按字节寻址而不是Block
+
+- 两种为NVM量身定制更合理的故障恢复机制
+
+    - MARS希望充分利用NVM并发及内部带宽的优势，将更多的任务交给硬件实现；
+
+    - 而WBL则尝试重构当前的Log方式。
+
