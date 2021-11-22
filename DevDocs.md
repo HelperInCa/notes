@@ -617,7 +617,7 @@ $ git config --global alias.br branch
 
     ```shell
     docker images
-    docker save myimage:latest | gzip > myimage_latest.tar.gz
+    docker save myimage:latest | gzip > myimage_latest.tgz
     docker load -i xxx.tar
     ```
 
@@ -912,4 +912,53 @@ public class MyTest {
     nc -uv localhost 12345
     ```
 
+- tar
+
+    ```shell
+    tar czvf [target.tgz] [file1] [file2]
+    tar xzvf [source.tgz] 解压到当前目录
+    ```
+
     
+
+- du & df
+
+    ```shell
+    du -h --max-depth=0 [mydir] mydir占用磁盘大小,不向下递归下属目录
+    
+    df -h 查看系统的磁盘使用情况
+    ```
+
+    ![20211112173332](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20211112173332.jpg)
+
+- 后台执行
+
+    [refer](https://blog.csdn.net/liuyanfeier/article/details/62422742)
+
+    - `&` 后台执行
+
+    ```shell
+    # 所有的标准输出和错误输出都将被重定向到out.log
+    command  >  out.log  2>&1  &
+    ```
+
+    - `nohup`(no hang up)
+
+        `&`实现后台执行, 但是一但把当前控制台关掉(退出帐户时)，作业就会停止运行
+
+        ```shell
+        nohup command > out.log 2>&1 &
+        ```
+
+    - `jobs`
+
+        查看当前有多少在后台运行的命令。
+        jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stopped, Terminated。但是如果任务被终止了（kill），shell 从当前的shell环境已知的列表中删除任务的进程标识。
+
+    - 2>&1解析
+        `command >out.file 2>&1 &`
+
+        - command>out.file是将command的输出重定向到out.file文件，即输出内容不打印到屏幕上，而是输出到out.file文件中。
+        - 2>&1 是将标准出错重定向到标准输出，这里的标准输出已经重定向到了out.file文件，即将标准出错也输出到out.file文件中。最后一个&， 是让该命令在后台执行。
+            试想2>1代表什么，2与>结合代表错误重定向，而1则代表错误重定向到一个文件1，而不代表标准输出；换成2>&1，&与1结合就代表标准输出了，就变成错误重定向到标准输出.
+            
