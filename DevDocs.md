@@ -618,7 +618,7 @@ $ git config --global alias.br branch
     ```shell
     docker images
     docker save myimage:latest | gzip > myimage_latest.tgz
-    docker load -i xxx.tar
+    docker load -i xxx.tgz
     ```
 
 - 重命名 image
@@ -900,7 +900,7 @@ public class MyTest {
 
     ```shell
     # 安装nc
-    yum -y install nc
+    sudo yum -y install nc
     # 监听 tcp 端口(比如 12345)
     nc -lv 12345
     # 向 tcp 12345 端口发消息
@@ -961,4 +961,13 @@ public class MyTest {
         - command>out.file是将command的输出重定向到out.file文件，即输出内容不打印到屏幕上，而是输出到out.file文件中。
         - 2>&1 是将标准出错重定向到标准输出，这里的标准输出已经重定向到了out.file文件，即将标准出错也输出到out.file文件中。最后一个&， 是让该命令在后台执行。
             试想2>1代表什么，2与>结合代表错误重定向，而1则代表错误重定向到一个文件1，而不代表标准输出；换成2>&1，&与1结合就代表标准输出了，就变成错误重定向到标准输出.
-            
+
+- netstat
+
+    命令行网络工具
+
+    [refer](https://www.jianshu.com/p/b866f3f6e46e)
+
+    - 正在监听的某一tcp端口
+
+        `netstat -tlnp |grep [$your port]`
