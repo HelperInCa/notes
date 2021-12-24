@@ -997,7 +997,7 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 
   ![](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/2020-05-10-034527.png)
 
-- Shell
+- Shell 脚本
 
 ## Unix vs. Linux
 
@@ -1017,6 +1017,22 @@ Dubbo是一个分布式服务框架，致力于提供高性能和透明化的远
 | **Supported file type** | The Filesystems supported by file type like xfs, nfs, cramfsm ext 1 to 4, ufs, devpts, NTFS. | The Filesystems supported by file types are zfs, hfx, GPS, xfs, vxfs. |
 | **Portability**         | Linux is portable and is booted from a USB Stick             | Unix is not portable                                         |
 | **Source Code**         | The source is available to the general public                | The source code is not available to anyone.                  |
+
+## I/O
+
+[refer](https://mp.weixin.qq.com/s/diKfeu1-Lr4ZA5Ky_66TZg)
+
+![20211223101901](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20211223101901.jpg)
+
+### 文件系统
+
+- what
+
+    开始的那张图看到 Linux 在各种不同的文件系统之上，虚拟了一个 **VFS**，目的就是**统一各种不同文件系统的标准和接口**，让开发者可以使用相同的系统调用来使用不同的文件系统。
+
+- how
+
+    ![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20211223104922.jpeg)
 
 ## 相关
 
@@ -1412,4 +1428,30 @@ binlog是Mysql sever层维护的一种二进制日志.
     6. 大于小于条件 < >，索引是否生效取决于命中的数量比例，如果命中数量很多，索引生效，命中数量很小，索引失效
     7. 不等于条件 != <>，索引失效
     8. LIKE 值以 % 开头，索引失效
-        
+
+## MaxScale
+
+数据库代理. 提供路由, 认证, 协议选择, 监控, 过滤等功能
+
+- **认证插件**
+
+    提供了登录认证功能，MaxScale 会读取并缓存数据库中 user 表中的信息，当有连接进来时，先从缓存信息中进行验证，如果没有此用户，会从后端数据库中更新信息，再次进行验证
+
+- **协议插件**
+
+    包括客户端连接协议，和连接数据库的协议
+
+- **路由插件** 
+
+    决定如何把客户端的请求转发给后端数据库服务器，读写分离和负载均衡的功能就是由这个模块实现的
+
+- **监控插件**
+
+    对各个数据库服务器进行监控，例如发现某个数据库服务器响应很慢，那么就不向其转发请求了
+
+- **日志和过滤插件**
+
+    提供简单的数据库防火墙功能，可以对SQL进行过滤和容错
+
+![img](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20211224165228.jpg)
+
