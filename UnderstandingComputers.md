@@ -95,6 +95,12 @@
     - [why](#why)
     - [how](#how)
     - [分库分表之后的新问题](#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E4%B9%8B%E5%90%8E%E7%9A%84%E6%96%B0%E9%97%AE%E9%A2%98)
+  - [慢 SQL 治理](#%E6%85%A2-sql-%E6%B2%BB%E7%90%86)
+    - [全表扫描](#%E5%85%A8%E8%A1%A8%E6%89%AB%E6%8F%8F)
+    - [索引混乱](#%E7%B4%A2%E5%BC%95%E6%B7%B7%E4%B9%B1)
+    - [非必要排序](#%E9%9D%9E%E5%BF%85%E8%A6%81%E6%8E%92%E5%BA%8F)
+    - [粗粒度查询](#%E7%B2%97%E7%B2%92%E5%BA%A6%E6%9F%A5%E8%AF%A2)
+    - [OR 导致索引失效](#or-%E5%AF%BC%E8%87%B4%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1517,9 +1523,102 @@ binlog是Mysql sever层维护的一种二进制日志.
 
     2）由应用程序+数据库共同控制
 
+## 慢 SQL 治理
 
+[refer](https://mp.weixin.qq.com/s/WyfRV-7sK_O8pxDZbPXQtQ)
 
+> MySQL 提供了一个 `EXPLAIN` 命令, 它可以对 `SELECT` 语句进行分析, 并输出 `SELECT` 执行的详细信息, 以供开发人员针对性优化.
 
+### 全表扫描
 
+解决方法: 加入查询条件，命中索引，去除全表扫描查询
 
+### 索引混乱
+
+高性能的索引:
+
+1、独立的列：索引列不能是表达式的一部分；
+
+2、选择区分度高的列作为索引；
+
+3、选择合适的索引列顺序：将选择性高的索引列放在最前列；
+
+4、覆盖索引：查询的列均在索引中，不需要回查聚簇索引；
+
+5、使用索引扫描来做排序;
+
+6、在遵守最左前缀的原则下，尽量扩展索引，而不是创建索引。
+
+### 非必要排序
+
+查询sql无limit语句，且业务处理逻辑不依赖于order by后列表记录的顺序，则去除查询sql中的order by语句。
+
+### 粗粒度查询
+
+```sql
+SELECT * FROM XXX_rules
+    WHERE rule_name = 'apf_distributors'
+      AND status = '00'
+      AND product_code = 'ADVANCE'
+```
+
+- 分析&解决
+
+    1. 三个查询条件都是区分度不高的列，查出的数据有27W条，加索引意义也不大.
+
+    2. 这个定时任务目的是拉出XXX_rules表的某些产品下的数据，和另一张表数据对比，更新有差异的数据。每天凌晨处理，对时效性没有很高的要求，因此，能不能转移任务处理的地方，不在本应用机器上实时处理那么多条数据？
+
+        -> 对数据实效性要求不高，且离线产出的结果集很小
+
+    3. 数据是离线任务odps同步过来的，首先想到的就是dataWork数据处理平台。
+
+        
+
+        建立数据对比任务，将定时任务做的数据对比逻辑放到dataWork上用sql实现，每天差异数据最多几百条，且结果集含有区分度很高的列，将差异数据写入odps表，再将数据回流到idb。
+
+        
+
+        新建定时任务，通过回流回来的差异数据中区分度高的列作为查询条件查询XXX_rules，更新XXX_rules，解决了慢sql问题。
+
+### OR 导致索引失效
+
+```sql
+SELECT count(*)
+FROM XXX_level_report
+WHERE 1 = 1
+  AND EXISTS (
+    SELECT 1
+    FROM XXX_white_list t
+    WHERE (t.biz_id = customer_id
+        OR customer_id LIKE CONCAT(t.biz_id, '@%'))
+      AND t.status = 1
+      AND (t.start_time <= CURRENT_TIME
+        OR t.start_time IS NULL)
+      AND (t.end_time >= CURRENT_TIME
+        OR t.end_time IS NULL)
+      AND t.biz_type = 'GOODS_CONTROL_BLACKLIST'
+  )
+```
+
+- 分析:
+
+    ![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20220301172451.png)
+
+    XXX_white_list表有将biz_id作为索引，这里查询XXX_white_list表有传入biz_id作为查询条件，为啥explain结果里type为ALL，即扫描全表？索引失效了？索引失效有哪些情况？
+
+- 索引失效场景:
+
+    1、OR查询左右有未命中索引的；
+
+    2、复合索引不满足最左匹配原则；
+
+    3、Like以%开头；
+
+    4、需要类型转换；
+
+    5、where中索引列有运算；
+
+    6、where中索引列使用了函数；
+
+    7、如果mysql觉得全表扫描更快时（数据少时）
 
