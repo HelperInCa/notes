@@ -701,7 +701,17 @@ Golang ORM
 
     而出问题的 demo 中，由于 rows.Next () 没有执行到最后一条记录处，也没有调用 rows.Close ()
 
-    
+- [错误处理](https://gorm.io/zh_CN/docs/error_handling.html)
+
+    1. 在调用任何 [Finisher 方法](https://gorm.io/zh_CN/docs/method_chaining.html#finisher_method) (``Create`, `First`, `Find`, `Take`, `Save`, `Update`, `Delete`, `Scan`, `Row`, `Rows`...)后，都进行错误检查
+
+    2. `ErrRecordNotFound`
+
+        ```go
+        // 检查错误是否为 
+        RecordNotFounderr := db.First(&user, 100).Error
+        errors.Is(err, gorm.ErrRecordNotFound)
+        ```
 
 ## 多个入参: 重载构造器 / JavaBeans / Builder
 
