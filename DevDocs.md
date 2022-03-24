@@ -10,6 +10,7 @@
     - [(TBD)](#tbd)
   - [Golang](#golang)
   - [Database](#database)
+- [Todo](#todo)
 - [Hotkeys](#hotkeys)
 - [Git](#git)
   - [常用命令](#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
@@ -94,6 +95,26 @@
 ## Database
 
 [notes](https://github.com/HelperInCa/notes/blob/master/modules/Database.md)
+
+# Todo
+
+- Redis 入门
+
+    - [ ] [1](https://mp.weixin.qq.com/s/-3fcK4WspGk6SEsaVrdx8A)
+
+    - [ ] [2](https://mp.weixin.qq.com/s/7ct-mvSIaT3o4-tsMaKRWA)
+
+- Golang
+
+    - [ ] [编程思想](https://mp.weixin.qq.com/s/llmE9QpnrvA02AtvfHtqJQ)
+
+    - [x] [高性能编程](https://mp.weixin.qq.com/s/Lv2XTD-SPnxT2vnPNeREbg)
+
+    - [ ] [并发编程](https://mp.weixin.qq.com/s/V0krCjWrndzz71cVOPBxdg)
+
+- Linux
+
+    - [ ] [Linux IO 的一些基本原理](https://mp.weixin.qq.com/s/diKfeu1-Lr4ZA5Ky_66TZg)
 
 # Hotkeys
 
