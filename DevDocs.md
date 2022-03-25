@@ -108,6 +108,8 @@
 
     - [ ] [编程思想](https://mp.weixin.qq.com/s/llmE9QpnrvA02AtvfHtqJQ)
 
+        首先要理解 Golang 这门语言的创始初衷，初衷就是为了解决好 Google 内部大规模高并发服务的问题，主要核心就是围绕**高并发**来开展；并且同时又不想引入**面向对象那种很复杂的继承关系**
+
     - [x] [高性能编程](https://mp.weixin.qq.com/s/Lv2XTD-SPnxT2vnPNeREbg)
 
     - [ ] [并发编程](https://mp.weixin.qq.com/s/V0krCjWrndzz71cVOPBxdg)
