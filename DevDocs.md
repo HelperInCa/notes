@@ -753,6 +753,14 @@ Golang ORM
         RecordNotFounderr := db.First(&user, 100).Error
         errors.Is(err, gorm.ErrRecordNotFound)
         ```
+    
+- sql 尽量用函数,而不是拼接 sql
+
+    如果拼接,一定整行,而不是跨行. debug 时候可以开启`.LogMode(true)`
+
+    **错误示范**: 末尾缺少空格,导致语法错误, 查询结果为 0
+
+    ![image-20220428115008873](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20220428115009.png)
 
 ## 多个入参: 重载构造器 / JavaBeans / Builder
 
