@@ -15,7 +15,8 @@
 - [Git](#git)
   - [常用命令](#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
   - [git init](#git-init)
-    - [git clone](#git-clone)
+  - [git clone](#git-clone)
+  - [git stash](#git-stash)
   - [git status](#git-status)
   - [git add](#git-add)
   - [git commit](#git-commit)
@@ -167,7 +168,7 @@
 
 ## git init
 
-### git clone
+## git clone
 
 - 拉取指定分支
 
@@ -175,7 +176,22 @@
     git clone -b [分支名] [clone URL]
     ```
 
-    
+
+## git stash
+
+- git stash save "xxx" 给 stash 命名
+
+- git stash list 
+
+    ![image-20220518112237587](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20220518112238.png)
+
+- git stash pop [stash的编号]
+
+    eg: 按照上图, `git stash pop 0` 
+
+- git stash clear 清楚所有 stash
+
+- git stash drop [stash的编号]
 
 ## git status
 
@@ -377,6 +393,7 @@ $ git config --global alias.st status
 $ git config --global alias.co checkout
 $ git config --global alias.ci commit
 $ git config --global alias.br branch
+$ git config --global alias.sa stash
 ```
 
 
