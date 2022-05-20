@@ -751,6 +751,8 @@ $ git config --global alias.sa stash
 
 Golang ORM
 
+- debug 时候可以开启`.LogMode(true)`
+
 - `Next()` 之后最好手动 `close()` 
 
     [refer](https://learnku.com/articles/39382)
@@ -773,11 +775,30 @@ Golang ORM
     
 - sql 尽量用函数,而不是拼接 sql
 
-    如果拼接,一定整行,而不是跨行. debug 时候可以开启`.LogMode(true)`
+    如果拼接,一定整行,而不是跨行. 
 
     **错误示范**: 末尾缺少空格,导致语法错误, 查询结果为 0
 
     ![image-20220428115008873](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20220428115009.png)
+    
+- 查询目标 object 有主键值时, 会默认加入条件
+
+    **尽量用目标 stuct的指针**, 避免在不知情时加入主键值查询,导致结果异常
+
+    When the destination object has a primary value, the primary key will be used to build the condition, for example:
+
+    ```go
+    var user = User{ID: 10}
+    db.First(&user)
+    // SELECT * FROM users WHERE id = 10;
+    
+    var result User
+    db.Model(User{ID: 10}).First(&result)
+    // SELECT * FROM users WHERE id = 10;
+    
+    //Prefer:
+    db.First(&User{}).Where(<condition>)
+    ```
 
 ## 多个入参: 重载构造器 / JavaBeans / Builder
 
