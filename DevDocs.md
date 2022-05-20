@@ -785,7 +785,7 @@ Golang ORM
 
     **尽量用目标 stuct的指针**, 避免在不知情时加入主键值查询,导致结果异常.
 
-    除非是要给目标 object 赋值
+    *除非是要给目标 object 赋值*
 
     When the destination object has a primary value, the primary key will be used to build the condition, for example:
 
