@@ -751,7 +751,7 @@ $ git config --global alias.sa stash
 
 Golang ORM
 
-- debug 时候可以开启`.LogMode(true)`
+- debug 时候可以开启~~`.LogMode(true)`~~ `.Debug()`显示当前这一条 sql, `.LogMode(true)`之后复用的连接也会开启详细日志
 
 - `Next()` 之后最好手动 `close()` 
 
