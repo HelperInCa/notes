@@ -27,7 +27,7 @@
   - [git remote](#git-remote)
   - [git rm](#git-rm)
   - [gitignore](#gitignore)
-  - [本机alias](#%E6%9C%AC%E6%9C%BAalias)
+  - [alias](#alias)
 - [Maven](#maven)
 - [Tools](#tools)
   - [Gist](#gist)
@@ -384,7 +384,7 @@ Use the `git remote rm` command to remove a remote URL from your repository.
   git config --global core.excludesfile ~/.gitignore_global
   ```
 
-## 本机alias
+## alias
 
 如: `st`表示`status`
 
@@ -708,11 +708,11 @@ $ git config --global alias.sa stash
 
   - `pip` = `pip3`
 
-  - `proxy `  terminal走sock5
+  - `proxy `  terminal走代理
 
     `unproxy`  关闭 
 
-    > 查看当前ip: `$curl cip.cc` or `$curl ip.cn`
+    > 查看当前ip: `$curl ip.sb` or `$curl ifconfig.co/json`
 
   - `rm`实现 "回收站"功能
   
