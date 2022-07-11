@@ -14,6 +14,7 @@
 - [Hotkeys](#hotkeys)
 - [Git](#git)
   - [常用命令](#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
+  - [git rebase](#git-rebase)
   - [git init](#git-init)
   - [git clone](#git-clone)
   - [git stash](#git-stash)
@@ -107,7 +108,7 @@
 
 - Golang
 
-    - [ ] [编程思想](https://mp.weixin.qq.com/s/llmE9QpnrvA02AtvfHtqJQ)
+    - [x] [编程思想](https://mp.weixin.qq.com/s/llmE9QpnrvA02AtvfHtqJQ)
 
         首先要理解 Golang 这门语言的创始初衷，初衷就是为了解决好 Google 内部大规模高并发服务的问题，主要核心就是围绕**高并发**来开展；并且同时又不想引入**面向对象那种很复杂的继承关系**
 
@@ -166,6 +167,13 @@
 
         > 修补后的提交可能需要修补提交信息当你在修补一次提交时，可以同时修改提交信息和提交内容。 如果你修补了提交的内容，那么几乎肯定要更新提交消息以反映修改后的内容。另一方面，如果你的修补是琐碎的（如修改了一个笔误或添加了一个忘记暂存的文件）， 那么之前的提交信息不必修改，你只需作出更改，暂存它们，然后通过以下命令避免不必要的编辑器环节即可：`$ git commit --amend --no-edit`
 
+## git rebase
+
+- rebase 过程中可以使用--abort/--continue 撤销/继续, 成功后的rebase如何撤销
+    1. git reflog 查看本地记录
+    2. 找到 rebase 之前的记录
+    3. git reset --hard xxx
+
 ## git init
 
 ## git clone
@@ -175,7 +183,6 @@
     ```shell
     git clone -b [分支名] [clone URL]
     ```
-
 
 ## git stash
 
