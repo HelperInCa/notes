@@ -64,20 +64,31 @@
       `::time` 16:10:55 
   
 - workflow
+  
+  > 合集: 
+  >
+  > [1](https://github.com/learn-anything/alfred-workflows)
+  >
+  > [2](http://www.packal.org/)
+  >
+  > [3](https://github.com/alfred-workflows/awesome-alfred-workflows)
+  >
+  > [官网](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.alfredforum.com%2Fforum%2F3-share-your-workflows)
+  
   - [有道](https://github.com/wensonsmith/YoudaoTranslate)
-
+  
     - 使用方法 `d {query}`
     - 按住`cmd` +`return` 即可发音,这样不会关闭窗口。在音标上直接回车也可以播放发音并会关闭窗口。
     - 在选项上`return`可以复制翻译结果
     - 翻译结果上按 `Shift` 可以直接预览有道网页
     - 输入 `d *` 可以查询最近的查询记录
-
+  
   - Stack Overflow
-
+  
     `.s {query}` 
-
+  
   - [GitHub](https://github.com/gharlan/alfred-github-workflow)
-
+  
     - Key Combinations
     | Key Combination        | Action                        |
     | ---------------------- | ----------------------------- |
@@ -85,7 +96,7 @@
     | `cmd` + `c`            | Copy URL of the entry         |
     | `cmd` + `enter`        | Paste URL to front most app   |
     | `shift` or `cmd` + `y` | Open URL in QuickLook         |
-
+  
       - Search commands
         - `gh s repo`
         - `gh s @user`
