@@ -75,6 +75,8 @@
   >
   > [官网](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.alfredforum.com%2Fforum%2F3-share-your-workflows)
   
+  - [变量命名](https://github.com/xudaolong/CodeVar)
+  
   - [有道](https://github.com/wensonsmith/YoudaoTranslate)
   
     - 使用方法 `d {query}`
