@@ -27,6 +27,7 @@
   - [CAP定理](#cap%E5%AE%9A%E7%90%86)
   - [组件](#%E7%BB%84%E4%BB%B6)
     - [消息队列](#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97)
+  - [数据库缓存一致性](#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7)
 - [Important flow charts](#important-flow-charts)
   - [spring 生命周期](#spring-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
   - [TCP 三次握手四次挥手](#tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B)
@@ -717,9 +718,39 @@ SSL/TLS协议的基本过程是这样的：
     - Pulsar
     - RocketMQ
 
+## 数据库缓存一致性
 
+[万字图文讲透数据库缓存一致性问题](https://mp.weixin.qq.com/s/U87wrGsx0Eop3CbF9mlTwQ)
 
+- 缓存不一致性无法客观地完全消灭
 
+    理想情况下，我们需要在数据库更新完后把对应的最新数据同步到缓存中，以便在读请求的时候能读到新的数据而不是旧的数据（脏数据）。但是很可惜，由于数据库和 Redis 之间是没有事务保证的，所以我们无法确保写入数据库成功后，写入 Redis 也是一定成功的；即便 Redis 写入能成功，在数据库写入成功后到 Redis 写入成功前的这段时间里，Redis 数据也肯定是和 MySQL 不一致的。如下两图所示：
+
+    ![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20221212161919.jpeg)
+
+    不过虽然无法做到强一致，但是我们能做到的是缓存与数据库达到最终一致，而且不一致的时间窗口我们能做到尽可能短，按照经验来说，如果能将时间优化到 1ms 之内，这个一致性问题带来的影响我们就可以忽略不计![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20221212162016.jpeg)
+
+    
+
+- 数据库缓存一致性策略
+
+    1. 针对大部分**读多写少**场景，建议选择**更新数据库后删除缓存**的策略。
+
+    2. 针对**读写相当**或者**写多读少**的场景，建议选择**更新数据库后更新缓存**的策略。
+
+- 保证最终一致性
+
+    - 缓存设置过期时间
+
+- 减少缓存删除/更新的失败
+
+    MQ
+
+    ![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20221212163057.jpeg)
+
+- 通过订阅 MySQL binlog 的方式处理缓存
+
+    ![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20221212163141.jpeg)
 
 # Important flow charts
 
