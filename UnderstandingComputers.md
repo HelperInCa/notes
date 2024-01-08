@@ -35,6 +35,7 @@
   - [组件](#%E7%BB%84%E4%BB%B6)
     - [消息队列](#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97)
   - [数据库缓存一致性](#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7)
+  - [数据库高可用](#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%AB%98%E5%8F%AF%E7%94%A8)
 - [Important flow charts](#important-flow-charts)
   - [spring 生命周期](#spring-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
   - [TCP 三次握手四次挥手](#tcp-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B)
@@ -918,6 +919,22 @@ c.桶里的水（请求）不够则无法出水（桶内没有请求则不处理
 - 通过订阅 MySQL binlog 的方式处理缓存
 
     ![图片](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20221212163141.jpeg)
+
+
+
+## 数据库高可用
+
+> [美团数据库高可用系统](https://mp.weixin.qq.com/s/1Nq1FAjoMk3dzT1QCsPWyQ)
+
+- 背景
+
+    线上部署了几十万的微服务，数据库结构和拓扑随时在发生变更，系统重构、内核升级、硬件设备汰换、机房搬迁等等，也都会对数据库的稳定工作产生一定的影响。作为整个IT系统中最为重要、最为底层的服务，即便遇到了极小概率事件的冲击，也会造成非常大的影响。
+
+
+
+
+
+
 
 # Important flow charts
 
