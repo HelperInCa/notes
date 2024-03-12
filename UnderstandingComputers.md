@@ -22,6 +22,7 @@
   - [RESTful(Representational State Transfer)](#restfulrepresentational-state-transfer)
   - [举例](#%E4%B8%BE%E4%BE%8B)
   - [弹性公网 IP/浮动 IP/虚拟 IP/私有 IP](#%E5%BC%B9%E6%80%A7%E5%85%AC%E7%BD%91-ip%E6%B5%AE%E5%8A%A8-ip%E8%99%9A%E6%8B%9F-ip%E7%A7%81%E6%9C%89-ip)
+  - [websocket 协议](#websocket-%E5%8D%8F%E8%AE%AE)
 - [高并发](#%E9%AB%98%E5%B9%B6%E5%8F%91)
   - [限流](#%E9%99%90%E6%B5%81)
     - [限流算法](#%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95)
@@ -95,6 +96,11 @@
   - [RAID 6](#raid-6)
   - [RAID 10](#raid-10)
 - [数据库](#%E6%95%B0%E6%8D%AE%E5%BA%93)
+  - [redo log, undo log](#redo-log-undo-log)
+    - [undo log](#undo-log)
+    - [redo log](#redo-log)
+  - [两阶段提交](#%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4)
+  - [innodb buffer pool](#innodb-buffer-pool)
   - [MVCC](#mvcc)
   - [Binlog](#binlog)
   - [事务隔离](#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB)
@@ -114,6 +120,8 @@
     - [粗粒度查询](#%E7%B2%97%E7%B2%92%E5%BA%A6%E6%9F%A5%E8%AF%A2)
     - [OR 导致索引失效](#or-%E5%AF%BC%E8%87%B4%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88)
   - [表设计经验](#%E8%A1%A8%E8%AE%BE%E8%AE%A1%E7%BB%8F%E9%AA%8C)
+- [运维](#%E8%BF%90%E7%BB%B4)
+  - [变更管理](#%E5%8F%98%E6%9B%B4%E7%AE%A1%E7%90%86)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -626,6 +634,32 @@ SSL/TLS协议的基本过程是这样的：
 - **私有IP**是公有云内网所使用的IP地址，用于内网通信，私有IP不能访问Internet
 - **浮动IP**与弹性公网IP功能类似，都是公网IP
 - **虚拟 IP**（即VIP）是一个未分配给真实弹性云服务器网卡的IP地址。主要用在弹性云服务器的主备切换，达到高可用性HA（High Availability）的目的。当主服务器发生故障无法对外提供服务时，动态将虚拟IP切换到备服务器，继续对外提供服务
+
+
+
+## websocket 协议
+
+[阮一峰：WebSocket 教程](https://www.ruanyifeng.com/blog/2017/05/websocket.html)
+
+[WebSocket](http://websocket.org/) 是一种单个TCP连接上进行全双工通信协议，位于OSI模型的应用层. 
+
+它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于[服务器推送技术](https://en.wikipedia.org/wiki/Push_technology)的一种。
+
+其他特点包括：
+
+（1）建立在 TCP 协议之上，服务器端的实现比较容易。
+
+（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。
+
+（3）数据格式比较轻量，性能开销小，通信高效。
+
+（4）可以发送文本，也可以发送二进制数据。
+
+（5）没有同源限制，客户端可以与任意服务器通信。
+
+（6）协议标识符是`ws`（如果加密，则为`wss`），服务器网址就是 URL。
+
+
 
 # 高并发
 
@@ -1616,6 +1650,110 @@ RAID （ Redundant Array of Independent Disks ）即独立磁盘冗余阵列，�
 
 # 数据库
 
+## redo log, undo log
+
+### undo log
+
+innodb 引擎层的回滚日志，
+
+- **实现事务回滚，保障事务的原子性**
+
+    事务提交之前，如果 MySQL 故障，可以回滚到事务之前的状态。 保证事务的 [ACID 特性 (opens new window)](https://xiaolincoding.com/mysql/transaction/mvcc.html#事务有哪些特性)中的**原子性**（Atomicity）
+
+- 通过 ReadView + undo log 实现 **MVCC（多版本并发控制）**
+
+
+
+### redo log
+
+innodb 引擎层的恢复日志
+
+-  保证了事务四大特性中的**持久性**， 使 MySQL 有**崩溃恢复**
+- 将随机写变为**顺序写**，提高MySQL 写入性能
+
+## 两阶段提交
+
+[1](https://www.xiaolincoding.com/mysql/log/how_update.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4) 
+
+- 为什么？
+
+    事务提交后，redo log 和 binlog 都要持久化到磁盘，redo log 影响主库的数据，binlog 影响从库的数据，，但是这两个是独立的逻辑。
+
+    两阶段提交其实是**分布式事务一致性协议**，它可以保证多个逻辑操作要不全部成功，要不全部失败
+
+- 过程
+
+    客户端执行 commit 语句或者在自动提交的情况下，MySQL 内部开启一个**内部 XA 事务**
+
+    ![两阶段提交](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20240312111108.png)
+
+    1. 准备阶段 prepare: 将 XID （XA事务 id）写入 redo log， redo log状态改为 prepare，然后将redo log 持久化到磁盘 (innodb_flush_log_trx_commit=1)
+    2. 提交阶段 commit：将 XID 写入 binlog，然后持久化到磁盘（sync_binlog = 1），接着调用引擎的提交事务接口，将 redo log 状态设置为 commit，此时该状态并不需要持久化到磁盘，只需要 write 到文件系统的 page cache 中就够了，因为只要 binlog 写磁盘成功，就算 redo log 的状态还是 prepare 也没有关系，一样会被认为事务已经执行成功
+
+- 问题： 性能差
+
+    1. 磁盘 io 高
+
+        每提交一个事务，要刷两次盘
+
+    2. 锁竞争激烈
+
+        因为两阶段提交只能保证单个事务的两个日志**内容相同**， 需要加锁来保证多个事务的提交顺序一致性
+
+- 解决： binlog 组提交 （group commit）
+
+    **当有多个事务提交的时候，会将多个 binlog 刷盘操作合并成一个，从而减少磁盘 I/O 的次数**
+
+    - 过程：prepare 阶段不变，commit 阶段分为三步
+
+        1. flush： 多个事务按顺序将 binlog 从 cache 写入文件
+        2. sync： binlog 调用 fsync 刷盘
+        3. commit：多个事务按顺序做 innodb commit
+
+        上述每步都是一个**队列**，都有加**锁**来保护，锁粒度变小，效率提高。
+
+        > - 5.6没有 redo log 组提交。
+        >
+        > - 5.7 有：在 prepare 阶段不再让事务各自执行 redo log 刷盘，而是推迟到组提交的 flush 阶段，sync 之前。这样 binlog 和 redo log 都进行了优化
+
+
+
+## innodb buffer pool
+
+- Buffer Pool 以**页**为单位缓冲数据. 
+
+- 提高 MySQL 读写性能
+
+1. 当**读取**数据时，如果数据存在于 Buffer Pool 中，客户端就会直接读取 Buffer Pool 中的数据，否则再去磁盘中读取。
+
+2. 当**修改**数据时，首先是修改 Buffer Pool 中数据所在的页，然后将其页设置为脏页，最后由后台线程将脏页写入到磁盘
+
+- innodb_buffer_pool_size` 一般建议设置成可用物理内存的 **60%~80%**, 默认是 128 M
+
+- Innodb 通过三种链表来管理缓页：
+
+    - Free List （空闲页链表），管理空闲页；
+    - Flush List （脏页链表），管理脏页；
+    - LRU List，管理脏页+干净页，将最近且经常查询的数据缓存在其中，而不常查询的数据就淘汰出去。；
+
+    InnoDB 对 LRU 做了一些优化，我们熟悉的 LRU 算法通常是将最近查询的数据放到 LRU 链表的头部，而 InnoDB 做 2 点优化：
+
+    - 将 LRU 链表 分为**young 和 old 两个区域**，加入缓冲池的页，优先插入 old 区域；页被访问时，才进入 young 区域，目的是为了解决预读失效的问题。
+    - 当**「页被访问」且「 old 区域停留时间超过 `innodb_old_blocks_time` 阈值（默认为1秒）」**时，才会将页插入到 young 区域，否则还是插入到 old 区域，目的是为了解决批量数据访问，大量热数据淘汰的问题。
+
+    可以通过调整 `innodb_old_blocks_pct` 参数，设置 young 区域和 old 区域比例。
+
+- 下面几种情况会触发脏页的刷新：
+
+    - 当 redo log 日志满了的情况下，会主动触发脏页刷新到磁盘；
+    - Buffer Pool 空间不足时，需要将一部分数据页淘汰掉，如果淘汰的是脏页，需要先将脏页同步到磁盘；
+    - MySQL 认为空闲时，后台线程会定期将适量的脏页刷入到磁盘；
+    - MySQL 正常关闭之前，会把所有的脏页刷入到磁盘
+
+- 在开启了慢 SQL 监控后，如果你发现「偶尔」会出现一些用时稍长的 SQL，这可因为**脏页在刷新到磁盘时导致数据库性能抖动**。如果间断出现这种现象，就需要**调大 Buffer Pool 空间或 redo log** 日志的大小    
+
+    
+
 ## MVCC
 
 ## Binlog
@@ -1626,8 +1764,12 @@ binlog是Mysql sever层维护的一种二进制日志.
 
 作用:
 
-- 复制：MySQL Replication在Master端开启binlog，Master把它的二进制日志传递给slaves并回放来达到master-slave数据一致的目的
+- 主从复制：MySQL Replication在Master端开启binlog，Master把它的二进制日志传递给slaves并回放来达到master-slave数据一致的目的
+
+    ![MySQL 主从复制过程](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20240311172643.png)
+
 - 数据恢复：通过mysqlbinlog工具恢复数据
+
 - 增量备份
 
 ## 事务隔离
@@ -2013,3 +2155,11 @@ WHERE 1 = 1
     - 如果插入数据过多，考虑批量插入
     - 在适当的时候，使用覆盖索引
     - 使用 explain 分析你 SQL 的计划
+
+
+
+# 运维
+
+## 变更管理
+
+[B站变更管控体系](https://mp.weixin.qq.com/s/lzqVCUPDPx-Fe6mKQ9FCgg)
