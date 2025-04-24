@@ -81,15 +81,16 @@
   
   - [有道](https://github.com/wensonsmith/YoudaoTranslate)
   
-    - 使用方法 `d {query}`
+    - 使用方法 `yd {query}`
     - 按住`cmd` +`return` 即可发音,这样不会关闭窗口。在音标上直接回车也可以播放发音并会关闭窗口。
     - 在选项上`return`可以复制翻译结果
     - 翻译结果上按 `Shift` 可以直接预览有道网页
-    - 输入 `d *` 可以查询最近的查询记录
+    - 输入 `yd *` 可以查询最近的查询记录
   
-  - Stack Overflow
+  - ~~Stack Overflow~~
   
-    `.s {query}` 
+    1. `so {query}`
+    2. `so {query} .{tag}`
   
   - [GitHub](https://github.com/gharlan/alfred-github-workflow)
   
