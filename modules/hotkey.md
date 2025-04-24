@@ -77,6 +77,8 @@
   
   - [变量命名](https://github.com/xudaolong/CodeVar)
   
+      - update：[替换为自己的有道 key](https://github.com/xudaolong/CodeVar/issues/35#issuecomment-1707950484)
+  
   - [有道](https://github.com/wensonsmith/YoudaoTranslate)
   
     - 使用方法 `d {query}`
