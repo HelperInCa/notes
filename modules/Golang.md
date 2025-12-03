@@ -32,11 +32,13 @@
     - [用 make 创建切片](#%E7%94%A8-make-%E5%88%9B%E5%BB%BA%E5%88%87%E7%89%87)
     - [append函数](#append%E5%87%BD%E6%95%B0)
   - [Range](#range)
+  - [map](#map)
   - [方法](#%E6%96%B9%E6%B3%95)
     - [方法与指针重定向](#%E6%96%B9%E6%B3%95%E4%B8%8E%E6%8C%87%E9%92%88%E9%87%8D%E5%AE%9A%E5%90%91)
     - [选择值或指针作为接收者](#%E9%80%89%E6%8B%A9%E5%80%BC%E6%88%96%E6%8C%87%E9%92%88%E4%BD%9C%E4%B8%BA%E6%8E%A5%E6%94%B6%E8%80%85)
   - [接口与隐式实现](#%E6%8E%A5%E5%8F%A3%E4%B8%8E%E9%9A%90%E5%BC%8F%E5%AE%9E%E7%8E%B0)
     - [Reader](#reader)
+  - [泛型](#%E6%B3%9B%E5%9E%8B)
   - [goroutine](#goroutine)
   - [信道](#%E4%BF%A1%E9%81%93)
     - [range 和 close](#range-%E5%92%8C-close)
@@ -44,6 +46,7 @@
   - [sync.Mutex](#syncmutex)
 - [Misc](#misc)
   - [struct里 Tag 用法: 反引号](#struct%E9%87%8C-tag-%E7%94%A8%E6%B3%95-%E5%8F%8D%E5%BC%95%E5%8F%B7)
+- [Gin](#gin)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1265,6 +1268,12 @@ b[:n] = ""
 
 ```
 
+## 泛型
+
+[全面理解1.18 新特性泛型](https://www.cnblogs.com/insipid/p/17772581.html)
+
+![20251202222945](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20251202222945.png)
+
 
 
 ## goroutine
@@ -1357,7 +1366,7 @@ func main() {
 	go sum(s[len(s)/2:], c)
 	x, y := <-c, <-c // 从 c 中接收
 
-	fmt.Println(x, y)
+	fmt.Println(x, y)//-5 17
 }
 ```
 
